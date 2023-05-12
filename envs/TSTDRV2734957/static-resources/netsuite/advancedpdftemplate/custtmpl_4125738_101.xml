@@ -1,0 +1,261 @@
+<?xml version="1.0"?>
+<!DOCTYPE pdf PUBLIC "-//big.faceless.org//report" "report-1.1.dtd">
+<pdf>
+<head>
+<link name="verdana" type="font" subtype="opentype" src="${nsfont.verdana}" src-bold="${nsfont.verdana_bold}" bytes="2"></link><macrolist>
+<macro id="nlheader">
+<table class="header">
+	<tr>
+	<td align="left"><#if companyInformation.logoUrl?length != 0><img height="45px" src="${companyInformation.logoUrl}" vertical-align="top" width="200px" /></#if></td>
+	</tr>
+	<tr height="8px">
+	<td align="left"></td>
+	</tr>
+</table>
+</macro>
+<macro id="nlfooter">
+<table align="right" border="0" class="footer">
+	<tr>
+	<td><#if companyInformation.companyname?length != 0>${companyInformation.companyname}</#if></td>
+	</tr>
+</table>
+</macro>
+</macrolist>
+<style>
+table {
+				<#if .locale == "zh_CN">
+				  font-family: stsong, sans-serif;
+        <#elseif .locale == "zh_TW">
+          font-family: msung, sans-serif;
+        <#elseif .locale == "ja_JP">
+          font-family: heiseimin, sans-serif;
+        <#elseif .locale == "ko_KR">
+          font-family: hygothic, sans-serif;
+        <#elseif .locale == "ru_RU">
+          font-family: verdana;
+        <#else>
+          font-family: sans-serif;
+        </#if>
+				font-size: 9pt;
+				margin-top: 10px;
+				table-layout: fixed;
+				width: 100%;
+                               
+			}
+			th {
+				font-weight: bold;
+				font-size: 10pt;
+				vertical-align: middle;
+				padding-right: 8px;
+				padding-left: 8px;
+				padding-bottom: 3px;
+				padding-top: 5px;
+                                background-color: #00467F;
+				color: #ffffff;
+
+			}
+			td {
+				padding-right: 6px;
+				padding-left: 6px;
+				padding-bottom: 4px;
+				padding-top: 4px;
+
+			}
+			b {
+			   font-weight: bold;
+			   color: #333333;
+			}
+
+                        body { 
+                           <!--background-image: "https://system.na1.netsuite.com/core/media/media.nl?id=11246&c=TSTDRV1124541&h=76a16e376c879f645dbf";-->
+                           <!--background-image: ${record.custbody_fmt_pdf_background_img_url};-->
+                           background-color: #ffffff;
+                        }
+
+                        table.border_bottom tr{
+                           border-bottom: 3px solid #black;
+                        }
+
+                        table.header{
+                           <!--background-color: #eaeaea;-->
+                           border-bottom: 4px solid #666666;
+                        }
+
+			table.header td {
+				padding: 0px;
+				font-size: 10pt;
+			}
+
+                        table.footer{
+                           width: 92%;
+                           font-size: 5pt;
+                           color: #ffffff;
+                        }
+
+			table.footer td {
+				padding: 0px;
+				font-size: 8pt;
+			}
+			table.itemtable th {
+				padding-bottom: 5px;
+				padding-top: 5px;
+			}
+                        table.itemtable td {
+				border: .5px solid #e0e0e0;
+			}
+			table.body td {
+				padding-top: 2px;
+			}
+			table.total {
+				page-break-inside: avoid;
+			}
+
+                        table.total td{
+				color: #2B547E;
+			}
+
+			tr.totalrow {
+				background-color: #ffffff;
+				line-height: 200%;
+                                color: #2B547E;
+			}
+			
+			td.addressheader {
+				font-size: 8pt;
+				padding-top: 8px;
+				padding-bottom: 2px;
+                                text-transform: uppercase;
+                                
+			}
+			td.address {
+				padding-top: 0px;
+                                
+			}
+                        td.item {
+				padding-top: 0px;
+                                border: 0px solid #ffffff;
+			}
+			
+			span.title {
+				font-size: 14pt;
+			}
+			span.number {
+				font-size: 16pt;
+                                color:#00467f;
+			}
+                        span.total {
+				<!--color:#00467f;-->
+                                font-size: 10pt;
+			}
+			
+			hr {
+				width: 100%;
+				color: #d3d3d3;
+				background-color: #d3d3d3;
+				height: 1px;
+			}</style></head>
+<body header="nlheader" header-height="8%" footer="nlfooter" footer-height="20pt">
+<table align="left" border="0" width="100%">
+	<tr>
+	<td class="addressheader" colspan="6"><b>${record.billaddress@label}</b></td>
+	<td></td>
+	<td class="addressheader" colspan="6"><b>${record.shipaddress@label}</b></td>
+	</tr>
+	<tr>
+	<td class="address" colspan="6"><span style="color:#666666;">${record.billaddress}</span></td>
+	<td></td>
+	<td class="address" colspan="6"><span style="color:#666666;">${record.shipaddress}</span></td>
+	</tr>
+</table>
+<table align="left" border="0" class="itemtable" width="100%">
+<thead>
+	<tr>
+	<th colspan="8" style="align: left;">${record.tranid@label}</th>
+	<th colspan="9" style="align: center;">${record.trandate@label}</th>
+	<th colspan="7" style="align: center;">${record.total@label}</th>
+	<td class="item" colspan="13"></td>
+	</tr>
+</thead>
+	<tr>
+	<td colspan="8" style="align: left;"><span style="color:#666666;">${record.tranid}</span></td>
+	<td colspan="9" style="align: center;"><span style="color:#666666;">${record.trandate}</span></td>
+	<td colspan="7" style="align: center;"><span style="color:#666666;">${record.total}</span></td>
+	<td class="item" colspan="13"></td>
+	</tr>
+</table>
+<table align="left" border="0" class="itemtable" width="100%">
+<thead>
+	<tr>
+	<th colspan="8" style="align: left;">${record.terms@label}</th>
+	<th colspan="9" style="align: left;">Date Required</th>
+	<th colspan="7">${record.shipmethod@label}</th>
+	<th colspan="6">${record.salesrep@label}</th>
+	<th colspan="7">${record.partner@label}</th>
+	</tr>
+</thead>
+	<tr>
+	<td colspan="8"><span style="color:#666666;">${record.terms}</span></td>
+	<td colspan="9" vertical-align="middle"><span style="color:#666666;">${record.saleseffectivedate}</span></td>
+	<td colspan="7" vertical-align="middle"><span style="color:#666666;">${record.shipmethod}</span></td>
+	<td colspan="6" vertical-align="middle"><span style="color:#666666;">${record.salesrep}</span></td>
+	<td colspan="7" vertical-align="middle"><span style="color:#666666;">${record.partner}</span></td>
+	</tr>
+</table>
+<#if record.item?has_content>
+<table align="left" class="itemtable" width="100%"><!-- start items --><#list record.item as item><#if item_index==0>
+<thead>
+	<tr>
+	<th colspan="8" style="align: left;">${item.item@label}</th>
+	<th colspan="9">${item.description@label}</th>
+	<th colspan="4" style="align: right;">${item.quantity@label}</th>
+	<th colspan="3" style="align: left;">${item.units@label}</th>
+	<th colspan="6" style="align: right;">${item.rate@label}</th>
+	<th colspan="7" style="align: right;">${item.amount@label}</th>
+	</tr>
+</thead>
+</#if>
+	<tr style="background-color: ${((item_index % 2)==0)?string('#ffffff', '#f0f0f0')};">
+	<td colspan="8"><span style="color:#666666;">${item.item}</span></td>
+	<td colspan="9"><span style="color:#666666;">${item.description}</span></td>
+	<td colspan="4" style="align: right;"><span style="color:#666666;">${item.quantity}</span></td>
+	<td colspan="3"><span style="color:#666666;">${item.units}</span></td>
+	<td colspan="6" style="align: right;"><span style="color:#666666;">${item.rate}</span></td>
+	<td colspan="7" style="align: right;"><span style="color:#666666;">${item.amount}</span></td>
+	</tr>
+	</#list><!-- end items -->
+</table>
+</#if>
+<table align="left" border="0" class="itemtable" width="100%">
+	<tr>
+	<td class="item" colspan="24"></td>
+	<td colspan="6" style="align: right;"><b>${record.subtotal@label}</b></td>
+	<td colspan="7" style="align: right;"><b>${record.subtotal}</b></td>
+	</tr>
+	<tr>
+	<td class="item" colspan="24"></td>
+	<td colspan="6" style="align: right;"><b>Discount</b></td>
+	<td colspan="7" style="align: right;"><b>${record.discounttotal}</b></td>
+	</tr>
+	<tr>
+	<td class="item" colspan="24"></td>
+	<td colspan="6" style="align: right;"><b>Tax Amount</b></td>
+	<td colspan="7" style="align: right;"><b>${record.taxtotal}</b></td>
+	</tr>
+<#if record.shippingcost?length != 0>
+	<tr>
+	<td class="item" colspan="24"></td>
+	<td colspan="6" style="align: right;"><b>${record.shippingcost@label}</b></td>
+	<td colspan="7" style="align: right;"><b>${record.shippingcost}</b></td>
+	</tr>
+</#if>
+</table>
+<hr />
+<table align="left" border="0" width="100%">
+	<tr>
+	<td colspan="24"></td>
+	<td colspan="6" style="align: right;"><b><span class="total">${record.total@label}</span></b></td>
+	<td align="right" colspan="7"><b><span class="total">${record.total}</span></b></td>
+	</tr>
+</table>
+</body>
+</pdf>

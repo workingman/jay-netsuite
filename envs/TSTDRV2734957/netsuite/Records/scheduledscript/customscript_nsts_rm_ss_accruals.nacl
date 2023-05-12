@@ -1,0 +1,115 @@
+netsuite.scheduledscript customscript_nsts_rm_ss_accruals {
+  scriptid = "customscript_nsts_rm_ss_accruals"
+  defaultfunction = "accruals_Generation"
+  isinactive = false
+  name = "NSTS | RM SS Accruals"
+  notifyadmins = false
+  notifyowner = true
+  scriptfile = "[/SuiteBundles/Bundle 232712/Rebate Management v2/Rebate Calculation/Schedule/NSTS_RM_SS_Accruals.js]"
+  scriptcustomfields = {
+    scriptcustomfield = {
+      custscript_nsts_rm_ss_accruals_id = {
+        scriptid = "custscript_nsts_rm_ss_accruals_id"
+        accesslevel = "2"
+        applyformatting = false
+        checkspelling = false
+        defaultchecked = false
+        description = '''
+an array on Accrual Record ID
+[1,2,3]
+'''
+        displaytype = "NORMAL"
+        fieldtype = "CLOBTEXT"
+        help = '''
+an array on Accrual Record ID
+[1,2,3]
+'''
+        isformula = false
+        ismandatory = false
+        label = "Accruals"
+        searchlevel = "2"
+        storevalue = true
+        index = 0
+      }
+      custscript_nsts_rm_ss_accru_user = {
+        scriptid = "custscript_nsts_rm_ss_accru_user"
+        accesslevel = "2"
+        applyformatting = false
+        checkspelling = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "SELECT"
+        isformula = false
+        ismandatory = false
+        label = "User"
+        onparentdelete = "SET_NULL"
+        searchlevel = "2"
+        selectrecordtype = "-4"
+        storevalue = true
+        index = 1
+      }
+      custscript_nsts_rm_ss_accru_subject = {
+        scriptid = "custscript_nsts_rm_ss_accru_subject"
+        accesslevel = "2"
+        applyformatting = false
+        checkspelling = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "TEXT"
+        isformula = false
+        ismandatory = false
+        label = "Email Subject"
+        searchlevel = "2"
+        storevalue = true
+        index = 2
+      }
+      custscript_nsts_rm_ss_accru_body = {
+        scriptid = "custscript_nsts_rm_ss_accru_body"
+        accesslevel = "2"
+        applyformatting = false
+        checkspelling = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "CLOBTEXT"
+        isformula = false
+        ismandatory = false
+        label = "Email Body"
+        searchlevel = "2"
+        storevalue = true
+        index = 3
+      }
+    }
+  }
+  scriptdeployments = {
+    scriptdeployment = {
+      customdeploy_nsts_rm_ss_accruals = {
+        scriptid = "customdeploy_nsts_rm_ss_accruals"
+        custscript_nsts_rm_ss_accru_body = '''
+Please click the link to view the <a href="\${accrual.url}">Accrual 
+ #\${accrual.id}</a>
+'''
+        custscript_nsts_rm_ss_accru_subject = "Accrual JE Generation Completed for Accrual #\${accrual.id}"
+        isdeployed = true
+        loglevel = "DEBUG"
+        status = "NOTSCHEDULED"
+        title = "NSTS | RM SS Accruals 1"
+        recurrence = {
+          single = {
+            startdate = "2017-07-20"
+            starttime = "01:00:00Z"
+          }
+        }
+      }
+    }
+  }
+  libraries = {
+    library = [
+      {
+        scriptfile = "[/SuiteBundles/Bundle 232712/Rebate Management v2/Utils/NSTS_RM_Lib_Constants.js]"
+      },
+      {
+        scriptfile = "[/SuiteBundles/Bundle 232712/Rebate Management v2/Utils/NSTS_RM_Lib_UtilObjectsAndFunctions.js]"
+      },
+    ]
+  }
+}

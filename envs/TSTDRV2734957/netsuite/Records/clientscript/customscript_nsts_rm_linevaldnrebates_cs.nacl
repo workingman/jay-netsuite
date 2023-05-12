@@ -1,0 +1,277 @@
+netsuite.clientscript customscript_nsts_rm_linevaldnrebates_cs {
+  scriptid = "customscript_nsts_rm_linevaldnrebates_cs"
+  description = "Client side validations and logic used for the Rebate Calculations on the transaction records"
+  fieldchangedfunction = "showRebateAgreements_fieldChanged"
+  isinactive = false
+  lineinitfunction = "showRebateAgreements_lineInit"
+  name = "NSTS | RM - Line Validation Rebates CS"
+  notifyadmins = false
+  notifyowner = true
+  notifyuser = false
+  pageinitfunction = "showRebateAgreements_pageInit"
+  postsourcingfunction = "clientPostSourcing_calcRebates"
+  saverecordfunction = "showRebateAgreements_saveRecord"
+  scriptfile = "[/SuiteBundles/Bundle 232712/Rebate Management v2/Rebate Calculation/Client Script/NSTS_RM_CS_ShowLineValidationRebates.js]"
+  validatedeletefunction = "showRebateAgreements_validateDelete"
+  validatefieldfunction = "showRebateAgreements_validateField"
+  validatelinefunction = "showRebateAgreements_validateLine"
+  scriptcustomfields = {
+    scriptcustomfield = {
+      custscript_nsts_rm_toggle_alert_cs = {
+        scriptid = "custscript_nsts_rm_toggle_alert_cs"
+        accesslevel = "2"
+        applyformatting = false
+        checkspelling = false
+        defaultchecked = true
+        description = "Turn on or off Alert Message on the client side"
+        displaytype = "NORMAL"
+        fieldtype = "CHECKBOX"
+        help = "Turn on or off Alert Message on the client side"
+        isformula = false
+        ismandatory = false
+        label = "Toggle Alert"
+        searchlevel = "2"
+        setting = "USER"
+        storevalue = true
+        index = 0
+      }
+      custscript_nsts_toggle_confirm_cs = {
+        scriptid = "custscript_nsts_toggle_confirm_cs"
+        accesslevel = "2"
+        applyformatting = false
+        checkspelling = false
+        defaultchecked = true
+        description = "If this is checked, the confirmation message will be displayed when changing the entity, tran date, currency and if an RTD has a claim. Otherwise, the confirmation messgae will be suppressed and changes for those fields will be prevented."
+        displaytype = "NORMAL"
+        fieldtype = "CHECKBOX"
+        help = "If this is checked, the confirmation message will be displayed when changing the entity, tran date, currency and if an RTD has a claim. Otherwise, the confirmation messgae will be suppressed and changes for those fields will be prevented."
+        isformula = false
+        ismandatory = false
+        label = "Toggle confrm msg (Entity,date,currency)"
+        searchlevel = "2"
+        setting = "USER"
+        storevalue = true
+        index = 1
+      }
+      custscript_nsts_rm_max_tran_line = {
+        scriptid = "custscript_nsts_rm_max_tran_line"
+        accesslevel = "2"
+        applyformatting = true
+        checkspelling = false
+        defaultchecked = false
+        description = "Maximum number of transaction lines before Calculate Rebates in Background is automatically checked."
+        displaytype = "NORMAL"
+        fieldtype = "INTEGER"
+        help = "Maximum number of transaction lines before Calculate Rebates in Background is automatically checked."
+        isformula = false
+        ismandatory = false
+        label = "Max Transaction Lines for Client"
+        searchlevel = "2"
+        storevalue = true
+        index = 2
+      }
+    }
+  }
+  scriptdeployments = {
+    scriptdeployment = {
+      customdeploy_nsts_rm_linevaldnrbt_cs_so = {
+        scriptid = "customdeploy_nsts_rm_linevaldnrbt_cs_so"
+        allemployees = true
+        alllocalizationcontexts = true
+        allpartners = false
+        allroles = true
+        custscript_nsts_rm_toggle_alert_cs = false
+        custscript_nsts_toggle_confirm_cs = false
+        executioncontext = "ACTION|ADVANCEDREVREC|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CONSOLRATEADJUSTOR|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OCRPLUGIN|OTHER|PAYMENTGATEWAY|PAYMENTPOSTBACK|PLATFORMEXTENSION|PORTLET|PROMOTIONS|RECORDACTION|RESTLET|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBAPPLICATION|WEBSERVICES|WORKBOOKBUILDER|WORKFLOW"
+        isdeployed = true
+        loglevel = "DEBUG"
+        recordtype = "SALESORDER"
+        status = "RELEASED"
+      }
+      customdeploy_nsts_rm_linevaldnrbt_cs_inv = {
+        scriptid = "customdeploy_nsts_rm_linevaldnrbt_cs_inv"
+        allemployees = false
+        alllocalizationcontexts = true
+        allpartners = false
+        allroles = true
+        custscript_nsts_rm_toggle_alert_cs = false
+        custscript_nsts_toggle_confirm_cs = false
+        executioncontext = "ACTION|ADVANCEDREVREC|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CONSOLRATEADJUSTOR|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OCRPLUGIN|OTHER|PAYMENTGATEWAY|PAYMENTPOSTBACK|PLATFORMEXTENSION|PORTLET|PROMOTIONS|RECORDACTION|RESTLET|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBAPPLICATION|WEBSERVICES|WEBSTORE|WORKBOOKBUILDER|WORKFLOW"
+        isdeployed = true
+        loglevel = "DEBUG"
+        recordtype = "INVOICE"
+        status = "RELEASED"
+      }
+      customdeploy_nsts_rm_linevaldnrbt_cs_vc = {
+        scriptid = "customdeploy_nsts_rm_linevaldnrbt_cs_vc"
+        allemployees = false
+        alllocalizationcontexts = true
+        allpartners = false
+        allroles = true
+        custscript_nsts_rm_toggle_alert_cs = false
+        custscript_nsts_toggle_confirm_cs = false
+        executioncontext = "ACTION|ADVANCEDREVREC|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CONSOLRATEADJUSTOR|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OCRPLUGIN|OTHER|PAYMENTGATEWAY|PAYMENTPOSTBACK|PLATFORMEXTENSION|PORTLET|PROMOTIONS|RECORDACTION|RESTLET|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBAPPLICATION|WEBSERVICES|WEBSTORE|WORKBOOKBUILDER|WORKFLOW"
+        isdeployed = true
+        loglevel = "DEBUG"
+        recordtype = "VENDORCREDIT"
+        status = "RELEASED"
+      }
+      customdeploy_nsts_rm_linevaldnrbt_cs_vr = {
+        scriptid = "customdeploy_nsts_rm_linevaldnrbt_cs_vr"
+        allemployees = false
+        alllocalizationcontexts = true
+        allpartners = false
+        allroles = true
+        custscript_nsts_rm_toggle_alert_cs = false
+        custscript_nsts_toggle_confirm_cs = false
+        executioncontext = "ACTION|ADVANCEDREVREC|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CONSOLRATEADJUSTOR|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OCRPLUGIN|OTHER|PAYMENTGATEWAY|PAYMENTPOSTBACK|PLATFORMEXTENSION|PORTLET|PROMOTIONS|RECORDACTION|RESTLET|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBAPPLICATION|WEBSERVICES|WEBSTORE|WORKBOOKBUILDER|WORKFLOW"
+        isdeployed = true
+        loglevel = "DEBUG"
+        recordtype = "VENDORRETURNAUTHORIZATION"
+        status = "RELEASED"
+      }
+      customdeploy_nsts_rm_linevaldnrbt_cs_cs = {
+        scriptid = "customdeploy_nsts_rm_linevaldnrbt_cs_cs"
+        allemployees = false
+        alllocalizationcontexts = true
+        allpartners = false
+        allroles = true
+        custscript_nsts_rm_toggle_alert_cs = false
+        custscript_nsts_toggle_confirm_cs = false
+        executioncontext = "ACTION|ADVANCEDREVREC|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CONSOLRATEADJUSTOR|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OCRPLUGIN|OTHER|PAYMENTGATEWAY|PAYMENTPOSTBACK|PLATFORMEXTENSION|PORTLET|PROMOTIONS|RECORDACTION|RESTLET|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBAPPLICATION|WEBSERVICES|WEBSTORE|WORKBOOKBUILDER|WORKFLOW"
+        isdeployed = true
+        loglevel = "DEBUG"
+        recordtype = "CASHSALE"
+        status = "RELEASED"
+      }
+      customdeploy_nsts_rm_linevaldnrbt_cs_vb = {
+        scriptid = "customdeploy_nsts_rm_linevaldnrbt_cs_vb"
+        allemployees = false
+        alllocalizationcontexts = true
+        allpartners = false
+        allroles = true
+        custscript_nsts_rm_toggle_alert_cs = false
+        custscript_nsts_toggle_confirm_cs = false
+        executioncontext = "ACTION|ADVANCEDREVREC|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CONSOLRATEADJUSTOR|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OCRPLUGIN|OTHER|PAYMENTGATEWAY|PAYMENTPOSTBACK|PLATFORMEXTENSION|PORTLET|PROMOTIONS|RECORDACTION|RESTLET|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBAPPLICATION|WEBSERVICES|WEBSTORE|WORKBOOKBUILDER|WORKFLOW"
+        isdeployed = true
+        loglevel = "DEBUG"
+        recordtype = "VENDORBILL"
+        status = "RELEASED"
+      }
+      customdeploy_nsts_rm_linevaldnrbt_cs_po = {
+        scriptid = "customdeploy_nsts_rm_linevaldnrbt_cs_po"
+        allemployees = true
+        alllocalizationcontexts = true
+        allpartners = false
+        allroles = true
+        custscript_nsts_rm_toggle_alert_cs = false
+        custscript_nsts_toggle_confirm_cs = false
+        executioncontext = "ACTION|ADVANCEDREVREC|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CONSOLRATEADJUSTOR|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OCRPLUGIN|OTHER|PAYMENTGATEWAY|PAYMENTPOSTBACK|PLATFORMEXTENSION|PORTLET|PROMOTIONS|RECORDACTION|RESTLET|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBAPPLICATION|WEBSERVICES|WEBSTORE|WORKBOOKBUILDER|WORKFLOW"
+        isdeployed = true
+        loglevel = "DEBUG"
+        recordtype = "PURCHASEORDER"
+        status = "RELEASED"
+      }
+      customdeploy_nsts_rm_linevaldnrbt_cs_cm = {
+        scriptid = "customdeploy_nsts_rm_linevaldnrbt_cs_cm"
+        allemployees = false
+        alllocalizationcontexts = true
+        allpartners = false
+        allroles = true
+        custscript_nsts_rm_toggle_alert_cs = false
+        custscript_nsts_toggle_confirm_cs = false
+        executioncontext = "ACTION|ADVANCEDREVREC|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CONSOLRATEADJUSTOR|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OCRPLUGIN|OTHER|PAYMENTGATEWAY|PAYMENTPOSTBACK|PLATFORMEXTENSION|PORTLET|PROMOTIONS|RECORDACTION|RESTLET|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBAPPLICATION|WEBSERVICES|WEBSTORE|WORKBOOKBUILDER|WORKFLOW"
+        isdeployed = true
+        loglevel = "DEBUG"
+        recordtype = "CREDITMEMO"
+        status = "RELEASED"
+      }
+      customdeploy_nsts_rm_linevaldnrbt_cs_est = {
+        scriptid = "customdeploy_nsts_rm_linevaldnrbt_cs_est"
+        allemployees = false
+        alllocalizationcontexts = true
+        allpartners = false
+        allroles = true
+        custscript_nsts_rm_toggle_alert_cs = false
+        custscript_nsts_toggle_confirm_cs = false
+        executioncontext = "ACTION|ADVANCEDREVREC|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CONSOLRATEADJUSTOR|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OCRPLUGIN|OTHER|PAYMENTGATEWAY|PAYMENTPOSTBACK|PLATFORMEXTENSION|PORTLET|PROMOTIONS|RECORDACTION|RESTLET|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBAPPLICATION|WEBSERVICES|WEBSTORE|WORKBOOKBUILDER|WORKFLOW"
+        isdeployed = true
+        loglevel = "DEBUG"
+        recordtype = "ESTIMATE"
+        status = "RELEASED"
+      }
+      customdeploy_nsts_rm_linevaldnrbt_cs_ra = {
+        scriptid = "customdeploy_nsts_rm_linevaldnrbt_cs_ra"
+        allemployees = false
+        alllocalizationcontexts = true
+        allpartners = false
+        allroles = true
+        custscript_nsts_rm_toggle_alert_cs = false
+        custscript_nsts_toggle_confirm_cs = false
+        executioncontext = "ACTION|ADVANCEDREVREC|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CONSOLRATEADJUSTOR|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OCRPLUGIN|OTHER|PAYMENTGATEWAY|PAYMENTPOSTBACK|PLATFORMEXTENSION|PORTLET|PROMOTIONS|RECORDACTION|RESTLET|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBAPPLICATION|WEBSERVICES|WEBSTORE|WORKBOOKBUILDER|WORKFLOW"
+        isdeployed = true
+        loglevel = "DEBUG"
+        recordtype = "RETURNAUTHORIZATION"
+        status = "RELEASED"
+      }
+      customdeploy_nsts_rm_linevaldnrbt_cs_cr = {
+        scriptid = "customdeploy_nsts_rm_linevaldnrbt_cs_cr"
+        allemployees = false
+        alllocalizationcontexts = true
+        allpartners = false
+        allroles = true
+        custscript_nsts_rm_toggle_alert_cs = false
+        custscript_nsts_toggle_confirm_cs = false
+        executioncontext = "ACTION|ADVANCEDREVREC|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CONSOLRATEADJUSTOR|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OCRPLUGIN|OTHER|PAYMENTGATEWAY|PAYMENTPOSTBACK|PLATFORMEXTENSION|PORTLET|PROMOTIONS|RECORDACTION|RESTLET|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBAPPLICATION|WEBSERVICES|WEBSTORE|WORKBOOKBUILDER|WORKFLOW"
+        isdeployed = true
+        loglevel = "DEBUG"
+        recordtype = "CASHREFUND"
+        status = "RELEASED"
+      }
+      customdeploy_nsts_rm_linevaldnrbt_cs_ir = {
+        scriptid = "customdeploy_nsts_rm_linevaldnrbt_cs_ir"
+        allemployees = false
+        alllocalizationcontexts = true
+        allpartners = false
+        allroles = true
+        custscript_nsts_rm_toggle_alert_cs = false
+        custscript_nsts_toggle_confirm_cs = false
+        executioncontext = "ACTION|ADVANCEDREVREC|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CONSOLRATEADJUSTOR|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OCRPLUGIN|OTHER|PAYMENTGATEWAY|PAYMENTPOSTBACK|PLATFORMEXTENSION|PORTLET|PROMOTIONS|RECORDACTION|RESTLET|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBAPPLICATION|WEBSERVICES|WEBSTORE|WORKBOOKBUILDER|WORKFLOW"
+        isdeployed = true
+        loglevel = "DEBUG"
+        recordtype = "ITEMRECEIPT"
+        status = "RELEASED"
+      }
+      customdeploy_nsts_rm_linevaldnrbt_cs_if = {
+        scriptid = "customdeploy_nsts_rm_linevaldnrbt_cs_if"
+        allemployees = false
+        alllocalizationcontexts = true
+        allpartners = false
+        allroles = true
+        custscript_nsts_rm_toggle_alert_cs = false
+        custscript_nsts_toggle_confirm_cs = false
+        executioncontext = "ACTION|ADVANCEDREVREC|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CONSOLRATEADJUSTOR|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OCRPLUGIN|OTHER|PAYMENTGATEWAY|PAYMENTPOSTBACK|PLATFORMEXTENSION|PORTLET|PROMOTIONS|RECORDACTION|RESTLET|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBAPPLICATION|WEBSERVICES|WEBSTORE|WORKBOOKBUILDER|WORKFLOW"
+        isdeployed = true
+        loglevel = "DEBUG"
+        recordtype = "ITEMFULFILLMENT"
+        status = "RELEASED"
+      }
+    }
+  }
+  libraries = {
+    library = [
+      {
+        scriptfile = "[/SuiteBundles/Bundle 232712/Rebate Management v2/Utils/NSTS_RM_Lib_Constants.js]"
+      },
+      {
+        scriptfile = "[/SuiteBundles/Bundle 232712/Rebate Management v2/Utils/NSTS_RM_Lib_UtilObjectsAndFunctions.js]"
+      },
+      {
+        scriptfile = "[/SuiteBundles/Bundle 232712/Rebate Management v2/Rebate Calculation/Library/NSTS_RM_Lib_RebateCalcLogic.js]"
+      },
+      {
+        scriptfile = "[/SuiteBundles/Bundle 232712/Rebate Management v2/Rebate Calculation/Library/NSTS_RM_Lib_RebateCalculations.js]"
+      },
+    ]
+  }
+}

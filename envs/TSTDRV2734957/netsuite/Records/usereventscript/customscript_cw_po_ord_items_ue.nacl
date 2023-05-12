@@ -1,0 +1,69 @@
+netsuite.usereventscript customscript_cw_po_ord_items_ue {
+  scriptid = "customscript_cw_po_ord_items_ue"
+  aftersubmitfunction = "orderItemsAfterSubmit"
+  isinactive = true
+  name = "NS | UE | CW PO Order Items Handler"
+  notifyadmins = false
+  notifyowner = true
+  notifyuser = false
+  scriptfile = netsuite.file.instance.SuiteScripts_Common_Customizations_Z_DNU_CatchWeights_Base_Scripts_Z_DNU_CW_PO_OrderItems_UE_js@dsduudsduuuuuv.path
+  scriptcustomfields = {
+    scriptcustomfield = {
+      custscript_item_saved_search_ue = {
+        scriptid = "custscript_item_saved_search_ue"
+        accesslevel = "2"
+        applyformatting = false
+        checkspelling = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "SELECT"
+        isformula = false
+        ismandatory = false
+        label = "Item Saved Search"
+        onparentdelete = "NO_ACTION"
+        searchlevel = "2"
+        selectrecordtype = "-119"
+        storevalue = true
+        index = 0
+      }
+    }
+  }
+  scriptdeployments = {
+    scriptdeployment = {
+      customdeploy_cw_so_ord_items_ue = {
+        scriptid = "customdeploy_cw_so_ord_items_ue"
+        allemployees = true
+        alllocalizationcontexts = true
+        allpartners = false
+        allroles = true
+        custscript_item_saved_search_ue = netsuite.savedsearch.instance.customsearch_item_search.scriptid
+        executioncontext = "ACTION|BUNDLEINSTALLATION|CLIENT|CONSOLRATEADJUSTOR|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|DEBUGGER|EMAILCAPTURE|MAPREDUCE|OCRPLUGIN|OTHER|PAYMENTGATEWAY|PAYMENTPOSTBACK|PORTLET|PROMOTIONS|RECORDACTION|RESTLET|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBAPPLICATION|WEBSERVICES|WORKFLOW"
+        isdeployed = true
+        loglevel = "DEBUG"
+        recordtype = "SALESORDER"
+        status = "RELEASED"
+      }
+      customdeploy_cw_po_ord_items_ue = {
+        scriptid = "customdeploy_cw_po_ord_items_ue"
+        allemployees = true
+        alllocalizationcontexts = true
+        allpartners = false
+        allroles = true
+        custscript_item_saved_search_ue = netsuite.savedsearch.instance.customsearch_item_search.scriptid
+        executioncontext = "ACTION|BUNDLEINSTALLATION|CLIENT|CONSOLRATEADJUSTOR|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|DEBUGGER|EMAILCAPTURE|MAPREDUCE|OCRPLUGIN|OTHER|PAYMENTGATEWAY|PAYMENTPOSTBACK|PORTLET|PROMOTIONS|RECORDACTION|RESTLET|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBAPPLICATION|WEBSERVICES|WORKFLOW"
+        isdeployed = true
+        loglevel = "DEBUG"
+        recordtype = "PURCHASEORDER"
+        runasrole = "ADMINISTRATOR"
+        status = "RELEASED"
+      }
+    }
+  }
+  libraries = {
+    library = [
+      {
+        scriptfile = netsuite.file.instance.SuiteScripts_Common_Customizations_Z_DNU_CatchWeights_Base_Scripts_Z_DNU_cw_util_js@dsduudsduuuv.path
+      },
+    ]
+  }
+}

@@ -1,0 +1,89 @@
+netsuite.usereventscript customscript_nsts_rm_claim_gen_log_ue {
+  scriptid = "customscript_nsts_rm_claim_gen_log_ue"
+  aftersubmitfunction = "claimGenLog_AfterSubmit"
+  beforeloadfunction = "claimGenLog_beforeLoad"
+  beforesubmitfunction = "claimGenLog_BeforeSubmit"
+  description = "Server side validations and logic used for the Claim Generation Log record"
+  isinactive = false
+  name = "NSTS | RM - Claim Gen Log UE"
+  notifyadmins = false
+  notifyowner = true
+  notifyuser = false
+  scriptfile = "[/SuiteBundles/Bundle 232712/NSTS_RM_UE_ClaimGenLog.js]"
+  scriptcustomfields = {
+    scriptcustomfield = {
+      custscript_nsts_rm_status_role = {
+        scriptid = "custscript_nsts_rm_status_role"
+        accesslevel = "2"
+        applyformatting = false
+        checkspelling = false
+        defaultchecked = false
+        description = "Should contain a comma-delimited values of the internal ids of the roles that can update the status"
+        displaytype = "NORMAL"
+        fieldtype = "TEXT"
+        help = "Should contain a comma-delimited values of the internal ids of the roles that can update the status"
+        isformula = false
+        ismandatory = false
+        label = "Status Enabled Roles"
+        searchlevel = "2"
+        storevalue = true
+        index = 0
+      }
+      custscript_nsts_rm_ue_reversal_dmain_url = {
+        scriptid = "custscript_nsts_rm_ue_reversal_dmain_url"
+        accesslevel = "2"
+        applyformatting = false
+        checkspelling = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "CLOBTEXT"
+        isformula = false
+        ismandatory = false
+        label = "Domain URL"
+        searchlevel = "2"
+        storevalue = true
+        index = 1
+      }
+    }
+  }
+  scriptdeployments = {
+    scriptdeployment = {
+      customdeploy_nsts_rm_claim_gen_log_ue_cg = {
+        scriptid = "customdeploy_nsts_rm_claim_gen_log_ue_cg"
+        allemployees = false
+        alllocalizationcontexts = true
+        allpartners = false
+        allroles = false
+        audslctrole = "ADMINISTRATOR|[scriptid=customrole_rebate_admin]"
+        custscript_nsts_rm_status_role = "3, 1000"
+        executioncontext = "ACTION|ADVANCEDREVREC|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CONSOLRATEADJUSTOR|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OCRPLUGIN|OTHER|PAYMENTGATEWAY|PAYMENTPOSTBACK|PLATFORMEXTENSION|PORTLET|PROMOTIONS|RECORDACTION|RESTLET|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBAPPLICATION|WEBSERVICES|WEBSTORE|WORKBOOKBUILDER|WORKFLOW"
+        isdeployed = true
+        loglevel = "DEBUG"
+        recordtype = netsuite.customrecord_nsts_rm_claim_generate_log.attr.scriptid
+        runasrole = "ADMINISTRATOR"
+        status = "RELEASED"
+      }
+    }
+  }
+  libraries = {
+    library = [
+      {
+        scriptfile = "[/SuiteBundles/Bundle 232712/Rebate Management v2/Utils/NSTS_RM_Lib_Constants.js]"
+      },
+      {
+        scriptfile = "[/SuiteBundles/Bundle 232712/NSTS_RM_Lib_ClaimDetailsSummary.js]"
+      },
+      {
+        scriptfile = "[/SuiteBundles/Bundle 232712/Rebate Management v2/Utils/NSTS_RM_Lib_UtilObjectsAndFunctions.js]"
+      },
+      {
+        scriptfile = "[/SuiteBundles/Bundle 232712/NSTS_RM_Lib_CGLSourcingAndValidation.js]"
+      },
+    ]
+  }
+  _generated_dependencies = [
+    {
+      reference = netsuite.role.instance.customrole_rebate_admin.scriptid
+    },
+  ]
+}

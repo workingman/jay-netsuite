@@ -1,0 +1,87 @@
+netsuite.workflow customworkflow_nsts_rm_wf_rebagreement {
+  scriptid = "customworkflow_nsts_rm_wf_rebagreement"
+  description = "Locks a Rebate Agreement record until the Process Eligibility execution is completed"
+  initoncreate = true
+  initonvieworupdate = true
+  isinactive = false
+  islogenabled = false
+  keephistory = "ALWAYS"
+  name = "NSTS | RM - Rebate Agreement"
+  recordtypes = netsuite.customrecord_nsts_rm_rebate_agreement.attr.scriptid
+  releasestatus = "RELEASED"
+  runasadmin = false
+  initcondition = {
+    type = "VISUAL_BUILDER"
+  }
+  workflowstates = {
+    workflowstate = {
+      workflowstate166 = {
+        scriptid = "workflowstate166"
+        description = "Lock Rebate Agreement if Process Eligibility script is in process."
+        donotexitworkflow = false
+        name = "State 1: Lock Record"
+        positionx = 413
+        positiony = 93
+        workflowactions = {
+          BEFORELOAD = {
+            triggertype = "BEFORELOAD"
+            lockrecordaction = {
+              workflowaction829 = {
+                scriptid = "workflowaction829"
+                isinactive = false
+                initcondition = {
+                  formula = "isChecked(\"Process Eligibility in Process\") = 'T'"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Process_Eligibility_in_Process@s = {
+                        name = "Process Eligibility in Process"
+                        value = netsuite.customrecord_nsts_rm_rebate_agreement.field.custom_custrecord_nsts_rm_eligibilityinproc.scriptid
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+            }
+            setdisplaytypeaction = {
+              workflowaction832 = {
+                scriptid = "workflowaction832"
+                displaytype = "HIDDEN"
+                eventtypes = "COPY|CREATE|EDIT"
+                field = netsuite.customrecord_nsts_rm_rebate_agreement.field.custom_custrecord_nsts_rm_eligibilityinproc.scriptid
+                isinactive = false
+                issublistfield = false
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition3 = {
+              scriptid = "workflowtransition3"
+              tostate = netsuite.workflow.instance.customworkflow_nsts_rm_wf_rebagreement.workflowstates.workflowstate.workflowstate167.scriptid
+              initcondition = {
+                type = "VISUAL_BUILDER"
+              }
+              index = 0
+            }
+          }
+        }
+        index = 0
+      }
+      workflowstate167 = {
+        scriptid = "workflowstate167"
+        donotexitworkflow = false
+        name = "State 2: Unlock Record"
+        positionx = 413
+        positiony = 263
+        index = 1
+      }
+    }
+  }
+}
