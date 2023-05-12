@@ -1,0 +1,175 @@
+netsuite.scheduledscript customscript_nsts_rm_ss_cgl_reversal_gen {
+  scriptid = "customscript_nsts_rm_ss_cgl_reversal_gen"
+  defaultfunction = "scheduled_cgl_Reversal_Generation"
+  isinactive = false
+  name = "NSTS | RM CGL Reversal Generation"
+  notifyadmins = false
+  notifyowner = true
+  scriptfile = "[/SuiteBundles/Bundle 232712/Rebate Management v2/Claim Generation/Schedule/NSTS_RM_SS_ClaimGenLog_Reversal_async.js]"
+  scriptcustomfields = {
+    scriptcustomfield = {
+      custscript_nsts_rm_reversal_cgl_ids = {
+        scriptid = "custscript_nsts_rm_reversal_cgl_ids"
+        accesslevel = "2"
+        applyformatting = false
+        checkspelling = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        displaywidth = 40
+        fieldtype = "CLOBTEXT"
+        isformula = false
+        ismandatory = false
+        label = "CGL ID'S"
+        searchlevel = "2"
+        storevalue = true
+        index = 0
+      }
+      custscript_nsts_rm_reversal_cgl_user = {
+        scriptid = "custscript_nsts_rm_reversal_cgl_user"
+        accesslevel = "2"
+        applyformatting = false
+        checkspelling = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "SELECT"
+        isformula = false
+        ismandatory = false
+        label = "Current User"
+        onparentdelete = "SET_NULL"
+        searchlevel = "2"
+        selectrecordtype = "-4"
+        storevalue = true
+        index = 1
+      }
+      custscript_nsts_rm_current_reversal_cgl = {
+        scriptid = "custscript_nsts_rm_current_reversal_cgl"
+        accesslevel = "2"
+        applyformatting = false
+        checkspelling = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "SELECT"
+        isformula = false
+        ismandatory = false
+        label = "Current CGL"
+        onparentdelete = "NO_ACTION"
+        searchlevel = "2"
+        selectrecordtype = netsuite.customrecord_nsts_rm_claim_generate_log.attr.scriptid
+        storevalue = true
+        index = 2
+      }
+      custscript_nsts_rm_reversal_domain_url = {
+        scriptid = "custscript_nsts_rm_reversal_domain_url"
+        accesslevel = "2"
+        applyformatting = false
+        checkspelling = false
+        defaultchecked = false
+        description = '''
+Optional: in - case the link is broken Please fill in the Netsuite domain address
+
+e.g system.na1.netsuite.com or system.na2.netsuite.com or etc. depending on your data center
+'''
+        displaytype = "NORMAL"
+        fieldtype = "CLOBTEXT"
+        help = '''
+Optional: in - case the link is broken Please fill in the Netsuite domain address
+
+e.g system.na1.netsuite.com or system.na2.netsuite.com or etc. depending on your data center
+'''
+        isformula = false
+        ismandatory = false
+        label = "Domain URL"
+        searchlevel = "2"
+        storevalue = true
+        index = 3
+      }
+      custscript_nsts_rm_reversal_done_subject = {
+        scriptid = "custscript_nsts_rm_reversal_done_subject"
+        accesslevel = "2"
+        applyformatting = false
+        checkspelling = false
+        defaultchecked = false
+        description = "subject for email notification if the Claim Reversal is successfully generated"
+        displaytype = "NORMAL"
+        fieldtype = "TEXT"
+        help = "subject for email notification if the Claim Reversal is successfully generated"
+        isformula = false
+        ismandatory = false
+        label = "Subject (for successful Claim Reversing)"
+        searchlevel = "2"
+        storevalue = true
+        index = 4
+      }
+      custscript_nsts_rm_reversal_done_msg = {
+        scriptid = "custscript_nsts_rm_reversal_done_msg"
+        accesslevel = "2"
+        applyformatting = false
+        checkspelling = false
+        defaultchecked = false
+        description = "Email message if the claim reversal is successfully generated"
+        displaytype = "NORMAL"
+        fieldtype = "TEXTAREA"
+        help = "Email message if the claim reversal is successfully generated"
+        isformula = false
+        ismandatory = false
+        label = "Message (for successful Claim Reversing)"
+        searchlevel = "2"
+        storevalue = true
+        index = 5
+      }
+    }
+  }
+  scriptdeployments = {
+    scriptdeployment = {
+      customdeploy_nsts_rm_ss_cgl_reversal_gen = {
+        scriptid = "customdeploy_nsts_rm_ss_cgl_reversal_gen"
+        custscript_nsts_rm_reversal_done_msg = '''
+Thank you for using Rebate Management.
+&lt;br/&gt;
+To view the reversal transaction, please refer to this CGL &lt;a href="\${cgl.url}'"&gt;'\${cgl.name}'&lt;/a&gt;
+&lt;br/&gt;
+&lt;br/&gt;
+&lt;b&gt;Details&lt;/b&gt;&lt;br/&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;b&gt;REBATE AGREEMENT&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;\${cgl.custrecord_nsts_rm_cg_rebate_agreement}&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;b&gt;CLAIM REVERSAL TRANSACTIONS&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;\${cgl.custrecord_nsts_rm_cgl_reversal_tnx}&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;b&gt;CLAIM REVERSAL TRANSACTIONS FOR&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;\${cgl.custrecord_nsts_rm_cgl_transaction}&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+'''
+        custscript_nsts_rm_reversal_done_subject = "Reversal transaction/s has been created for CGL \${cgl.name}"
+        isdeployed = true
+        loglevel = "DEBUG"
+        status = "NOTSCHEDULED"
+        title = "NSTS | RM CGL Reversal Generation"
+        recurrence = {
+          single = {
+            startdate = "2017-06-22"
+            starttime = "16:00:00Z"
+          }
+        }
+      }
+    }
+  }
+  libraries = {
+    library = [
+      {
+        scriptfile = "[/SuiteBundles/Bundle 232712/Rebate Management v2/Utils/NSTS_RM_Lib_Constants.js]"
+      },
+      {
+        scriptfile = "[/SuiteBundles/Bundle 232712/Rebate Management v2/Utils/NSTS_RM_Lib_UtilObjectsAndFunctions.js]"
+      },
+      {
+        scriptfile = "[/SuiteBundles/Bundle 232712/NSTS_RM_Lib_GenerateClaim.js]"
+      },
+    ]
+  }
+}

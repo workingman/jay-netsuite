@@ -1,0 +1,60 @@
+netsuite.scheduledscript customscript_nsts_rm_generate_accrual_ss {
+  scriptid = "customscript_nsts_rm_generate_accrual_ss"
+  defaultfunction = "generateAccrual"
+  isinactive = false
+  name = "NSTS | RM - Generate Accrual SS"
+  notifyadmins = false
+  notifyowner = true
+  scriptfile = "[/SuiteBundles/Bundle 232712/Rebate Management v2/Claim Generation/Schedule/NSTS_RM_SS_CreateAccrual_GenerateJE.js]"
+  scriptcustomfields = {
+    scriptcustomfield = {
+      custscript_nsts_rm_gen_accru_user = {
+        scriptid = "custscript_nsts_rm_gen_accru_user"
+        accesslevel = "2"
+        applyformatting = false
+        checkspelling = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "SELECT"
+        isformula = false
+        ismandatory = false
+        label = "User"
+        onparentdelete = "SET_NULL"
+        searchlevel = "2"
+        selectrecordtype = "-4"
+        storevalue = true
+        index = 0
+      }
+    }
+  }
+  scriptdeployments = {
+    scriptdeployment = {
+      customdeploy_nsts_rm_generate_accrual_ss = {
+        scriptid = "customdeploy_nsts_rm_generate_accrual_ss"
+        isdeployed = true
+        loglevel = "DEBUG"
+        status = "NOTSCHEDULED"
+        title = "NSTS | RM - Generate Accrual SS"
+        recurrence = {
+          single = {
+            startdate = "2018-02-22"
+            starttime = "02:00:00Z"
+          }
+        }
+      }
+    }
+  }
+  libraries = {
+    library = [
+      {
+        scriptfile = "[/SuiteBundles/Bundle 232712/Rebate Management v2/Utils/NSTS_RM_Lib_Constants.js]"
+      },
+      {
+        scriptfile = "[/SuiteBundles/Bundle 232712/Rebate Management v2/Utils/NSTS_RM_Lib_UtilObjectsAndFunctions.js]"
+      },
+      {
+        scriptfile = "[/SuiteBundles/Bundle 232712/NSTS_RM_Lib_CGLSourcingAndValidation.js]"
+      },
+    ]
+  }
+}

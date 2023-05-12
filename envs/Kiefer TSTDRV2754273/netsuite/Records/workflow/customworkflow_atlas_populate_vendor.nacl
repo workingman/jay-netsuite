@@ -1,0 +1,67 @@
+netsuite.workflow customworkflow_atlas_populate_vendor {
+  scriptid = "customworkflow_atlas_populate_vendor"
+  description = "Populate the Vendor transaction onto the Quality Inspection Queue record"
+  initcontexts = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+  initoncreate = false
+  initonvieworupdate = true
+  inittriggertype = "AFTERSUBMIT"
+  isinactive = false
+  islogenabled = true
+  keephistory = "ALWAYS"
+  name = "Populate Vendor"
+  recordtypes = "[scriptid=customrecord_qm_queue]"
+  releasestatus = "RELEASED"
+  runasadmin = true
+  initcondition = {
+    formula = "\"Status\" IN (\"Quality Inspection Outcomes1\")"
+    type = "VISUAL_BUILDER"
+    parameters = {
+      parameter = {
+        Status = {
+          name = "Status"
+          value = "[scriptid=customrecord_qm_queue.custrecord_qm_queue_status]"
+        }
+        Quality_Inspection_Outcomes1@s = {
+          name = "Quality Inspection Outcomes1"
+          selectrecordtype = "[scriptid=customlist_qm_inspection_outcomes]"
+          value = "[scriptid=customlist_qm_inspection_outcomes.val_18798_4543716_765]"
+        }
+      }
+    }
+  }
+  workflowstates = {
+    workflowstate = {
+      workflowstate236 = {
+        scriptid = "workflowstate236"
+        donotexitworkflow = false
+        name = "Update Vendor"
+        positionx = 513
+        positiony = 143
+        workflowactions = {
+          AFTERSUBMIT = {
+            triggertype = "AFTERSUBMIT"
+            setfieldvalueaction = {
+              workflowaction1762 = {
+                scriptid = "workflowaction1762"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBAPPLICATION|WEBSTORE|WORKBOOKBUILDER|WORKFLOW"
+                eventtypes = "EDIT"
+                field = "[scriptid=customrecord_qm_queue.custrecord_atlas_vendor]"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuefield = "STDBODYVENDOR"
+                valuejoinfield = "[scriptid=customrecord_qm_queue.custrecord_qm_queue_transaction_inv]"
+                valuetype = "FIELD"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        index = 0
+      }
+    }
+  }
+}

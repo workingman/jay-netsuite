@@ -1,0 +1,138 @@
+netsuite.workflow customworkflow_atlas_send_email_add_que {
+  scriptid = "customworkflow_atlas_send_email_add_que"
+  description = "An email will be sent when an Item is added to the Inspection Queue"
+  initcontexts = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+  initeventtypes = "EDIT"
+  initoncreate = false
+  initonvieworupdate = true
+  inittriggertype = "AFTERSUBMIT"
+  isinactive = false
+  islogenabled = true
+  keephistory = "ALWAYS"
+  name = "Send Email When added to Queue"
+  recordtypes = "[scriptid=customrecord_qm_queue]"
+  releasestatus = "RELEASED"
+  runasadmin = true
+  initcondition = {
+    formula = "\"Status\" IN (\"Quality Inspection Outcomes1\")"
+    type = "VISUAL_BUILDER"
+    parameters = {
+      parameter = {
+        Status = {
+          name = "Status"
+          value = "[scriptid=customrecord_qm_queue.custrecord_qm_queue_status]"
+        }
+        Quality_Inspection_Outcomes1@s = {
+          name = "Quality Inspection Outcomes1"
+          selectrecordtype = "[scriptid=customlist_qm_inspection_outcomes]"
+          value = "[scriptid=customlist_qm_inspection_outcomes.val_18798_4543716_765]"
+        }
+      }
+    }
+  }
+  workflowstates = {
+    workflowstate = {
+      workflowstate234 = {
+        scriptid = "workflowstate234"
+        description = "Will send an email notification when an item is added to the inspection queue"
+        donotexitworkflow = false
+        name = "Send Email When Added to Queue"
+        positionx = 513
+        positiony = 133
+        workflowactions = {
+          AFTERSUBMIT = {
+            triggertype = "AFTERSUBMIT"
+            sendemailaction = {
+              workflowaction1760 = {
+                scriptid = "workflowaction1760"
+                attachmenttype = "SPECIFIC"
+                body = '''
+<span style="font-size:10.0pt;font-family:&quot;Oracle Sans&quot;,sans-serif;
+mso-fareast-font-family:Calibri;mso-fareast-theme-font:minor-latin;mso-bidi-font-family:
+&quot;Calibri Light&quot;;mso-ansi-language:EN-US;mso-fareast-language:EN-US;mso-bidi-language:
+AR-SA">An Item has been added to the Inspection Queue.&nbsp; Click on the Link below to view additional
+information.</span>
+'''
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBAPPLICATION|WEBSTORE|WORKBOOKBUILDER|WORKFLOW"
+                eventtypes = "EDIT"
+                includerecordlink = false
+                isinactive = false
+                recipient = "[ACCOUNT_SPECIFIC_VALUE]"
+                recipienttype = "SPECIFIC"
+                schedulemode = "DELAY"
+                senderfield = "STDUSERUSER"
+                sendertype = "FIELD"
+                subject = "Item Added to Inspection Queue"
+                usetemplate = false
+                initcondition = {
+                  formula = "isChecked(\"Test Added Email Sent\") = 'F'"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Test_Added_Email_Sent@s = {
+                        name = "Test Added Email Sent"
+                        value = "[scriptid=customrecord_qm_queue.custrecord_atlas_test_added_email_sent]"
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition1598 = {
+              scriptid = "workflowtransition1598"
+              contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBAPPLICATION|WEBSTORE|WORKBOOKBUILDER|WORKFLOW"
+              tostate = netsuite.workflow.instance.customworkflow_atlas_send_email_add_que.workflowstates.workflowstate.workflowstate235.scriptid
+              initcondition = {
+                type = "VISUAL_BUILDER"
+              }
+              index = 0
+            }
+          }
+        }
+        index = 0
+      }
+      workflowstate235 = {
+        scriptid = "workflowstate235"
+        donotexitworkflow = false
+        name = "Check Sent Email Box"
+        positionx = 513
+        positiony = 233
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            setfieldvalueaction = {
+              workflowaction1761 = {
+                scriptid = "workflowaction1761"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                field = "[scriptid=customrecord_qm_queue.custrecord_atlas_test_added_email_sent]"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = true
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "isChecked(\"Test Added Email Sent\") = 'F'"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Test_Added_Email_Sent@s = {
+                        name = "Test Added Email Sent"
+                        value = "[scriptid=customrecord_qm_queue.custrecord_atlas_test_added_email_sent]"
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        index = 1
+      }
+    }
+  }
+}

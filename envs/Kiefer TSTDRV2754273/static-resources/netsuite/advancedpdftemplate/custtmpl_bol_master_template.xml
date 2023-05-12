@@ -1,0 +1,341 @@
+<?xml version="1.0"?><!DOCTYPE pdf PUBLIC "-//big.faceless.org//report" "report-1.1.dtd"><#-- Translation Collection --><#assign tc = nstranslation.load({
+	"collections":[{
+	"alias": "default",
+	"collection": "custcollection_bol_tc_translations",
+	"keys": ["OJ_BOL_NOT_NEGOTIABLE_HEADING","OJ_PAGE_HEADING", "OJ_OF_HEADING", "OJ_BOL_SHIP_FROM", "OJ_BOL_BILL_OF_LADING_NUMBER","OJ_BOL_SHIP_TO","OJ_BOL_CARRIER_NAME","OJ_BOL_THIRD_PARTY_FREIGHT_CHARGES_BILL_TO","OJ_BOL_PRO_NUMBER","OJ_BOL_ACCOUNT","OJ_BOL_DELIVERY_INSTRUCTIONS","OJ_BOL_FREIGHT_CHARGE_TERMS","OJ_BOL_ACCESSORIALS_TITLE","OJ_BOL_CUSTOMER_ORDER_INFORMATION","OJ_BOL_ITEM_FULFILLMENT","OJ_BOL_PKGS","OJ_BOL_ORDER","OJ_BOL_CARRIER_INFORMATION","OJ_BOL_NOTES_TITLE","OJ_BOL_PIECES","OJ_BOL_HANDLING_UNIT","OJ_BOL_LTL_ONLY","OJ_BOL_QTY","OJ_BOL_TYPE","OJ_BOL_WEIGHT","OJ_BOL_COMMODITY_DESCRIPTION","OJ_BOL_COMMODITY_DESC_TITLE","OJ_BOL_NMFC_NO","OJ_BOL_CLASS","OJ_BOL_SHIPPER_NOTES","OJ_BOL_COD_AMT","OJ_BOL_FEE_TERMS","OJ_BOL_COLLECT","OJ_BOL_PREPAID","OJ_BOL_CUSTOMER_CHECK_ACCEPTABLE","OJ_BOL_LIABILITY_NOTES","OJ_BOL_RECEIVED_NOTES","OJ_BOL_CARRIER_SHIPMENT_NOTES","OJ_BOL_SHIPPER_SIGNATURE","OJ_BOL_SHIPPER_SIGNATURE_DATE","OJ_BOL_CARRIER_SIGNATURE","OJ_BOL_TRAILER_LOADED","OJ_BOL_FREIGHT_COUNTED","OJ_BOL_NOTES_OF_APPLICABLE_REGULATIONS","OJ_BOL_BY_SHIPPER","OJ_BOL_BY_DRIVER","OJ_BOL_BY_DRIVER_PALLETS_NOTES","OJ_BOL_BY_DRIVER_PIECES_CHECK","OJ_BOL_CARRIER_ACK_RECEIPT_NOTES"],
+	"locale": .locale
+	}]
+})><#assign localizedTC = nstranslation.selectLocale({
+"handle": tc,
+"locale": .locale
+})><#function translate x><#return localizedTC.default[x]></#function>
+<pdf>
+<head>
+	<link name="NotoSans" type="font" subtype="truetype" src="${nsfont.NotoSans_Regular}" src-bold="${nsfont.NotoSans_Bold}" src-italic="${nsfont.NotoSans_Italic}" src-bolditalic="${nsfont.NotoSans_BoldItalic}" bytes="2" />
+	<#if .locale == "zh_CN">
+		<link name="NotoSansCJKsc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKsc_Regular}" src-bold="${nsfont.NotoSansCJKsc_Bold}" bytes="2" />
+	<#elseif .locale == "zh_TW">
+		<link name="NotoSansCJKtc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKtc_Regular}" src-bold="${nsfont.NotoSansCJKtc_Bold}" bytes="2" />
+	<#elseif .locale == "ja_JP">
+		<link name="NotoSansCJKjp" type="font" subtype="opentype" src="${nsfont.NotoSansCJKjp_Regular}" src-bold="${nsfont.NotoSansCJKjp_Bold}" bytes="2" />
+	<#elseif .locale == "ko_KR">
+		<link name="NotoSansCJKkr" type="font" subtype="opentype" src="${nsfont.NotoSansCJKkr_Regular}" src-bold="${nsfont.NotoSansCJKkr_Bold}" bytes="2" />
+	<#elseif .locale == "th_TH">
+		<link name="NotoSansThai" type="font" subtype="opentype" src="${nsfont.NotoSansThai_Regular}" src-bold="${nsfont.NotoSansThai_Bold}" bytes="2" />
+	</#if>
+    <macrolist>
+        <macro id="nlheader">
+            <table class="header" style="width: 100%; font-size: 10pt;"><tr>
+	<td colspan="3">&nbsp;</td>
+	</tr>
+	<tr>
+	<td align="left" style="font-size: 8pt;">TODAY_DATE_PLACEHOLDER</td>
+	<td colspan="2" align="center"><b><#assign bolnotnegotiable = "OJ_BOL_NOT_NEGOTIABLE_HEADING">${translate(bolnotnegotiable)?upper_case}</b></td>
+	<td align="right" style="font-size: 8pt;"><#assign page = "OJ_PAGE_HEADING">${translate(page)} <pagenumber/> <#assign of = "OJ_OF_HEADING">${translate(of)} <totalpages/></td>
+	</tr></table>
+        </macro>
+    </macrolist>
+    <style type="text/css">table {
+		<#if .locale == "zh_CN">
+		font-family: stsong, sans-serif;
+		<#elseif .locale == "zh_TW">
+		font-family: msung, sans-serif;
+		<#elseif .locale == "ja_JP">
+		font-family: heiseimin, sans-serif;
+		<#elseif .locale == "ko_KR">
+		font-family: hygothic, sans-serif;
+		<#elseif .locale == "ru_RU">
+		font-family: verdana;
+		<#else>
+		font-family: sans-serif;
+	</#if>
+			font-size: 9pt;
+			table-layout: fixed;
+			}
+			th {
+			font-weight: bold;
+			font-size: 8pt;
+			vertical-align: middle;
+			padding: 5px 6px 3px;
+			background-color: #e3e3e3;
+			color: #333333;
+			}
+			td {
+			padding: 4px 6px;
+			font-size: 8pt;
+			}
+			b {
+			font-weight: bold;
+			color: #333333;
+			}
+			table.header td {
+			padding: 0;
+			font-size: 10pt;
+			}
+			table.inTable{
+			padding: 0;
+			font-size: 8pt;
+			padding-bottom: 0px;
+			padding-top: 0px;
+			}
+			table.footer td {
+			padding: 0;
+			font-size: 8pt;
+			}
+			table.itemtable th {
+			padding-bottom: 10px;
+			padding-top: 10px;
+			}
+			table.body td {
+			padding-top: 2px;
+			}
+			td.addressheader {
+			font-size: 9pt;
+			font-weight: bold;
+			padding-top: 4px;
+			padding-bottom: 2px;
+			background-color: #E0E0E0;
+			align: center;
+			}
+			td.address {
+			padding-top: 2px;
+			}
+      		td.wrap-text {
+        	word-break: break-all;
+            word-wrap: break-word;
+      		}
+			p.myp{
+			width: 100%;
+			font-size: 10pt;
+			font-weight: bold;
+			align: center;
+			}
+			p.check{
+			font-size: 7pt;
+			align: left;
+			valign: middle;
+			}
+			span.title {
+			font-size: 28pt;
+			}
+			span.number {
+			font-size: 16pt;
+			}
+			span.itemname {
+			font-weight: bold;
+			line-height: 150%;
+			}
+			hr {
+			border-top: 1px dashed #d3d3d3;
+			width: 100%;
+			color: #ffffff;
+			background-color: #ffffff;
+			height: 1px;
+			}
+			table.mytable {
+			font-size: 9pt;
+
+			}
+			.mytable td, .mytable th
+			{
+			border: 0.1px solid #000000;
+			}
+			.mysubtable td, .mysubtable th
+			{
+			padding: 4px 6px
+			border: 0.1px solid #000000;
+			}
+			.mysubtable{
+			width: 100%;
+			display: 'table-cell'
+			}
+			table.topdown{
+			font-size: 8pt;
+			border-collapse: collapse;
+			}
+</style>
+</head>
+<body header="nlheader" header-height="3%" padding="0.5in 0.5in 0.5in 0.5in" size="Letter">
+    <#-- Table 1 -->
+<table class="mytable" style="width: 100%; margin-top: 0px;"><tr>
+	<td class="addressheader"><#assign shipfrom = "OJ_BOL_SHIP_FROM">${translate(shipfrom)?upper_case}</td>
+	<td rowspan="2">
+	<p><b><#assign bolnumber = "OJ_BOL_BILL_OF_LADING_NUMBER">${translate(bolnumber)}: </b>BOL_NUM_PLACEHOLDER</p>
+	</td>
+	</tr>
+	<tr>
+	<td>${record.custbody_bol_from_address}</td>
+	</tr>
+	<tr>
+	<td class="addressheader"><#assign shipto = "OJ_BOL_SHIP_TO">${translate(shipto)?upper_case}</td>
+	<td rowspan="2"><b><#assign carriername = "OJ_BOL_CARRIER_NAME">${translate(carriername)}: </b>${record.shipmethod}</td>
+	</tr>
+	<tr>
+	<td class="address">${record.shipaddress}</td>
+	</tr>
+	<tr>
+	<td class="addressheader"><#assign tpfcbillto = "OJ_BOL_THIRD_PARTY_FREIGHT_CHARGES_BILL_TO">${translate(tpfcbillto)?upper_case}</td>
+	<td rowspan="2">
+	<p><b><#assign pronumber = "OJ_BOL_PRO_NUMBER">${translate(pronumber)}:</b><b> </b></p>
+	</td>
+	</tr>
+	<tr>
+	<td><br /><span><#assign accountno = "OJ_BOL_ACCOUNT">${translate(accountno)}: </span></td>
+	</tr>
+	<tr height="50">
+	<td><b><#assign delinstructions = "OJ_BOL_DELIVERY_INSTRUCTIONS">${translate(delinstructions)}: </b>DELIVERINS_PLACEHOLDER</td>
+	<td><b><#assign fcterms = "OJ_BOL_FREIGHT_CHARGE_TERMS">${translate(fcterms)}: </b></td>
+	</tr>
+	<tr height="25">
+	<td><b><#assign accessorials = "OJ_BOL_ACCESSORIALS_TITLE">${translate(accessorials)}: </b>ACC_PALCEHOLDER</td>
+	<td class="wrap-text" rowspan="2"><b><#assign notes = "OJ_BOL_NOTES_TITLE">${translate(notes)}: </b> NOTES_PLACEHOLDER</td>
+	</tr>
+	<tr height="25">
+	<td padding="0px" style="valign: middle;">
+	<table><tr>
+		<td style="border-style: none;" width="9%"><input checked="true" name="box1" type="checkbox" /><!--<input type="checkbox" id="id1" name="name1" value="value1" checked="true"/>--></td>
+		<td style="padding-left: 0px;border-style: none;" width="16%">
+		<p class="check">MASTER_CHECK_PLACEHOLDER</p>
+		</td>
+		</tr></table>
+	</td>
+	</tr></table>
+<#-- Table 2 -->
+
+<p class="myp" style="width: 100%;"><#assign custordinfo = "OJ_BOL_CUSTOMER_ORDER_INFORMATION">${translate(custordinfo)?upper_case}</p>
+
+<table class="mytable" style="width: 100%; margin-top: 2px;">
+<thead>
+	<tr height="25">
+	<td style="align:center; valign:middle;"><#assign itmFulfill = "OJ_BOL_ITEM_FULFILLMENT">${translate(itmFulfill)}</td>
+	<td style="align:center; valign:middle;"><#assign pkgs = "OJ_BOL_PKGS">${translate(pkgs)?upper_case}</td>
+	<td style="align:center; valign:middle;"><#assign wgt = "OJ_BOL_WEIGHT">${translate(wgt)}</td>
+	<td style="align:center; valign:middle;"><#assign odr = "OJ_BOL_ORDER">${translate(odr)}</td>
+	</tr>
+</thead><tr id="CUSTOMERORDERTABLE_PLACEHOLDER"></tr></table>
+<#-- Table 3 -->
+
+<p class="myp" style="width: 100%;"><#assign carrInfo = "OJ_BOL_CARRIER_INFORMATION">${translate(carrInfo)?upper_case}</p>
+
+<table class="mytable" style="width: 100%; margin-top: 2px;"><tr>
+	<td colspan="7" style="margin:0; padding:0;">
+	<table style="width: 100%;"><tr>
+		<td width="20%"><#assign handlingunit = "OJ_BOL_HANDLING_UNIT">${translate(handlingunit)}</td>
+		<td width="20%"><#assign pieces = "OJ_BOL_PIECES">${translate(pieces)}</td>
+		<td width="45%">&nbsp;</td>
+		<td width="15%"><#assign ltlonly = "OJ_BOL_LTL_ONLY">${translate(ltlonly)}</td>
+		</tr></table>
+	</td>
+	</tr></table>
+
+<table class="mytable" style="width: 100%; margin:0; padding:0;">
+<thead>
+	<tr>
+	<td width="7%"><#assign qty = "OJ_BOL_QTY">${translate(qty)}</td>
+	<td width="13%"><#assign type = "OJ_BOL_TYPE">${translate(type)}</td>
+	<td width="7%"><#assign qty = "OJ_BOL_QTY">${translate(qty)}</td>
+	<td width="13%"><#assign weight = "OJ_BOL_WEIGHT">${translate(weight)}</td>
+	<td width="30%">
+	<p style=" margin:0;  font-weight: bold;"><#assign commoditydesc = "OJ_BOL_COMMODITY_DESC_TITLE">${translate(commoditydesc)}</p>
+
+	<p style=" font-size: 6pt; margin:0;"><#assign commodity = "OJ_BOL_COMMODITY_DESCRIPTION">${translate(commodity)}</p>
+	</td>
+	<td width="15%"><#assign nmfcno = "OJ_BOL_NMFC_NO">${translate(nmfcno)}</td>
+	<td width="15%"><#assign class = "OJ_BOL_CLASS">${translate(class)}</td>
+	</tr>
+</thead><tr id="CARRIERINFORMATIONTABLE_PLACEHOLDER"></tr></table>
+<#-- Table 4 -->
+
+<table class="topdown" style="width: 100%; margin-top: 20px;"><tr>
+	<td rowspan="2" width="50%">
+	<p align="left" style="font-size: 6pt"><#assign shippernotes = "OJ_BOL_SHIPPER_NOTES">${translate(shippernotes)}</p>
+	</td>
+	<td style="font-size: 6pt; font-weight: bold;  valign: middle;" width="10%"><#assign codamt = "OJ_BOL_COD_AMT">${translate(codamt)}:</td>
+	<td style="font-size: 6pt; font-weight: bold;  valign: middle;" width="40%"><#assign feeterms = "OJ_BOL_FEE_TERMS">${translate(feeterms)}:</td>
+	</tr>
+	<tr border-bottom="1px">
+	<td style="valign: middle;">$________</td>
+	<td padding="0px" style="valign: middle;">
+	<table class="inTable" style="width: 100%; margin: 0px;"><tr>
+		<td width="9%"><input disabled="true" id="id1" name="name1" type="checkbox" value="value1" /></td>
+		<td style="padding-left: 0px;" width="16%">
+		<p class="check"><#assign collect = "OJ_BOL_COLLECT">${translate(collect)}</p>
+		</td>
+		<td width="9%"><input disabled="true" id="id2" name="name2" type="checkbox" value="value2" /></td>
+		<td style="padding-left: 0px;" width="20%">
+		<p class="check"><#assign prepaid = "OJ_BOL_PREPAID">${translate(prepaid)}</p>
+		</td>
+		<td width="9%"><input disabled="true" id="id3" name="name3" type="checkbox" value="value3" /></td>
+		<td style="padding-left: 0px;" width="45%">
+		<p class="check"><#assign custcheck = "OJ_BOL_CUSTOMER_CHECK_ACCEPTABLE">${translate(custcheck)}</p>
+		</td>
+		</tr></table>
+	</td>
+	</tr></table>
+
+<p class="myp" style="width: 100%;"><#assign liabilitynotes = "OJ_BOL_LIABILITY_NOTES">${translate(liabilitynotes)}</p>
+<#-- Table 5 -->
+
+<table class="mytable" style="width: 100%; margin-top: 10px;"><tr>
+	<td width="45%">
+	<p style="font-size: 7pt;"><#assign receivednotes = "OJ_BOL_RECEIVED_NOTES">${translate(receivednotes)}</p>
+	</td>
+	<td width="55%">
+	<p><#assign shipmentnotes = "OJ_BOL_CARRIER_SHIPMENT_NOTES">${translate(shipmentnotes)}</p>
+		<#assign shippersign = "OJ_BOL_SHIPPER_SIGNATURE">${translate(shippersign)} ___________________________________________
+
+	<p>&nbsp;</p>
+	</td>
+	</tr></table>
+<#-- Table 6 -->
+
+<table border="1px" style="width: 100%; margin-top: 10px; page-break-inside: avoid;"><tr>
+	<td border-right="1px" width="30%"><b><#assign shippersigndate = "OJ_BOL_SHIPPER_SIGNATURE_DATE">${translate(shippersigndate)}</b></td>
+	<td border-right="1px" width="15%"><#assign trailerloaded = "OJ_BOL_TRAILER_LOADED">${translate(trailerloaded)}:</td>
+	<td border-right="1px" width="20%"><#assign freightcounted = "OJ_BOL_FREIGHT_COUNTED">${translate(freightcounted)}:</td>
+	<td width="35%"><b><#assign carriersign = "OJ_BOL_CARRIER_SIGNATURE">${translate(carriersign)}</b></td>
+	</tr>
+	<tr>
+	<td border-right="1px" style="valign:bottom;">
+	<p style="margin:0">_______________________________</p>
+
+	<p style="font-size: 6pt;  margin:0;"><#assign appregnotes = "OJ_BOL_NOTES_OF_APPLICABLE_REGULATIONS">${translate(appregnotes)}</p>
+	</td>
+	<td border-right="1px" colspan="2" padding="0px">
+	<table class="inTable" style="width: 100%; margin: 0px;"><tr>
+		<td width="10%"><input disabled="true" id="id4" name="name4" type="checkbox" value="value" /></td>
+		<td border-right="1px" style="padding-left: 0px;" width="33%">
+		<p class="check"><#assign byshipper = "OJ_BOL_BY_SHIPPER">${translate(byshipper)}</p>
+		</td>
+		<td width="10%"><input disabled="true" id="id5" name="name5" type="checkbox" value="value" /></td>
+		<td style="padding-left: 0px;" width="47%">
+		<p class="check"><#assign byshipper = "OJ_BOL_BY_SHIPPER">${translate(byshipper)}</p>
+		</td>
+		</tr>
+		<tr>
+		<td><input disabled="true" id="id6" name="name6" type="checkbox" value="value" /></td>
+		<td border-right="1px" style="padding-left: 0px;">
+		<p class="check"><#assign bydriver = "OJ_BOL_BY_DRIVER">${translate(bydriver)}</p>
+		</td>
+		<td><input disabled="true" id="id7" name="name" type="checkbox" value="value7" /></td>
+		<td style="padding-left: 0px;">
+		<p class="check"><#assign drivernotes = "OJ_BOL_BY_DRIVER_PALLETS_NOTES">${translate(drivernotes)}</p>
+		</td>
+		</tr>
+		<tr>
+		<td>&nbsp;</td>
+		<td border-right="1px">&nbsp;</td>
+		<td><input disabled="true" id="id8" name="name" type="checkbox" value="value8" /></td>
+		<td style="padding-left: 0px;">
+		<p class="check"><#assign drivercheck = "OJ_BOL_BY_DRIVER_PIECES_CHECK">${translate(drivercheck)}</p>
+		</td>
+		</tr></table>
+	</td>
+	<td style="valign:bottom;">
+	<p style="margin:0">_______________________________</p>
+
+	<p style="font-size: 6pt;  margin:0;"><#assign carrierack = "OJ_BOL_CARRIER_ACK_RECEIPT_NOTES">${translate(carrierack)}</p>
+	</td>
+	</tr></table>
+</body>
+</pdf>

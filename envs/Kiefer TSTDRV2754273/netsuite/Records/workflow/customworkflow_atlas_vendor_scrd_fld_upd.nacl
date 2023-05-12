@@ -1,0 +1,370 @@
+netsuite.workflow customworkflow_atlas_vendor_scrd_fld_upd {
+  scriptid = "customworkflow_atlas_vendor_scrd_fld_upd"
+  description = "Used to assign an integer to a QA Test Result so it can be counted properly"
+  initcontexts = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+  initoncreate = false
+  initonvieworupdate = true
+  isinactive = false
+  islogenabled = true
+  keephistory = "ALWAYS"
+  name = "Vendor Scorecard Field Update"
+  recordtypes = "[scriptid=customrecord_qm_queue]"
+  releasestatus = "RELEASED"
+  runasadmin = true
+  initcondition = {
+    type = "VISUAL_BUILDER"
+  }
+  workflowstates = {
+    workflowstate = {
+      workflowstate237 = {
+        scriptid = "workflowstate237"
+        description = "Applies an integer to a Pass or Fail Result so it can be counted correctly"
+        donotexitworkflow = false
+        name = "Update Fields"
+        positionx = 523
+        positiony = 153
+        workflowactions = {
+          AFTERFIELDEDIT = {
+            triggertype = "AFTERFIELDEDIT"
+            setfieldvalueaction = {
+              workflowaction1763 = {
+                scriptid = "workflowaction1763"
+                clienttriggerfields = "[scriptid=customrecord_qm_queue.custrecord_atlas_vs_fail]"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBAPPLICATION|WEBSTORE|WORKBOOKBUILDER|WORKFLOW"
+                field = "[scriptid=customrecord_qm_queue.custrecord_atlas_vs_fail]"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "\"Status\" IN (\"Quality Inspection Outcomes1\",\"Quality Inspection Outcomes2\",\"Quality Inspection Outcomes3\",\"Quality Inspection Outcomes4\",\"Quality Inspection Outcomes5\",\"Quality Inspection Outcomes6\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Status = {
+                        name = "Status"
+                        value = "[scriptid=customrecord_qm_queue.custrecord_qm_queue_status]"
+                      }
+                      Quality_Inspection_Outcomes1@s = {
+                        name = "Quality Inspection Outcomes1"
+                        selectrecordtype = "[scriptid=customlist_qm_inspection_outcomes]"
+                        value = "[scriptid=customlist_qm_inspection_outcomes.val_20037_4543716_936]"
+                      }
+                      Quality_Inspection_Outcomes2@s = {
+                        name = "Quality Inspection Outcomes2"
+                        selectrecordtype = "[scriptid=customlist_qm_inspection_outcomes]"
+                        value = "[scriptid=customlist_qm_inspection_outcomes.val_20420_4543716_818]"
+                      }
+                      Quality_Inspection_Outcomes3@s = {
+                        name = "Quality Inspection Outcomes3"
+                        selectrecordtype = "[scriptid=customlist_qm_inspection_outcomes]"
+                        value = "[scriptid=customlist_qm_inspection_outcomes.val_21693_4543716_749]"
+                      }
+                      Quality_Inspection_Outcomes4@s = {
+                        name = "Quality Inspection Outcomes4"
+                        selectrecordtype = "[scriptid=customlist_qm_inspection_outcomes]"
+                        value = "[scriptid=customlist_qm_inspection_outcomes.val_20090_4543716_192]"
+                      }
+                      Quality_Inspection_Outcomes5@s = {
+                        name = "Quality Inspection Outcomes5"
+                        selectrecordtype = "[scriptid=customlist_qm_inspection_outcomes]"
+                        value = "[scriptid=customlist_qm_inspection_outcomes.val_18799_4543716_443]"
+                      }
+                      Quality_Inspection_Outcomes6@s = {
+                        name = "Quality Inspection Outcomes6"
+                        selectrecordtype = "[scriptid=customlist_qm_inspection_outcomes]"
+                        value = "[scriptid=customlist_qm_inspection_outcomes.val_18798_4543716_765]"
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+              workflowaction1764 = {
+                scriptid = "workflowaction1764"
+                clienttriggerfields = "[scriptid=customrecord_qm_queue.custrecord_atlas_vs_pass]"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBAPPLICATION|WEBSTORE|WORKBOOKBUILDER|WORKFLOW"
+                field = "[scriptid=customrecord_qm_queue.custrecord_atlas_vs_pass]"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "\"Status\" IN (\"Quality Inspection Outcomes1\",\"Quality Inspection Outcomes2\",\"Quality Inspection Outcomes3\",\"Quality Inspection Outcomes4\",\"Quality Inspection Outcomes5\",\"Quality Inspection Outcomes6\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Status = {
+                        name = "Status"
+                        value = "[scriptid=customrecord_qm_queue.custrecord_qm_queue_status]"
+                      }
+                      Quality_Inspection_Outcomes1@s = {
+                        name = "Quality Inspection Outcomes1"
+                        selectrecordtype = "[scriptid=customlist_qm_inspection_outcomes]"
+                        value = "[scriptid=customlist_qm_inspection_outcomes.val_20037_4543716_936]"
+                      }
+                      Quality_Inspection_Outcomes2@s = {
+                        name = "Quality Inspection Outcomes2"
+                        selectrecordtype = "[scriptid=customlist_qm_inspection_outcomes]"
+                        value = "[scriptid=customlist_qm_inspection_outcomes.val_20420_4543716_818]"
+                      }
+                      Quality_Inspection_Outcomes3@s = {
+                        name = "Quality Inspection Outcomes3"
+                        selectrecordtype = "[scriptid=customlist_qm_inspection_outcomes]"
+                        value = "[scriptid=customlist_qm_inspection_outcomes.val_21693_4543716_749]"
+                      }
+                      Quality_Inspection_Outcomes4@s = {
+                        name = "Quality Inspection Outcomes4"
+                        selectrecordtype = "[scriptid=customlist_qm_inspection_outcomes]"
+                        value = "[scriptid=customlist_qm_inspection_outcomes.val_20090_4543716_192]"
+                      }
+                      Quality_Inspection_Outcomes5@s = {
+                        name = "Quality Inspection Outcomes5"
+                        selectrecordtype = "[scriptid=customlist_qm_inspection_outcomes]"
+                        value = "[scriptid=customlist_qm_inspection_outcomes.val_18799_4543716_443]"
+                      }
+                      Quality_Inspection_Outcomes6@s = {
+                        name = "Quality Inspection Outcomes6"
+                        selectrecordtype = "[scriptid=customlist_qm_inspection_outcomes]"
+                        value = "[scriptid=customlist_qm_inspection_outcomes.val_18798_4543716_765]"
+                      }
+                    }
+                  }
+                }
+                index = 1
+              }
+            }
+          }
+          AFTERSUBMIT = {
+            triggertype = "AFTERSUBMIT"
+            setfieldvalueaction = {
+              workflowaction1765 = {
+                scriptid = "workflowaction1765"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBAPPLICATION|WEBSTORE|WORKBOOKBUILDER|WORKFLOW"
+                eventtypes = "EDIT"
+                field = "[scriptid=customrecord_qm_queue.custrecord_atlas_vs_pass]"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetext = "0"
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "\"Status\" IN (\"Quality Inspection Outcomes1\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Status = {
+                        name = "Status"
+                        value = "[scriptid=customrecord_qm_queue.custrecord_qm_queue_status]"
+                      }
+                      Quality_Inspection_Outcomes1@s = {
+                        name = "Quality Inspection Outcomes1"
+                        selectrecordtype = "[scriptid=customlist_qm_inspection_outcomes]"
+                        value = "[scriptid=customlist_qm_inspection_outcomes.val_18801_4543716_913]"
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+              workflowaction1766 = {
+                scriptid = "workflowaction1766"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBAPPLICATION|WEBSTORE|WORKBOOKBUILDER|WORKFLOW"
+                eventtypes = "EDIT"
+                field = "[scriptid=customrecord_qm_queue.custrecord_atlas_vs_fail]"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetext = "1"
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "\"Status\" IN (\"Quality Inspection Outcomes1\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Status = {
+                        name = "Status"
+                        value = "[scriptid=customrecord_qm_queue.custrecord_qm_queue_status]"
+                      }
+                      Quality_Inspection_Outcomes1@s = {
+                        name = "Quality Inspection Outcomes1"
+                        selectrecordtype = "[scriptid=customlist_qm_inspection_outcomes]"
+                        value = "[scriptid=customlist_qm_inspection_outcomes.val_18801_4543716_913]"
+                      }
+                    }
+                  }
+                }
+                index = 1
+              }
+              workflowaction1767 = {
+                scriptid = "workflowaction1767"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBAPPLICATION|WEBSTORE|WORKBOOKBUILDER|WORKFLOW"
+                eventtypes = "EDIT"
+                field = "[scriptid=customrecord_qm_queue.custrecord_atlas_vs_fail]"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetext = "0"
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "\"Status\" IN (\"Quality Inspection Outcomes1\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Status = {
+                        name = "Status"
+                        value = "[scriptid=customrecord_qm_queue.custrecord_qm_queue_status]"
+                      }
+                      Quality_Inspection_Outcomes1@s = {
+                        name = "Quality Inspection Outcomes1"
+                        selectrecordtype = "[scriptid=customlist_qm_inspection_outcomes]"
+                        value = "[scriptid=customlist_qm_inspection_outcomes.val_18800_4543716_171]"
+                      }
+                    }
+                  }
+                }
+                index = 2
+              }
+              workflowaction1768 = {
+                scriptid = "workflowaction1768"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBAPPLICATION|WEBSTORE|WORKBOOKBUILDER|WORKFLOW"
+                eventtypes = "EDIT"
+                field = "[scriptid=customrecord_qm_queue.custrecord_atlas_vs_pass]"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetext = "1"
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "\"Status\" IN (\"Quality Inspection Outcomes1\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Status = {
+                        name = "Status"
+                        value = "[scriptid=customrecord_qm_queue.custrecord_qm_queue_status]"
+                      }
+                      Quality_Inspection_Outcomes1@s = {
+                        name = "Quality Inspection Outcomes1"
+                        selectrecordtype = "[scriptid=customlist_qm_inspection_outcomes]"
+                        value = "[scriptid=customlist_qm_inspection_outcomes.val_18800_4543716_171]"
+                      }
+                    }
+                  }
+                }
+                index = 3
+              }
+              workflowaction1769 = {
+                scriptid = "workflowaction1769"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBAPPLICATION|WEBSTORE|WORKBOOKBUILDER|WORKFLOW"
+                eventtypes = "EDIT"
+                field = "[scriptid=customrecord_qm_queue.custrecord_atlas_vs_fail]"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "\"Status\" IN (\"Quality Inspection Outcomes1\",\"Quality Inspection Outcomes2\",\"Quality Inspection Outcomes3\",\"Quality Inspection Outcomes4\",\"Quality Inspection Outcomes5\",\"Quality Inspection Outcomes6\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Status = {
+                        name = "Status"
+                        value = "[scriptid=customrecord_qm_queue.custrecord_qm_queue_status]"
+                      }
+                      Quality_Inspection_Outcomes1@s = {
+                        name = "Quality Inspection Outcomes1"
+                        selectrecordtype = "[scriptid=customlist_qm_inspection_outcomes]"
+                        value = "[scriptid=customlist_qm_inspection_outcomes.val_20037_4543716_936]"
+                      }
+                      Quality_Inspection_Outcomes2@s = {
+                        name = "Quality Inspection Outcomes2"
+                        selectrecordtype = "[scriptid=customlist_qm_inspection_outcomes]"
+                        value = "[scriptid=customlist_qm_inspection_outcomes.val_20420_4543716_818]"
+                      }
+                      Quality_Inspection_Outcomes3@s = {
+                        name = "Quality Inspection Outcomes3"
+                        selectrecordtype = "[scriptid=customlist_qm_inspection_outcomes]"
+                        value = "[scriptid=customlist_qm_inspection_outcomes.val_21693_4543716_749]"
+                      }
+                      Quality_Inspection_Outcomes4@s = {
+                        name = "Quality Inspection Outcomes4"
+                        selectrecordtype = "[scriptid=customlist_qm_inspection_outcomes]"
+                        value = "[scriptid=customlist_qm_inspection_outcomes.val_20090_4543716_192]"
+                      }
+                      Quality_Inspection_Outcomes5@s = {
+                        name = "Quality Inspection Outcomes5"
+                        selectrecordtype = "[scriptid=customlist_qm_inspection_outcomes]"
+                        value = "[scriptid=customlist_qm_inspection_outcomes.val_18799_4543716_443]"
+                      }
+                      Quality_Inspection_Outcomes6@s = {
+                        name = "Quality Inspection Outcomes6"
+                        selectrecordtype = "[scriptid=customlist_qm_inspection_outcomes]"
+                        value = "[scriptid=customlist_qm_inspection_outcomes.val_18798_4543716_765]"
+                      }
+                    }
+                  }
+                }
+                index = 4
+              }
+              workflowaction1770 = {
+                scriptid = "workflowaction1770"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBAPPLICATION|WEBSTORE|WORKBOOKBUILDER|WORKFLOW"
+                eventtypes = "EDIT"
+                field = "[scriptid=customrecord_qm_queue.custrecord_atlas_vs_pass]"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "\"Status\" IN (\"Quality Inspection Outcomes1\",\"Quality Inspection Outcomes2\",\"Quality Inspection Outcomes3\",\"Quality Inspection Outcomes4\",\"Quality Inspection Outcomes5\",\"Quality Inspection Outcomes6\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Status = {
+                        name = "Status"
+                        value = "[scriptid=customrecord_qm_queue.custrecord_qm_queue_status]"
+                      }
+                      Quality_Inspection_Outcomes1@s = {
+                        name = "Quality Inspection Outcomes1"
+                        selectrecordtype = "[scriptid=customlist_qm_inspection_outcomes]"
+                        value = "[scriptid=customlist_qm_inspection_outcomes.val_20037_4543716_936]"
+                      }
+                      Quality_Inspection_Outcomes2@s = {
+                        name = "Quality Inspection Outcomes2"
+                        selectrecordtype = "[scriptid=customlist_qm_inspection_outcomes]"
+                        value = "[scriptid=customlist_qm_inspection_outcomes.val_20420_4543716_818]"
+                      }
+                      Quality_Inspection_Outcomes3@s = {
+                        name = "Quality Inspection Outcomes3"
+                        selectrecordtype = "[scriptid=customlist_qm_inspection_outcomes]"
+                        value = "[scriptid=customlist_qm_inspection_outcomes.val_21693_4543716_749]"
+                      }
+                      Quality_Inspection_Outcomes4@s = {
+                        name = "Quality Inspection Outcomes4"
+                        selectrecordtype = "[scriptid=customlist_qm_inspection_outcomes]"
+                        value = "[scriptid=customlist_qm_inspection_outcomes.val_20090_4543716_192]"
+                      }
+                      Quality_Inspection_Outcomes5@s = {
+                        name = "Quality Inspection Outcomes5"
+                        selectrecordtype = "[scriptid=customlist_qm_inspection_outcomes]"
+                        value = "[scriptid=customlist_qm_inspection_outcomes.val_18799_4543716_443]"
+                      }
+                      Quality_Inspection_Outcomes6@s = {
+                        name = "Quality Inspection Outcomes6"
+                        selectrecordtype = "[scriptid=customlist_qm_inspection_outcomes]"
+                        value = "[scriptid=customlist_qm_inspection_outcomes.val_18798_4543716_765]"
+                      }
+                    }
+                  }
+                }
+                index = 5
+              }
+            }
+          }
+        }
+        index = 0
+      }
+    }
+  }
+}
