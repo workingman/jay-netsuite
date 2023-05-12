@@ -1,0 +1,116 @@
+netsuite.savedcsvimport custimportbom_revision_load {
+  scriptid = "custimportbom_revision_load"
+  charencoding = "windows-1252"
+  columndelimiter = "COMMA"
+  datahandling = "ADD"
+  decimaldelimiter = "PERIOD"
+  ignorereadonly = true
+  importname = "BOM Revision Load"
+  logsystemnotescustfields = false
+  multiselectdelimiter = "|"
+  overwritemissingfields = false
+  overwritesublists = false
+  recordtype = "BOMREVISION"
+  runserversuitescript = true
+  usemultithread = false
+  validatemandatorycustfields = true
+  audience = {
+    allemployees = false
+    allpartners = false
+    allroles = false
+    globaledit = true
+    ispublic = true
+  }
+  filemappings = {
+    filemapping = {
+      BOMREVISION_COMPONENT@f = {
+        file = "BOMREVISION:COMPONENT"
+        foreignkey = "Internal ID"
+      }
+      BOMREVISION = {
+        file = "BOMREVISION"
+        primarykey = "Internal ID"
+      }
+    }
+  }
+  recordmappings = {
+    recordmapping = {
+      BOMREVISION = {
+        record = "BOMREVISION"
+        fieldmappings = {
+          fieldmapping = {
+            BILLOFMATERIALS = {
+              field = "BILLOFMATERIALS"
+              columnreference = {
+                column = "Bill of Materials"
+                file = "BOMREVISION:COMPONENT"
+                type = "NAME"
+              }
+            }
+            
+            NAME = {
+              field = "NAME"
+              columnreference = {
+                column = "Name"
+                file = "BOMREVISION:COMPONENT"
+                type = "NAME"
+              }
+            }
+            EFFECTIVESTARTDATE = {
+              field = "EFFECTIVESTARTDATE"
+              value = "5/12/2023"
+            }
+            
+          }
+        }
+      }
+      BOMREVISION_COMPONENT@f = {
+        record = "BOMREVISION:COMPONENT"
+        fieldmappings = {
+          fieldmapping = {
+            BOMQUANTITY = {
+              field = "BOMQUANTITY"
+              columnreference = {
+                column = "BoM Quantity"
+                file = "BOMREVISION:COMPONENT"
+                type = "NAME"
+              }
+            }
+            COMPONENTYIELD = {
+              field = "COMPONENTYIELD"
+              columnreference = {
+                column = "Component Yield"
+                file = "BOMREVISION:COMPONENT"
+                type = "NAME"
+              }
+            }
+            ITEM = {
+              field = "ITEM"
+              columnreference = {
+                column = "ItemExtID"
+                file = "BOMREVISION:COMPONENT"
+                type = "EXTERNAL_ID"
+              }
+            }
+            ITEMSOURCE = {
+              field = "ITEMSOURCE"
+              columnreference = {
+                column = "Item Source"
+                file = "BOMREVISION:COMPONENT"
+                type = "NAME"
+              }
+            }
+            UNITS = {
+              field = "UNITS"
+              columnreference = {
+                column = "Base Units"
+                file = "BOMREVISION:COMPONENT"
+                type = "NAME"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

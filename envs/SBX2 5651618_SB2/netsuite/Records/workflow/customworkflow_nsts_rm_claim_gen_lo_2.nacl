@@ -1,0 +1,1483 @@
+netsuite.workflow customworkflow_nsts_rm_claim_gen_lo_2 {
+  scriptid = "customworkflow_nsts_rm_claim_gen_lo_2"
+  description = "Workflow that controls the status of the Claim Generation Log"
+  initoncreate = true
+  initonvieworupdate = true
+  inittriggertype = "BEFORELOAD"
+  isinactive = false
+  islogenabled = false
+  keephistory = "ALWAYS"
+  name = "TFX NSTS | RM - Claim Generation Log"
+  recordtypes = netsuite.customrecord_nsts_rm_claim_generate_log.attr.scriptid
+  releasestatus = "RELEASED"
+  runasadmin = true
+  initcondition = {
+    type = "VISUAL_BUILDER"
+  }
+  workflowstates = {
+    workflowstate = {
+      workflowstate230 = {
+        scriptid = "workflowstate230"
+        donotexitworkflow = false
+        name = "State 0: Reversal In Process"
+        positionx = 783
+        positiony = 23
+        workflowactions = {
+          BEFORESUBMIT = {
+            triggertype = "BEFORESUBMIT"
+            setfieldvalueaction = {
+              workflowaction1755 = {
+                scriptid = "workflowaction1755"
+                contexttypes = "CSVIMPORT|CUSTOMMASSUPDATE|PAYMENTPOSTBACK|SCHEDULED|USEREVENT|USERINTERFACE"
+                eventtypes = "CREATE"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_generate_stat.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.customvalues.customvalue.val_57671_t1512254_392.scriptid
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "isEmpty(\"Previous CGL\") = 'F'"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Previous_CGL@s = {
+                        name = "Previous CGL"
+                        value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_cgl_previous.scriptid
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition1596 = {
+              scriptid = "workflowtransition1596"
+              contexttypes = "PAYMENTPOSTBACK|SCHEDULED|SUITELET|USEREVENT|USERINTERFACE"
+              eventtypes = "CREATE|XEDIT|EDIT"
+              tostate = netsuite.workflow.instance.customworkflow_nsts_rm_claim_gen_lo_2.workflowstates.workflowstate.workflowstate172.scriptid
+              triggertype = "AFTERSUBMIT"
+              initcondition = {
+                formula = "isChecked(\"Previous CGL:Generate Reversal\") = 'F' OR isEmpty(\"Previous CGL\") = 'T'"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Previous_CGL_Generate_Reversal@sfs = {
+                      name = "Previous CGL:Generate Reversal"
+                      value = "[scriptid=customrecord_nsts_rm_claim_generate_log.custrecord_nsts_rm_cgl_previous]:[scriptid=customrecord_nsts_rm_claim_generate_log.custrecord_nsts_cgl_get_reversal]"
+                    }
+                    Previous_CGL@s = {
+                      name = "Previous CGL"
+                      value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_cgl_previous.scriptid
+                    }
+                  }
+                }
+              }
+              index = 0
+            }
+          }
+        }
+        index = 0
+      }
+      workflowstate172 = {
+        scriptid = "workflowstate172"
+        donotexitworkflow = false
+        name = "State 0.5: Claim Details Initiated"
+        positionx = 463
+        positiony = 33
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            setfieldvalueaction = {
+              workflowaction838 = {
+                scriptid = "workflowaction838"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_generate_stat.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.customvalues.customvalue.value_1_4125768_689.scriptid
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+              workflowaction839 = {
+                scriptid = "workflowaction839"
+                contexttypes = "USERINTERFACE"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_cgl_is_detail_reviewd.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 1
+              }
+              workflowaction840 = {
+                scriptid = "workflowaction840"
+                contexttypes = "USERINTERFACE"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_cgl_claim_previewd_by.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 2
+              }
+              workflowaction841 = {
+                scriptid = "workflowaction841"
+                contexttypes = "USERINTERFACE"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_previewed_on_date.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 3
+              }
+              workflowaction842 = {
+                scriptid = "workflowaction842"
+                contexttypes = "USERINTERFACE"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_cgl_is_detail_updated.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 4
+              }
+              workflowaction843 = {
+                scriptid = "workflowaction843"
+                contexttypes = "USERINTERFACE"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claimdetail_updtd_by.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 5
+              }
+              workflowaction844 = {
+                scriptid = "workflowaction844"
+                contexttypes = "USERINTERFACE"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecordnsts_cgl_claim_detail_updtd_on.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 6
+              }
+              workflowaction845 = {
+                scriptid = "workflowaction845"
+                contexttypes = "USERINTERFACE"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_cgl_is_summry_reviewd.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 7
+              }
+              workflowaction846 = {
+                scriptid = "workflowaction846"
+                contexttypes = "USERINTERFACE"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_summ_rvwd_by.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 8
+              }
+              workflowaction847 = {
+                scriptid = "workflowaction847"
+                contexttypes = "USERINTERFACE"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_summ_rvwd_on.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 9
+              }
+              workflowaction848 = {
+                scriptid = "workflowaction848"
+                contexttypes = "USERINTERFACE"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_cgl_is_claim_created.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 10
+              }
+              workflowaction849 = {
+                scriptid = "workflowaction849"
+                contexttypes = "USERINTERFACE"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_cgl_is_rdt_updated.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 11
+              }
+              workflowaction850 = {
+                scriptid = "workflowaction850"
+                contexttypes = "USERINTERFACE"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_cgl_generate_claims.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 12
+              }
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition36 = {
+              scriptid = "workflowtransition36"
+              contexttypes = "USERINTERFACE"
+              tostate = netsuite.workflow.instance.customworkflow_nsts_rm_claim_gen_lo_2.workflowstates.workflowstate.workflowstate171.scriptid
+              triggertype = "BEFORESUBMIT"
+              initcondition = {
+                formula = "\"Claim Generation Status\" NOT IN (\"NSTS| RM ClaimGen Status1\")"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Claim_Generation_Status@s = {
+                      name = "Claim Generation Status"
+                      value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_generate_stat.scriptid
+                    }
+                    NSTS__RM_ClaimGen_Status1@gsss = {
+                      name = "NSTS| RM ClaimGen Status1"
+                      selectrecordtype = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.scriptid
+                      value = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.customvalues.customvalue.value_1_4125768_689.scriptid
+                    }
+                  }
+                }
+              }
+              index = 0
+            }
+            workflowtransition35 = {
+              scriptid = "workflowtransition35"
+              contexttypes = "PAYMENTPOSTBACK|SCHEDULED|SUITELET|USEREVENT|USERINTERFACE"
+              tostate = netsuite.workflow.instance.customworkflow_nsts_rm_claim_gen_lo_2.workflowstates.workflowstate.workflowstate3.scriptid
+              triggertype = "BEFORESUBMIT"
+              initcondition = {
+                formula = "isChecked(\"Is Claim Detail Generated\") = 'T'"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Is_Claim_Detail_Generated@s = {
+                      name = "Is Claim Detail Generated"
+                      value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_cgl_is_detail_reviewd.scriptid
+                    }
+                  }
+                }
+              }
+              index = 1
+            }
+          }
+        }
+        index = 1
+      }
+      workflowstate3 = {
+        scriptid = "workflowstate3"
+        donotexitworkflow = false
+        name = "State 1: Claim Details Previewed or Err"
+        positionx = 463
+        positiony = 113
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            setfieldvalueaction = {
+              workflowaction4 = {
+                scriptid = "workflowaction4"
+                contexttypes = "PAYMENTPOSTBACK|SCHEDULED|SUITELET|USEREVENT|USERINTERFACE"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_generate_stat.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.customvalues.customvalue.value_2_4125768_689.scriptid
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "isChecked(\"Is Claim Detail Generated\") = 'T'"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Is_Claim_Detail_Generated@s = {
+                        name = "Is Claim Detail Generated"
+                        value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_cgl_is_detail_reviewd.scriptid
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+              workflowaction853 = {
+                scriptid = "workflowaction853"
+                contexttypes = "USERINTERFACE"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_cgl_is_detail_updated.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 1
+              }
+              workflowaction854 = {
+                scriptid = "workflowaction854"
+                contexttypes = "USERINTERFACE"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claimdetail_updtd_by.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 2
+              }
+              workflowaction855 = {
+                scriptid = "workflowaction855"
+                contexttypes = "USERINTERFACE"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecordnsts_cgl_claim_detail_updtd_on.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 3
+              }
+              workflowaction856 = {
+                scriptid = "workflowaction856"
+                contexttypes = "USERINTERFACE"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_cgl_is_summry_reviewd.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 4
+              }
+              workflowaction857 = {
+                scriptid = "workflowaction857"
+                contexttypes = "USERINTERFACE"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_summ_rvwd_by.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 5
+              }
+              workflowaction858 = {
+                scriptid = "workflowaction858"
+                contexttypes = "USERINTERFACE"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_summ_rvwd_on.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 6
+              }
+              workflowaction859 = {
+                scriptid = "workflowaction859"
+                contexttypes = "USERINTERFACE"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_cgl_is_claim_created.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 7
+              }
+              workflowaction860 = {
+                scriptid = "workflowaction860"
+                contexttypes = "USERINTERFACE"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_cgl_is_rdt_updated.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 8
+              }
+              workflowaction861 = {
+                scriptid = "workflowaction861"
+                contexttypes = "USERINTERFACE"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_cgl_generate_claims.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 9
+              }
+              workflowaction1756 = {
+                scriptid = "workflowaction1756"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_generate_stat.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.customvalues.customvalue.value_11_4125768_689.scriptid
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "isEmpty(\"Claim Generation Error Code\") = 'F'"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Claim_Generation_Error_Code@s = {
+                        name = "Claim Generation Error Code"
+                        value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_claim_gen_error.scriptid
+                      }
+                    }
+                  }
+                }
+                index = 10
+              }
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition22 = {
+              scriptid = "workflowtransition22"
+              contexttypes = "USERINTERFACE"
+              tostate = netsuite.workflow.instance.customworkflow_nsts_rm_claim_gen_lo_2.workflowstates.workflowstate.workflowstate171.scriptid
+              triggertype = "BEFORESUBMIT"
+              initcondition = {
+                formula = "\"Claim Generation Status\" NOT IN (\"NSTS| RM ClaimGen Status1\")"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Claim_Generation_Status@s = {
+                      name = "Claim Generation Status"
+                      value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_generate_stat.scriptid
+                    }
+                    NSTS__RM_ClaimGen_Status1@gsss = {
+                      name = "NSTS| RM ClaimGen Status1"
+                      selectrecordtype = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.scriptid
+                      value = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.customvalues.customvalue.value_2_4125768_689.scriptid
+                    }
+                  }
+                }
+              }
+              index = 0
+            }
+            workflowtransition9 = {
+              scriptid = "workflowtransition9"
+              tostate = netsuite.workflow.instance.customworkflow_nsts_rm_claim_gen_lo_2.workflowstates.workflowstate.workflowstate4.scriptid
+              triggertype = "BEFORESUBMIT"
+              initcondition = {
+                formula = "isChecked(\"Is Claim Detail Reviewed\") = 'T'"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Is_Claim_Detail_Reviewed@s = {
+                      name = "Is Claim Detail Reviewed"
+                      value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_cgl_is_detail_updated.scriptid
+                    }
+                  }
+                }
+              }
+              index = 1
+            }
+            workflowtransition15 = {
+              scriptid = "workflowtransition15"
+              tostate = netsuite.workflow.instance.customworkflow_nsts_rm_claim_gen_lo_2.workflowstates.workflowstate.workflowstate8.scriptid
+              triggertype = "BEFORESUBMIT"
+              initcondition = {
+                formula = "\"Claim Generation Status\" IN (\"NSTS| RM ClaimGen Status1\")"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Claim_Generation_Status@s = {
+                      name = "Claim Generation Status"
+                      value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_generate_stat.scriptid
+                    }
+                    NSTS__RM_ClaimGen_Status1@gsss = {
+                      name = "NSTS| RM ClaimGen Status1"
+                      selectrecordtype = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.scriptid
+                      value = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.customvalues.customvalue.value_10_4125768_689.scriptid
+                    }
+                  }
+                }
+              }
+              index = 2
+            }
+          }
+        }
+        index = 2
+      }
+      workflowstate4 = {
+        scriptid = "workflowstate4"
+        donotexitworkflow = false
+        name = "State 2: Claim Details Updated"
+        positionx = 463
+        positiony = 193
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            setfieldvalueaction = {
+              workflowaction5 = {
+                scriptid = "workflowaction5"
+                contexttypes = "PAYMENTPOSTBACK|SCHEDULED|SUITELET|USEREVENT|USERINTERFACE"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_generate_stat.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.customvalues.customvalue.value_3_4125768_689.scriptid
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "isChecked(\"Is Claim Detail Reviewed\") = 'T'"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Is_Claim_Detail_Reviewed@s = {
+                        name = "Is Claim Detail Reviewed"
+                        value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_cgl_is_detail_updated.scriptid
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+              workflowaction863 = {
+                scriptid = "workflowaction863"
+                contexttypes = "USERINTERFACE"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_cgl_is_summry_reviewd.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 1
+              }
+              workflowaction864 = {
+                scriptid = "workflowaction864"
+                contexttypes = "USERINTERFACE"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_summ_rvwd_by.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 2
+              }
+              workflowaction865 = {
+                scriptid = "workflowaction865"
+                contexttypes = "USERINTERFACE"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_summ_rvwd_on.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 3
+              }
+              workflowaction866 = {
+                scriptid = "workflowaction866"
+                contexttypes = "USERINTERFACE"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_cgl_is_claim_created.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 4
+              }
+              workflowaction867 = {
+                scriptid = "workflowaction867"
+                contexttypes = "USERINTERFACE"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_cgl_is_rdt_updated.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 5
+              }
+              workflowaction868 = {
+                scriptid = "workflowaction868"
+                contexttypes = "USERINTERFACE"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_cgl_generate_claims.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 6
+              }
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition23 = {
+              scriptid = "workflowtransition23"
+              contexttypes = "USERINTERFACE"
+              tostate = netsuite.workflow.instance.customworkflow_nsts_rm_claim_gen_lo_2.workflowstates.workflowstate.workflowstate171.scriptid
+              triggertype = "BEFORESUBMIT"
+              initcondition = {
+                formula = "\"Claim Generation Status\" NOT IN (\"NSTS| RM ClaimGen Status1\")"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Claim_Generation_Status@s = {
+                      name = "Claim Generation Status"
+                      value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_generate_stat.scriptid
+                    }
+                    NSTS__RM_ClaimGen_Status1@gsss = {
+                      name = "NSTS| RM ClaimGen Status1"
+                      selectrecordtype = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.scriptid
+                      value = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.customvalues.customvalue.value_3_4125768_689.scriptid
+                    }
+                  }
+                }
+              }
+              index = 0
+            }
+            workflowtransition10 = {
+              scriptid = "workflowtransition10"
+              tostate = netsuite.workflow.instance.customworkflow_nsts_rm_claim_gen_lo_2.workflowstates.workflowstate.workflowstate5.scriptid
+              triggertype = "BEFORESUBMIT"
+              initcondition = {
+                formula = "isChecked(\"Is Claim Summary Reviewed\") = 'T'"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Is_Claim_Summary_Reviewed@s = {
+                      name = "Is Claim Summary Reviewed"
+                      value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_cgl_is_summry_reviewd.scriptid
+                    }
+                  }
+                }
+              }
+              index = 1
+            }
+            workflowtransition16 = {
+              scriptid = "workflowtransition16"
+              tostate = netsuite.workflow.instance.customworkflow_nsts_rm_claim_gen_lo_2.workflowstates.workflowstate.workflowstate8.scriptid
+              triggertype = "BEFORESUBMIT"
+              initcondition = {
+                formula = "\"Claim Generation Status\" IN (\"NSTS| RM ClaimGen Status1\")"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Claim_Generation_Status@s = {
+                      name = "Claim Generation Status"
+                      value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_generate_stat.scriptid
+                    }
+                    NSTS__RM_ClaimGen_Status1@gsss = {
+                      name = "NSTS| RM ClaimGen Status1"
+                      selectrecordtype = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.scriptid
+                      value = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.customvalues.customvalue.value_10_4125768_689.scriptid
+                    }
+                  }
+                }
+              }
+              index = 2
+            }
+          }
+        }
+        index = 3
+      }
+      workflowstate5 = {
+        scriptid = "workflowstate5"
+        donotexitworkflow = false
+        name = "State 3: Claim Summary Reviewed"
+        positionx = 463
+        positiony = 273
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            setfieldvalueaction = {
+              workflowaction6 = {
+                scriptid = "workflowaction6"
+                contexttypes = "PAYMENTPOSTBACK|SCHEDULED|SUITELET|USEREVENT|USERINTERFACE"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_generate_stat.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.customvalues.customvalue.value_4_4125768_689.scriptid
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "isChecked(\"Is Claim Summary Reviewed\") = 'T'"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Is_Claim_Summary_Reviewed@s = {
+                        name = "Is Claim Summary Reviewed"
+                        value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_cgl_is_summry_reviewd.scriptid
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+              workflowaction870 = {
+                scriptid = "workflowaction870"
+                contexttypes = "USERINTERFACE"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_cgl_is_claim_created.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 1
+              }
+              workflowaction871 = {
+                scriptid = "workflowaction871"
+                contexttypes = "USERINTERFACE"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_cgl_is_rdt_updated.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 2
+              }
+              workflowaction872 = {
+                scriptid = "workflowaction872"
+                contexttypes = "PAYMENTPOSTBACK|SCHEDULED|SUITELET|USEREVENT|USERINTERFACE"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_cgl_generate_claims.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 3
+              }
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition24 = {
+              scriptid = "workflowtransition24"
+              contexttypes = "USERINTERFACE"
+              tostate = netsuite.workflow.instance.customworkflow_nsts_rm_claim_gen_lo_2.workflowstates.workflowstate.workflowstate171.scriptid
+              triggertype = "BEFORESUBMIT"
+              initcondition = {
+                formula = "\"Claim Generation Status\" NOT IN (\"NSTS| RM ClaimGen Status1\")"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Claim_Generation_Status@s = {
+                      name = "Claim Generation Status"
+                      value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_generate_stat.scriptid
+                    }
+                    NSTS__RM_ClaimGen_Status1@gsss = {
+                      name = "NSTS| RM ClaimGen Status1"
+                      selectrecordtype = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.scriptid
+                      value = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.customvalues.customvalue.value_4_4125768_689.scriptid
+                    }
+                  }
+                }
+              }
+              index = 0
+            }
+            workflowtransition17 = {
+              scriptid = "workflowtransition17"
+              tostate = netsuite.workflow.instance.customworkflow_nsts_rm_claim_gen_lo_2.workflowstates.workflowstate.workflowstate8.scriptid
+              triggertype = "BEFORESUBMIT"
+              initcondition = {
+                formula = "\"Claim Generation Status\" IN (\"NSTS| RM ClaimGen Status1\")"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Claim_Generation_Status@s = {
+                      name = "Claim Generation Status"
+                      value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_generate_stat.scriptid
+                    }
+                    NSTS__RM_ClaimGen_Status1@gsss = {
+                      name = "NSTS| RM ClaimGen Status1"
+                      selectrecordtype = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.scriptid
+                      value = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.customvalues.customvalue.value_10_4125768_689.scriptid
+                    }
+                  }
+                }
+              }
+              index = 1
+            }
+            workflowtransition19 = {
+              scriptid = "workflowtransition19"
+              contexttypes = "PAYMENTPOSTBACK|SCHEDULED|SUITELET|USEREVENT|USERINTERFACE"
+              tostate = netsuite.workflow.instance.customworkflow_nsts_rm_claim_gen_lo_2.workflowstates.workflowstate.workflowstate170.scriptid
+              triggertype = "BEFORESUBMIT"
+              initcondition = {
+                formula = "isChecked(\"Generate Claims\") = 'T'"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Generate_Claims@s = {
+                      name = "Generate Claims"
+                      value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_cgl_generate_claims.scriptid
+                    }
+                  }
+                }
+              }
+              index = 2
+            }
+          }
+        }
+        index = 4
+      }
+      workflowstate6 = {
+        scriptid = "workflowstate6"
+        donotexitworkflow = false
+        name = "State 5:Claim Gen-Pending RTD Upd or Err"
+        positionx = 463
+        positiony = 443
+        workflowactions = {
+          SCHEDULED = {
+            triggertype = "SCHEDULED"
+            setfieldvalueaction = {
+              workflowaction7 = {
+                scriptid = "workflowaction7"
+                contexttypes = "SCHEDULED"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_generate_stat.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.customvalues.customvalue.value_6_4125768_689.scriptid
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "isChecked(\"Is Claim Txn Created\") = 'T'"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Is_Claim_Txn_Created@s = {
+                        name = "Is Claim Txn Created"
+                        value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_cgl_is_claim_created.scriptid
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+              workflowaction837 = {
+                scriptid = "workflowaction837"
+                contexttypes = "PAYMENTPOSTBACK|SCHEDULED|SUITELET|USEREVENT|USERINTERFACE"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_generate_stat.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.customvalues.customvalue.value_8_4125768_689.scriptid
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "isEmpty(\"Claim Generation Error Code\") = 'F'"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Claim_Generation_Error_Code@s = {
+                        name = "Claim Generation Error Code"
+                        value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_claim_gen_error.scriptid
+                      }
+                    }
+                  }
+                }
+                index = 1
+              }
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition26 = {
+              scriptid = "workflowtransition26"
+              contexttypes = "USERINTERFACE"
+              tostate = netsuite.workflow.instance.customworkflow_nsts_rm_claim_gen_lo_2.workflowstates.workflowstate.workflowstate171.scriptid
+              triggertype = "BEFORESUBMIT"
+              initcondition = {
+                formula = "\"Claim Generation Status\" NOT IN (\"NSTS| RM ClaimGen Status1\",\"NSTS| RM ClaimGen Status2\")"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Claim_Generation_Status@s = {
+                      name = "Claim Generation Status"
+                      value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_generate_stat.scriptid
+                    }
+                    NSTS__RM_ClaimGen_Status1@gsss = {
+                      name = "NSTS| RM ClaimGen Status1"
+                      selectrecordtype = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.scriptid
+                      value = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.customvalues.customvalue.value_6_4125768_689.scriptid
+                    }
+                    NSTS__RM_ClaimGen_Status2@gsss = {
+                      name = "NSTS| RM ClaimGen Status2"
+                      selectrecordtype = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.scriptid
+                      value = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.customvalues.customvalue.value_8_4125768_689.scriptid
+                    }
+                  }
+                }
+              }
+              index = 0
+            }
+            workflowtransition12 = {
+              scriptid = "workflowtransition12"
+              tostate = netsuite.workflow.instance.customworkflow_nsts_rm_claim_gen_lo_2.workflowstates.workflowstate.workflowstate7.scriptid
+              triggertype = "BEFORESUBMIT"
+              initcondition = {
+                formula = "isChecked(\"Is Claim RTD Updated\") = 'T' AND isEmpty(\"Claim Generation Error Code\") = 'T'"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Is_Claim_RTD_Updated@s = {
+                      name = "Is Claim RTD Updated"
+                      value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_cgl_is_rdt_updated.scriptid
+                    }
+                    Claim_Generation_Error_Code@s = {
+                      name = "Claim Generation Error Code"
+                      value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_claim_gen_error.scriptid
+                    }
+                  }
+                }
+              }
+              index = 1
+            }
+            workflowtransition18 = {
+              scriptid = "workflowtransition18"
+              tostate = netsuite.workflow.instance.customworkflow_nsts_rm_claim_gen_lo_2.workflowstates.workflowstate.workflowstate8.scriptid
+              triggertype = "BEFORESUBMIT"
+              initcondition = {
+                formula = "\"Claim Generation Status\" IN (\"NSTS| RM ClaimGen Status1\")"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Claim_Generation_Status@s = {
+                      name = "Claim Generation Status"
+                      value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_generate_stat.scriptid
+                    }
+                    NSTS__RM_ClaimGen_Status1@gsss = {
+                      name = "NSTS| RM ClaimGen Status1"
+                      selectrecordtype = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.scriptid
+                      value = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.customvalues.customvalue.value_10_4125768_689.scriptid
+                    }
+                  }
+                }
+              }
+              index = 2
+            }
+          }
+        }
+        index = 5
+      }
+      workflowstate7 = {
+        scriptid = "workflowstate7"
+        donotexitworkflow = true
+        name = "State 6: Claim Generated - Completed"
+        positionx = 463
+        positiony = 523
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            setfieldvalueaction = {
+              workflowaction8 = {
+                scriptid = "workflowaction8"
+                contexttypes = "PAYMENTPOSTBACK|SCHEDULED|SUITELET|USEREVENT|USERINTERFACE"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_generate_stat.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.customvalues.customvalue.value_9_4125768_689.scriptid
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "isChecked(\"Is Claim RTD Updated\") = 'T'"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Is_Claim_RTD_Updated@s = {
+                        name = "Is Claim RTD Updated"
+                        value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_cgl_is_rdt_updated.scriptid
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        index = 6
+      }
+      workflowstate8 = {
+        scriptid = "workflowstate8"
+        donotexitworkflow = true
+        name = "State X: Cancelled"
+        positionx = 703
+        positiony = 273
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            setfieldvalueaction = {
+              workflowaction14 = {
+                scriptid = "workflowaction14"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_generate_stat.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.customvalues.customvalue.value_10_4125768_689.scriptid
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "isChecked(\"Inactive\") = 'T'"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Inactive = {
+                        name = "Inactive"
+                        value = "STDRECORDISINACTIVE"
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        index = 7
+      }
+      workflowstate170 = {
+        scriptid = "workflowstate170"
+        donotexitworkflow = false
+        name = "State 4: Claim Gen - Scheduled or Error"
+        positionx = 463
+        positiony = 363
+        workflowactions = {
+          BEFORESUBMIT = {
+            triggertype = "BEFORESUBMIT"
+            setfieldvalueaction = {
+              workflowaction835 = {
+                scriptid = "workflowaction835"
+                contexttypes = "PAYMENTPOSTBACK|SCHEDULED|SUITELET|USEREVENT|USERINTERFACE"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_generate_stat.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.customvalues.customvalue.value_5_4125768_689.scriptid
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "isChecked(\"Generate Claims\") = 'T'"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Generate_Claims@s = {
+                        name = "Generate Claims"
+                        value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_cgl_generate_claims.scriptid
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+            }
+          }
+          SCHEDULED = {
+            triggertype = "SCHEDULED"
+            setfieldvalueaction = {
+              workflowaction836 = {
+                scriptid = "workflowaction836"
+                contexttypes = "SCHEDULED"
+                field = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_generate_stat.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.customvalues.customvalue.value_11_4125768_689.scriptid
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "isEmpty(\"Claim Generation Error Code\") = 'F'"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Claim_Generation_Error_Code@s = {
+                        name = "Claim Generation Error Code"
+                        value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_claim_gen_error.scriptid
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition25 = {
+              scriptid = "workflowtransition25"
+              contexttypes = "USERINTERFACE"
+              tostate = netsuite.workflow.instance.customworkflow_nsts_rm_claim_gen_lo_2.workflowstates.workflowstate.workflowstate171.scriptid
+              triggertype = "BEFORESUBMIT"
+              initcondition = {
+                formula = "\"Claim Generation Status\" NOT IN (\"NSTS| RM ClaimGen Status1\",\"NSTS| RM ClaimGen Status2\")"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Claim_Generation_Status@s = {
+                      name = "Claim Generation Status"
+                      value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_generate_stat.scriptid
+                    }
+                    NSTS__RM_ClaimGen_Status1@gsss = {
+                      name = "NSTS| RM ClaimGen Status1"
+                      selectrecordtype = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.scriptid
+                      value = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.customvalues.customvalue.value_5_4125768_689.scriptid
+                    }
+                    NSTS__RM_ClaimGen_Status2@gsss = {
+                      name = "NSTS| RM ClaimGen Status2"
+                      selectrecordtype = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.scriptid
+                      value = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.customvalues.customvalue.value_11_4125768_689.scriptid
+                    }
+                  }
+                }
+              }
+              index = 0
+            }
+            workflowtransition20 = {
+              scriptid = "workflowtransition20"
+              contexttypes = "PAYMENTPOSTBACK|SCHEDULED|SUITELET|USEREVENT|USERINTERFACE"
+              tostate = netsuite.workflow.instance.customworkflow_nsts_rm_claim_gen_lo_2.workflowstates.workflowstate.workflowstate6.scriptid
+              triggertype = "BEFORESUBMIT"
+              initcondition = {
+                formula = "isChecked(\"Is Claim Txn Created\") = 'T'"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Is_Claim_Txn_Created@s = {
+                      name = "Is Claim Txn Created"
+                      value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_cgl_is_claim_created.scriptid
+                    }
+                  }
+                }
+              }
+              index = 1
+            }
+            workflowtransition21 = {
+              scriptid = "workflowtransition21"
+              contexttypes = "PAYMENTPOSTBACK|SCHEDULED|SUITELET|USEREVENT|USERINTERFACE"
+              tostate = netsuite.workflow.instance.customworkflow_nsts_rm_claim_gen_lo_2.workflowstates.workflowstate.workflowstate8.scriptid
+              triggertype = "BEFORESUBMIT"
+              initcondition = {
+                formula = "\"Claim Generation Status\" IN (\"NSTS| RM ClaimGen Status1\")"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Claim_Generation_Status@s = {
+                      name = "Claim Generation Status"
+                      value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_generate_stat.scriptid
+                    }
+                    NSTS__RM_ClaimGen_Status1@gsss = {
+                      name = "NSTS| RM ClaimGen Status1"
+                      selectrecordtype = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.scriptid
+                      value = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.customvalues.customvalue.value_10_4125768_689.scriptid
+                    }
+                  }
+                }
+              }
+              index = 2
+            }
+          }
+        }
+        index = 8
+      }
+      workflowstate171 = {
+        scriptid = "workflowstate171"
+        donotexitworkflow = false
+        name = "State O: Admin Override"
+        positionx = 243
+        positiony = 273
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition27 = {
+              scriptid = "workflowtransition27"
+              tostate = netsuite.workflow.instance.customworkflow_nsts_rm_claim_gen_lo_2.workflowstates.workflowstate.workflowstate3.scriptid
+              triggertype = "BEFORESUBMIT"
+              initcondition = {
+                formula = "\"Claim Generation Status\" IN (\"NSTS| RM ClaimGen Status1\")"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Claim_Generation_Status@s = {
+                      name = "Claim Generation Status"
+                      value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_generate_stat.scriptid
+                    }
+                    NSTS__RM_ClaimGen_Status1@gsss = {
+                      name = "NSTS| RM ClaimGen Status1"
+                      selectrecordtype = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.scriptid
+                      value = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.customvalues.customvalue.value_2_4125768_689.scriptid
+                    }
+                  }
+                }
+              }
+              index = 0
+            }
+            workflowtransition28 = {
+              scriptid = "workflowtransition28"
+              tostate = netsuite.workflow.instance.customworkflow_nsts_rm_claim_gen_lo_2.workflowstates.workflowstate.workflowstate4.scriptid
+              initcondition = {
+                formula = "\"Claim Generation Status\" IN (\"NSTS| RM ClaimGen Status1\")"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Claim_Generation_Status@s = {
+                      name = "Claim Generation Status"
+                      value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_generate_stat.scriptid
+                    }
+                    NSTS__RM_ClaimGen_Status1@gsss = {
+                      name = "NSTS| RM ClaimGen Status1"
+                      selectrecordtype = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.scriptid
+                      value = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.customvalues.customvalue.value_3_4125768_689.scriptid
+                    }
+                  }
+                }
+              }
+              index = 1
+            }
+            workflowtransition29 = {
+              scriptid = "workflowtransition29"
+              tostate = netsuite.workflow.instance.customworkflow_nsts_rm_claim_gen_lo_2.workflowstates.workflowstate.workflowstate5.scriptid
+              initcondition = {
+                formula = "\"Claim Generation Status\" IN (\"NSTS| RM ClaimGen Status1\")"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Claim_Generation_Status@s = {
+                      name = "Claim Generation Status"
+                      value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_generate_stat.scriptid
+                    }
+                    NSTS__RM_ClaimGen_Status1@gsss = {
+                      name = "NSTS| RM ClaimGen Status1"
+                      selectrecordtype = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.scriptid
+                      value = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.customvalues.customvalue.value_4_4125768_689.scriptid
+                    }
+                  }
+                }
+              }
+              index = 2
+            }
+            workflowtransition30 = {
+              scriptid = "workflowtransition30"
+              tostate = netsuite.workflow.instance.customworkflow_nsts_rm_claim_gen_lo_2.workflowstates.workflowstate.workflowstate170.scriptid
+              initcondition = {
+                formula = "\"Claim Generation Status\" IN (\"NSTS| RM ClaimGen Status1\",\"NSTS| RM ClaimGen Status2\")"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Claim_Generation_Status@s = {
+                      name = "Claim Generation Status"
+                      value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_generate_stat.scriptid
+                    }
+                    NSTS__RM_ClaimGen_Status1@gsss = {
+                      name = "NSTS| RM ClaimGen Status1"
+                      selectrecordtype = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.scriptid
+                      value = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.customvalues.customvalue.value_11_4125768_689.scriptid
+                    }
+                    NSTS__RM_ClaimGen_Status2@gsss = {
+                      name = "NSTS| RM ClaimGen Status2"
+                      selectrecordtype = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.scriptid
+                      value = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.customvalues.customvalue.value_5_4125768_689.scriptid
+                    }
+                  }
+                }
+              }
+              index = 3
+            }
+            workflowtransition31 = {
+              scriptid = "workflowtransition31"
+              tostate = netsuite.workflow.instance.customworkflow_nsts_rm_claim_gen_lo_2.workflowstates.workflowstate.workflowstate6.scriptid
+              initcondition = {
+                formula = "\"Claim Generation Status\" IN (\"NSTS| RM ClaimGen Status1\",\"NSTS| RM ClaimGen Status2\")"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Claim_Generation_Status@s = {
+                      name = "Claim Generation Status"
+                      value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_generate_stat.scriptid
+                    }
+                    NSTS__RM_ClaimGen_Status1@gsss = {
+                      name = "NSTS| RM ClaimGen Status1"
+                      selectrecordtype = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.scriptid
+                      value = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.customvalues.customvalue.value_6_4125768_689.scriptid
+                    }
+                    NSTS__RM_ClaimGen_Status2@gsss = {
+                      name = "NSTS| RM ClaimGen Status2"
+                      selectrecordtype = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.scriptid
+                      value = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.customvalues.customvalue.value_8_4125768_689.scriptid
+                    }
+                  }
+                }
+              }
+              index = 4
+            }
+            workflowtransition32 = {
+              scriptid = "workflowtransition32"
+              tostate = netsuite.workflow.instance.customworkflow_nsts_rm_claim_gen_lo_2.workflowstates.workflowstate.workflowstate7.scriptid
+              initcondition = {
+                formula = "\"Claim Generation Status\" IN (\"NSTS| RM ClaimGen Status1\")"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Claim_Generation_Status@s = {
+                      name = "Claim Generation Status"
+                      value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_generate_stat.scriptid
+                    }
+                    NSTS__RM_ClaimGen_Status1@gsss = {
+                      name = "NSTS| RM ClaimGen Status1"
+                      selectrecordtype = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.scriptid
+                      value = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.customvalues.customvalue.value_9_4125768_689.scriptid
+                    }
+                  }
+                }
+              }
+              index = 5
+            }
+            workflowtransition33 = {
+              scriptid = "workflowtransition33"
+              tostate = netsuite.workflow.instance.customworkflow_nsts_rm_claim_gen_lo_2.workflowstates.workflowstate.workflowstate8.scriptid
+              initcondition = {
+                formula = "\"Claim Generation Status\" IN (\"NSTS| RM ClaimGen Status1\")"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Claim_Generation_Status@s = {
+                      name = "Claim Generation Status"
+                      value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_generate_stat.scriptid
+                    }
+                    NSTS__RM_ClaimGen_Status1@gsss = {
+                      name = "NSTS| RM ClaimGen Status1"
+                      selectrecordtype = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.scriptid
+                      value = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.customvalues.customvalue.value_10_4125768_689.scriptid
+                    }
+                  }
+                }
+              }
+              index = 6
+            }
+            workflowtransition34 = {
+              scriptid = "workflowtransition34"
+              tostate = netsuite.workflow.instance.customworkflow_nsts_rm_claim_gen_lo_2.workflowstates.workflowstate.workflowstate8.scriptid
+              initcondition = {
+                formula = "\"Claim Generation Status\" IN (\"NSTS| RM ClaimGen Status1\")"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Claim_Generation_Status@s = {
+                      name = "Claim Generation Status"
+                      value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_generate_stat.scriptid
+                    }
+                    NSTS__RM_ClaimGen_Status1@gsss = {
+                      name = "NSTS| RM ClaimGen Status1"
+                      selectrecordtype = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.scriptid
+                      value = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.customvalues.customvalue.value_10_4125768_689.scriptid
+                    }
+                  }
+                }
+              }
+              index = 7
+            }
+            workflowtransition37 = {
+              scriptid = "workflowtransition37"
+              tostate = netsuite.workflow.instance.customworkflow_nsts_rm_claim_gen_lo_2.workflowstates.workflowstate.workflowstate172.scriptid
+              triggertype = "BEFORESUBMIT"
+              initcondition = {
+                formula = "\"Claim Generation Status\" IN (\"NSTS| RM ClaimGen Status1\")"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Claim_Generation_Status@s = {
+                      name = "Claim Generation Status"
+                      value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_claim_generate_stat.scriptid
+                    }
+                    NSTS__RM_ClaimGen_Status1@gsss = {
+                      name = "NSTS| RM ClaimGen Status1"
+                      selectrecordtype = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.scriptid
+                      value = netsuite.customlist.instance.customlist_nsts_rm_clm_generate_status.customvalues.customvalue.value_1_4125768_689.scriptid
+                    }
+                  }
+                }
+              }
+              index = 8
+            }
+          }
+        }
+        index = 9
+      }
+    }
+  }
+  _generated_dependencies = [
+    {
+      reference = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_cgl_get_reversal.scriptid
+    },
+    {
+      reference = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_cgl_previous.scriptid
+    },
+  ]
+}

@@ -1,0 +1,106 @@
+<?xml version="1.0"?><!DOCTYPE pdf PUBLIC "-//big.faceless.org//report" "report-1.1.dtd">
+<pdf>
+<head>
+	<link name="NotoSans" type="font" subtype="truetype" src="${nsfont.NotoSans_Regular}" src-bold="${nsfont.NotoSans_Bold}" src-italic="${nsfont.NotoSans_Italic}" src-bolditalic="${nsfont.NotoSans_BoldItalic}" bytes="2" />
+	<#if .locale == "zh_CN">
+		<link name="NotoSansCJKsc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKsc_Regular}" src-bold="${nsfont.NotoSansCJKsc_Bold}" bytes="2" />
+	<#elseif .locale == "zh_TW">
+		<link name="NotoSansCJKtc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKtc_Regular}" src-bold="${nsfont.NotoSansCJKtc_Bold}" bytes="2" />
+	<#elseif .locale == "ja_JP">
+		<link name="NotoSansCJKjp" type="font" subtype="opentype" src="${nsfont.NotoSansCJKjp_Regular}" src-bold="${nsfont.NotoSansCJKjp_Bold}" bytes="2" />
+	<#elseif .locale == "ko_KR">
+		<link name="NotoSansCJKkr" type="font" subtype="opentype" src="${nsfont.NotoSansCJKkr_Regular}" src-bold="${nsfont.NotoSansCJKkr_Bold}" bytes="2" />
+	<#elseif .locale == "th_TH">
+		<link name="NotoSansThai" type="font" subtype="opentype" src="${nsfont.NotoSansThai_Regular}" src-bold="${nsfont.NotoSansThai_Bold}" bytes="2" />
+	</#if>
+    <macrolist>
+        <macro id="nlheader">
+            <table style="font-size:10pt;width:100%;"><tr>
+	<th rowspan="1" scope="row" style="padding: 0px; height: 106px; text-align: center;"><#if companyInformation.logoUrl?length != 0>Order Confirmation<img src="https://5651618.app.netsuite.com/core/media/media.nl?id=16434&amp;c=5651618&amp;h=W_PI8S_d33T2FQ0atFslRolNnzdJaXOr0KzP5bCNydQz_h6k&amp;fcts=20221024135333&amp;whence=" style="float: left; margin: 4px 7px; width: 170px; height: 61px;" /> </#if></th>
+	<th scope="row" style="padding: 0px; text-align: right;">${companyinformation.mainaddress_text}</th>
+	</tr></table>
+<br /><br />&nbsp;
+        </macro>
+        <macro id="nlfooter">
+            <table style="width: 100%; font-size: 8pt;"><tr>
+	<td style="padding: 0px; width: 583px;"><span style="font-family:Arial,Helvetica,sans-serif;"><span style="font-size:11px;">THANK YOU FOR YOUR ORDER. PLEASE SIGN ON LINE ABOVE AND RETURN TO YOUR SALES REPRESENTATIVE TO CONFIRM YOUR ORDER. SUBJECT TO SALES TERMS AND CONDITIONS MAY BE FOUND AT: https://thomasfoodsusa.com/wp-content/uploads/2020/11/SalesTermsConditions.pdf.</span></span><barcode codetype="code128" showtext="true" value="${record.tranid}"/></td>
+	<td align="right" style="padding: 0px; width: 130px;"><pagenumber/> of <totalpages/></td>
+	</tr></table>
+        </macro>
+    </macrolist>
+    <style type="text/css">* {
+		<#if .locale == "zh_CN">
+			font-family: NotoSans, NotoSansCJKsc, sans-serif;
+		<#elseif .locale == "zh_TW">
+			font-family: NotoSans, NotoSansCJKtc, sans-serif;
+		<#elseif .locale == "ja_JP">
+			font-family: NotoSans, NotoSansCJKjp, sans-serif;
+		<#elseif .locale == "ko_KR">
+			font-family: NotoSans, NotoSansCJKkr, sans-serif;
+		<#elseif .locale == "th_TH">
+			font-family: NotoSans, NotoSansThai, sans-serif;
+		<#else>
+			font-family: NotoSans, sans-serif;
+		</#if>
+		}
+		table {
+			font-size: 9pt;
+			table-layout: fixed;
+		}
+        th {
+            font-weight: bold;
+            font-size: 8pt;
+            vertical-align: middle;
+            padding: 5px 6px 3px;
+            background-color: #e3e3e3;
+            color: #333333;
+        }
+        td {
+            padding: 4px 6px;
+        }
+		td p { align:left }
+</style>
+</head>
+<body header="nlheader" header-height="10%" footer="nlfooter" footer-height="20pt" padding="0.5in 0.5in 0.5in 0.5in" size="Letter">
+    <table style="width: 100%; margin-top: 10px;"><tr>
+	<td colspan="3" style="font-size: 8pt; padding: 6px 0px 2px; font-weight: bold; color: rgb(51, 51, 51); height: 36px;"><br /><br /><span id="cke_bm_662S" style="display: none;">&nbsp;</span><br /><br />BILL TO:&nbsp;<br />${record.billaddress}<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />COMMENTS:&nbsp;${record.memo}</td>
+	<td colspan="3" style="font-size: 8pt; padding: 6px 0px 2px; font-weight: bold; color: rgb(51, 51, 51); height: 36px;"><br /><br /><span style="font-size:14px;">OUR ORDER #:&nbsp;${record.tranid}</span><br />ORDER DATE:&nbsp;<strong>${record.trandate}</strong><br /><span style="font-size:14px;">SHIP DATE:&nbsp;${record.shipdate}</span><br /><span style="font-size:14px;">DELIVERY DATE:${record.custbodytfi_delivery_date}</span><br /><strong>A/R TERMS:&nbsp;${record.terms}</strong><br />SALESREP/BROKER:&nbsp;${record.salesrep}<br /><span style="font-size:14px;">YOUR ORDER:&nbsp;${record.otherrefnum}</span><br />SHIP FROM:&nbsp;${companyinformation.addresstext}<br /><br />SHIP TO:&nbsp;<span style="font-size:11px;">${record.shipaddress}</span></td>
+	</tr>
+	<tr>
+	<td colspan="3" style="padding: 0;">&nbsp;</td>
+	<td colspan="3" style="padding: 0;">&nbsp;</td>
+	</tr></table>
+<#if record.item?has_content>
+
+<table style="width: 100%; margin-top: 10px;"><!-- start items --><#list record.item as item><#if item_index==0>
+<thead>
+	<tr>
+	<th align="center" colspan="3" style="padding: 10px 6px; width: 119px;">PRODUCT</th>
+	<th colspan="12" style="padding: 10px 6px; width: 191px;">DESCRIPTION</th>
+	<th style="padding: 10px 6px; width: 160px;">CASES ORDERED</th>
+	<th align="right" colspan="4" style="padding: 10px 6px;">PRICE/ LB</th>
+	<th align="right" colspan="4" style="padding: 10px 6px;">WEIGHT</th>
+	</tr>
+</thead>
+</#if><tr>
+	<td align="center" colspan="3" line-height="150%" style="width: 119px;">${item.custcol_tfi_item_number}</td>
+	<td colspan="12" style="width: 191px;">${item.Description}</td>
+	<td style="width: 160px;">${item.custcol_pcg_tfi_actual_case_count}</td>
+	<td align="right" colspan="4">$${item.custcol_est_rate_lb?string['0.00']}</td>
+	<td align="right" colspan="4">${item.custcol_atlas_item_weight}</td>
+	</tr>
+	</#list><!-- end items --></table>
+
+<hr style="width: 100%; color: #d3d3d3; background-color: #d3d3d3; height: 1px;" /></#if>
+<table style="page-break-inside: avoid; width: 100%; margin-top: 10px;"><tr>
+	<td colspan="4">&nbsp;</td>
+	<td align="right" style="font-weight: bold; color: #333333;">${record.subtotal@label}</td>
+	<td align="right">${record.subtotal}</td>
+	</tr>
+	<tr style="background-color: #e3e3e3; line-height: 200%;">
+	<td background-color="#ffffff" colspan="4">&nbsp;</td>
+	<td align="right" style="font-weight: bold; color: #333333;">${record.total@label}</td>
+	<td align="right">${record.total}</td>
+	</tr></table>
+</body>
+</pdf>

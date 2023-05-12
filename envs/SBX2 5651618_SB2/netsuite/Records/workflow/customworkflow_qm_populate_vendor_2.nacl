@@ -1,0 +1,66 @@
+netsuite.workflow customworkflow_qm_populate_vendor_2 {
+  scriptid = "customworkflow_qm_populate_vendor_2"
+  description = "Populates the vendor transaction in the quality inspection queue record"
+  initoncreate = false
+  initonvieworupdate = true
+  inittriggertype = "AFTERSUBMIT"
+  isinactive = false
+  islogenabled = false
+  keephistory = "ALWAYS"
+  name = netsuite.translationcollection.instance.custcollection_qm_translation_10.strings.string.customworkflow_qm_populate_vendor.scriptid
+  recordtypes = "[scriptid=customrecord_qm_queue]"
+  releasestatus = "RELEASED"
+  runasadmin = true
+  initcondition = {
+    formula = "\"Status\" IN (\"Quality Inspection Outcomes1\")"
+    type = "VISUAL_BUILDER"
+    parameters = {
+      parameter = {
+        Status = {
+          name = "Status"
+          value = "[scriptid=customrecord_qm_queue.custrecord_qm_queue_status]"
+        }
+        Quality_Inspection_Outcomes1@s = {
+          name = "Quality Inspection Outcomes1"
+          selectrecordtype = "[scriptid=customlist_qm_inspection_outcomes]"
+          value = "[scriptid=customlist_qm_inspection_outcomes.val_18798_4543716_765]"
+        }
+      }
+    }
+  }
+  workflowstates = {
+    workflowstate = {
+      workflowstate6 = {
+        scriptid = "workflowstate6"
+        donotexitworkflow = false
+        name = "Update Vendor"
+        positionx = 243
+        positiony = 133
+        workflowactions = {
+          AFTERSUBMIT = {
+            triggertype = "AFTERSUBMIT"
+            setfieldvalueaction = {
+              workflowaction8 = {
+                scriptid = "workflowaction8"
+                eventtypes = "EDIT"
+                field = "[scriptid=customrecord_qm_queue.custrecord_qm_queue_vendor]"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuefield = "STDBODYVENDOR"
+                valuejoinfield = "[scriptid=customrecord_qm_queue.custrecord_qm_queue_transaction_inv]"
+                valuetype = "FIELD"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        index = 0
+      }
+    }
+  }
+  nameTranslate = true
+}

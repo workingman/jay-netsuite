@@ -1,0 +1,48 @@
+netsuite.usereventscript customscript_nsts_rm_ue_accrual {
+  scriptid = "customscript_nsts_rm_ue_accrual"
+  aftersubmitfunction = "claimGenLog_AfterSubmit"
+  beforeloadfunction = "accrual_userEventBeforeLoad"
+  beforesubmitfunction = "accrual_userEventBeforeSubmit"
+  isinactive = false
+  name = "NSTS | RM UE Accruals"
+  notifyadmins = false
+  notifyowner = true
+  notifyuser = false
+  scriptfile = "[/SuiteBundles/Bundle 233151/Rebate Management v2/Rebate Calculation/User Event/NSTS_RM_UE_Accruals.js]"
+  scriptdeployments = {
+    scriptdeployment = {
+      customdeploy_nsts_rm_ue_accrual = {
+        scriptid = "customdeploy_nsts_rm_ue_accrual"
+        allemployees = false
+        alllocalizationcontexts = true
+        allpartners = false
+        allroles = false
+        audslctrole = "ADMINISTRATOR|[scriptid=customrole_rebate_admin]"
+        executioncontext = "ACTION|ADVANCEDREVREC|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CONSOLRATEADJUSTOR|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OCRPLUGIN|OTHER|PAYMENTGATEWAY|PAYMENTPOSTBACK|PLATFORMEXTENSION|PORTLET|PROMOTIONS|RECORDACTION|RESTLET|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBAPPLICATION|WEBSERVICES|WORKBOOKBUILDER|WORKFLOW"
+        isdeployed = true
+        loglevel = "DEBUG"
+        recordtype = netsuite.customrecord_nsts_rm_accruals.attr.scriptid
+        runasrole = "ADMINISTRATOR"
+        status = "RELEASED"
+      }
+    }
+  }
+  libraries = {
+    library = [
+      {
+        scriptfile = "[/SuiteBundles/Bundle 233151/Rebate Management v2/Utils/NSTS_RM_Lib_Constants.js]"
+      },
+      {
+        scriptfile = "[/SuiteBundles/Bundle 233151/Rebate Management v2/Utils/NSTS_RM_Lib_UtilObjectsAndFunctions.js]"
+      },
+      {
+        scriptfile = "[/SuiteBundles/Bundle 233151/NSTS_RM_Lib_CGLSourcingAndValidation.js]"
+      },
+    ]
+  }
+  _generated_dependencies = [
+    {
+      reference = netsuite.role.instance.customrole_rebate_admin.scriptid
+    },
+  ]
+}

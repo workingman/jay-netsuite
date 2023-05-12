@@ -1,0 +1,69 @@
+netsuite.savedcsvimport custimport_tfi_cust_sps_prefe_upda {
+  scriptid = "custimport_tfi_cust_sps_prefe_upda"
+  charencoding = "windows-1252"
+  columndelimiter = "COMMA"
+  datahandling = "UPDATE"
+  decimaldelimiter = "PERIOD"
+  description = "Update EDI Customer - SPS Preferences"
+  entryform = netsuite.entryForm.instance.custform_pcg_tfi_customer.scriptid
+  ignorereadonly = true
+  importname = "Update EDI Customer - SPS Preferences"
+  logsystemnotescustfields = false
+  multiselectdelimiter = "|"
+  overwritemissingfields = false
+  overwritesublists = false
+  preventduplicates = false
+  recordtype = "CUSTOMER"
+  runserversuitescript = true
+  usemultithread = false
+  validatemandatorycustfields = true
+  audience = {
+    allemployees = false
+    allpartners = false
+    allroles = false
+    globaledit = false
+    ispublic = false
+  }
+  filemappings = {
+    filemapping = {
+      CUSTOMER = {
+        file = "CUSTOMER"
+      }
+    }
+  }
+  recordmappings = {
+    recordmapping = {
+      CUSTOMER = {
+        record = "CUSTOMER"
+        fieldmappings = {
+          fieldmapping = {
+            cseg_bus_unit = {
+              field = netsuite.customsegment.instance.cseg_bus_unit.scriptid
+              value = "8"
+            }
+            cseg_lineofbusiness = {
+              field = netsuite.customsegment.instance.cseg_lineofbusiness.scriptid
+              value = "5"
+            }
+            custentity_sps_enable_if_to_inv_sourcing = {
+              field = "[scriptid=custentity_sps_enable_if_to_inv_sourcing]"
+              value = "T"
+            }
+            custentity_sps_enable_invoice_workflow = {
+              field = "[scriptid=custentity_sps_enable_invoice_workflow]"
+              value = "T"
+            }
+            ID = {
+              field = "ID"
+              columnreference = {
+                column = "Internal ID"
+                file = "CUSTOMER"
+                type = "NAME"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

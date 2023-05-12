@@ -1,0 +1,53 @@
+netsuite.workflow customworkflow_nsts_rm_lock_cgl_wf_2 {
+  scriptid = "customworkflow_nsts_rm_lock_cgl_wf_2"
+  initcontexts = "USERINTERFACE"
+  initoncreate = false
+  initonvieworupdate = true
+  isinactive = false
+  islogenabled = false
+  keephistory = "ALWAYS"
+  name = "TFX NSTS | RM - Lock Claim Gen Log"
+  recordtypes = netsuite.customrecord_nsts_rm_claim_generate_log.attr.scriptid
+  releasestatus = "RELEASED"
+  runasadmin = true
+  initcondition = {
+    formula = "isChecked(\"Bypass\") = 'T'"
+    type = "VISUAL_BUILDER"
+    parameters = {
+      parameter = {
+        Bypass = {
+          name = "Bypass"
+          value = netsuite.customrecord_nsts_rm_claim_generate_log.field.custom_custrecord_nsts_rm_cgl_bypass.scriptid
+        }
+      }
+    }
+  }
+  workflowstates = {
+    workflowstate = {
+      workflowstate231 = {
+        scriptid = "workflowstate231"
+        donotexitworkflow = false
+        name = "Lock Record"
+        positionx = 383
+        positiony = 153
+        workflowactions = {
+          BEFORELOAD = {
+            triggertype = "BEFORELOAD"
+            lockrecordaction = {
+              workflowaction1757 = {
+                scriptid = "workflowaction1757"
+                contexttypes = "USERINTERFACE"
+                isinactive = false
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        index = 0
+      }
+    }
+  }
+}

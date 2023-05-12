@@ -1,0 +1,49 @@
+netsuite.workflow customworkflow_nsts_rm_disable_copy_2 {
+  scriptid = "customworkflow_nsts_rm_disable_copy_2"
+  description = "Disables copy"
+  initcontexts = "PAYMENTPOSTBACK|SCHEDULED|SUITELET|USEREVENT|USERINTERFACE"
+  initeventtypes = "COPY"
+  initoncreate = true
+  initonvieworupdate = true
+  inittriggertype = "BEFORELOAD"
+  isinactive = false
+  islogenabled = false
+  keephistory = "ALWAYS"
+  name = "TFX NSTS | RM - Disable Copy"
+  recordtypes = netsuite.customrecord_nsts_rm_claim_generate_log.attr.scriptid
+  releasestatus = "RELEASED"
+  runasadmin = false
+  initcondition = {
+    type = "VISUAL_BUILDER"
+  }
+  workflowstates = {
+    workflowstate = {
+      workflowstate169 = {
+        scriptid = "workflowstate169"
+        donotexitworkflow = false
+        name = "State 0: Display Error Message"
+        positionx = 243
+        positiony = 133
+        workflowactions = {
+          BEFORELOAD = {
+            triggertype = "BEFORELOAD"
+            returnusererroraction = {
+              workflowaction833 = {
+                scriptid = "workflowaction833"
+                contexttypes = "PAYMENTPOSTBACK|SCHEDULED|SUITELET|USEREVENT|USERINTERFACE"
+                errortext = "Copying of Claim Generation Logs are disabled."
+                eventtypes = "COPY"
+                isinactive = false
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        index = 0
+      }
+    }
+  }
+}

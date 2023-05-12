@@ -1,0 +1,103 @@
+netsuite.workflow customworkflow_2663_update_batch_2 {
+  scriptid = "customworkflow_2663_update_batch_2"
+  initcontexts = "OFFLINECLIENT|PAYMENTPOSTBACK|SCHEDULED|SUITELET|USEREVENT|USERINTERFACE"
+  initoncreate = false
+  initonvieworupdate = true
+  isinactive = false
+  islogenabled = false
+  keephistory = "ALWAYS"
+  name = "TFX Update Batch"
+  recordtypes = "[scriptid=customrecord_2663_file_admin]"
+  releasestatus = "RELEASED"
+  runasadmin = false
+  initcondition = {
+    type = "VISUAL_BUILDER"
+  }
+  workflowstates = {
+    workflowstate = {
+      workflowstate2 = {
+        scriptid = "workflowstate2"
+        donotexitworkflow = false
+        name = "Status Updated"
+        positionx = 203
+        positiony = 53
+        workflowactions = {
+          AFTERSUBMIT = {
+            triggertype = "AFTERSUBMIT"
+            customaction = {
+              workflowaction3 = {
+                scriptid = "workflowaction3"
+                contexttypes = "OFFLINECLIENT|PAYMENTPOSTBACK|SCHEDULED|SUITELET|USEREVENT|USERINTERFACE"
+                eventtypes = "EDIT"
+                isinactive = false
+                schedulemode = "DELAY"
+                scripttype = "[scriptid=customscript_2663_batch_approval_notify]"
+                initcondition = {
+                  formula = "\"Batch Status\" IN (\"Payment Batch Status1\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Batch_Status@s = {
+                        name = "Batch Status"
+                        value = "[scriptid=customrecord_2663_file_admin.custrecord_2663_status]"
+                      }
+                      Payment_Batch_Status1@s = {
+                        name = "Payment Batch Status1"
+                        selectrecordtype = "[scriptid=customlist_2663_batch_status]"
+                        value = "[scriptid=customlist_2663_batch_status.value_3_4533432_160]"
+                      }
+                    }
+                  }
+                }
+                parametersettings = {
+                  parametersetting = {
+                    customscript_2663_batch_approval_notify_custscript_2663_batch@uuuuvuu = {
+                      targetparameter = "[scriptid=customscript_2663_batch_approval_notify.custscript_2663_batch]"
+                      valueselect = "@CURRENT@"
+                    }
+                  }
+                }
+                index = 0
+              }
+              workflowaction4 = {
+                scriptid = "workflowaction4"
+                contexttypes = "OFFLINECLIENT|PAYMENTPOSTBACK|SCHEDULED|SUITELET|USEREVENT|USERINTERFACE"
+                eventtypes = "EDIT"
+                isinactive = false
+                schedulemode = "DELAY"
+                scripttype = "[scriptid=customscript_2663_batch_rejection_notify]"
+                initcondition = {
+                  formula = "\"Batch Status\" IN (\"Payment Batch Status1\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Batch_Status@s = {
+                        name = "Batch Status"
+                        value = "[scriptid=customrecord_2663_file_admin.custrecord_2663_status]"
+                      }
+                      Payment_Batch_Status1@s = {
+                        name = "Payment Batch Status1"
+                        selectrecordtype = "[scriptid=customlist_2663_batch_status]"
+                        value = "[scriptid=customlist_2663_batch_status.value_5_4533432_160]"
+                      }
+                    }
+                  }
+                }
+                parametersettings = {
+                  parametersetting = {
+                    customscript_2663_batch_rejection_notify_custscript_2663_rejected_batch@uuuuvuuu = {
+                      targetparameter = "[scriptid=customscript_2663_batch_rejection_notify.custscript_2663_rejected_batch]"
+                      valueselect = "@CURRENT@"
+                    }
+                  }
+                }
+                index = 1
+              }
+            }
+          }
+        }
+        index = 0
+      }
+    }
+  }
+}

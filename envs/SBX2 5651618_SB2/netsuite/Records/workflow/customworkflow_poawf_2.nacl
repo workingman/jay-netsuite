@@ -1,0 +1,949 @@
+netsuite.workflow customworkflow_poawf_2 {
+  scriptid = "customworkflow_poawf_2"
+  description = "Workflow-based approvals working 'out of the box'."
+  initoncreate = true
+  initonvieworupdate = false
+  isinactive = true
+  islogenabled = false
+  keephistory = "ALWAYS"
+  name = "TFX PO Approval - Employee Center"
+  recordtypes = "PURCHASEORDER"
+  releasestatus = "NOTINITIATING"
+  runasadmin = true
+  initcondition = {
+    formula = "\"User Role\" IN (\"Role1\")"
+    type = "VISUAL_BUILDER"
+    parameters = {
+      parameter = {
+        User_Role@s = {
+          name = "User Role"
+          value = "STDUSERROLE"
+        }
+        Role1 = {
+          name = "Role1"
+          selectrecordtype = "-118"
+          value = "EMPLOYEE_CENTER"
+        }
+      }
+    }
+  }
+  workflowcustomfields = {
+    workflowcustomfield = {
+      custworkflow_poawf_approval_state_2 = {
+        scriptid = "custworkflow_poawf_approval_state_2"
+        applyformatting = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "SELECT"
+        label = "Approval State"
+        selectrecordtype = "-243"
+        storevalue = true
+        index = 0
+      }
+      custworkflow_poawf_approver_wf_fld_2 = {
+        scriptid = "custworkflow_poawf_approver_wf_fld_2"
+        applyformatting = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "SELECT"
+        label = "Approver"
+        selectrecordtype = "-4"
+        storevalue = true
+        index = 1
+      }
+    }
+  }
+  workflowstates = {
+    workflowstate = {
+      workflowstate1 = {
+        scriptid = "workflowstate1"
+        donotexitworkflow = false
+        name = "Check Immediate Approver"
+        positionx = 203
+        positiony = 53
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition9 = {
+              scriptid = "workflowtransition9"
+              tostate = netsuite.workflow.instance.customworkflow_poawf_2.workflowstates.workflowstate.workflowstate4.scriptid
+              triggertype = "BEFORESUBMIT"
+              initcondition = {
+                formula = "isEmpty(\"Employee:Supervisor\") = 'F' OR isEmpty(\"Employee:Purchase Approver\") = 'F'"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Employee_Supervisor@f = {
+                      name = "Employee:Supervisor"
+                      value = "STDBODYEMPLOYEE:STDENTITYSUPERVISOR"
+                    }
+                    Employee_Purchase_Approver@fs = {
+                      name = "Employee:Purchase Approver"
+                      value = "STDBODYEMPLOYEE:STDENTITYPURCHASEORDERAPPROVER"
+                    }
+                  }
+                }
+              }
+              index = 0
+            }
+            workflowtransition12 = {
+              scriptid = "workflowtransition12"
+              tostate = netsuite.workflow.instance.customworkflow_poawf_2.workflowstates.workflowstate.workflowstate5.scriptid
+              triggertype = "BEFORESUBMIT"
+              initcondition = {
+                formula = "isEmpty(\"Employee:Supervisor\") = 'T' AND isEmpty(\"Employee:Purchase Approver\") = 'T'"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Employee_Supervisor@f = {
+                      name = "Employee:Supervisor"
+                      value = "STDBODYEMPLOYEE:STDENTITYSUPERVISOR"
+                    }
+                    Employee_Purchase_Approver@fs = {
+                      name = "Employee:Purchase Approver"
+                      value = "STDBODYEMPLOYEE:STDENTITYPURCHASEORDERAPPROVER"
+                    }
+                  }
+                }
+              }
+              index = 1
+            }
+          }
+        }
+        index = 0
+      }
+      workflowstate4 = {
+        scriptid = "workflowstate4"
+        donotexitworkflow = false
+        name = "Check User Purchase Limit"
+        positionx = 203
+        positiony = 143
+        workflowactions = {
+          BEFORESUBMIT = {
+            triggertype = "BEFORESUBMIT"
+            setfieldvalueaction = {
+              workflowaction10 = {
+                scriptid = "workflowaction10"
+                field = netsuite.workflow.instance.customworkflow_poawf_2.workflowcustomfields.workflowcustomfield.custworkflow_poawf_approval_state_2.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = "1"
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "\"Total\" > \"Employee:Purchase Limit\""
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Total = {
+                        name = "Total"
+                        value = "STDBODYTOTAL"
+                      }
+                      Employee_Purchase_Limit@fs = {
+                        name = "Employee:Purchase Limit"
+                        value = "STDBODYEMPLOYEE:STDENTITYPURCHASEORDERLIMIT"
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+              workflowaction11 = {
+                scriptid = "workflowaction11"
+                field = netsuite.workflow.instance.customworkflow_poawf_2.workflowcustomfields.workflowcustomfield.custworkflow_poawf_approval_state_2.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = "2"
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "\"Total\" <= \"Employee:Purchase Limit\""
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Total = {
+                        name = "Total"
+                        value = "STDBODYTOTAL"
+                      }
+                      Employee_Purchase_Limit@fs = {
+                        name = "Employee:Purchase Limit"
+                        value = "STDBODYEMPLOYEE:STDENTITYPURCHASEORDERLIMIT"
+                      }
+                    }
+                  }
+                }
+                index = 1
+              }
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition28 = {
+              scriptid = "workflowtransition28"
+              tostate = netsuite.workflow.instance.customworkflow_poawf_2.workflowstates.workflowstate.workflowstate7.scriptid
+              triggertype = "BEFORESUBMIT"
+              initcondition = {
+                formula = "\"Workflow:Approval State\" IN (\"Approval Status1\")"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Workflow_Approval_State@fs = {
+                      name = "Workflow:Approval State"
+                      value = netsuite.workflow.instance.customworkflow_poawf_2.workflowcustomfields.workflowcustomfield.custworkflow_poawf_approval_state_2.scriptid
+                    }
+                    Approval_Status1@s = {
+                      name = "Approval Status1"
+                      selectrecordtype = "-243"
+                      value = "1"
+                    }
+                  }
+                }
+              }
+              index = 0
+            }
+            workflowtransition13 = {
+              scriptid = "workflowtransition13"
+              tostate = netsuite.workflow.instance.customworkflow_poawf_2.workflowstates.workflowstate.workflowstate5.scriptid
+              triggertype = "BEFORESUBMIT"
+              initcondition = {
+                formula = "\"Workflow:Approval State\" IN (\"Approval Status1\")"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Workflow_Approval_State@fs = {
+                      name = "Workflow:Approval State"
+                      value = netsuite.workflow.instance.customworkflow_poawf_2.workflowcustomfields.workflowcustomfield.custworkflow_poawf_approval_state_2.scriptid
+                    }
+                    Approval_Status1@s = {
+                      name = "Approval Status1"
+                      selectrecordtype = "-243"
+                      value = "2"
+                    }
+                  }
+                }
+              }
+              index = 1
+            }
+          }
+        }
+        index = 1
+      }
+      workflowstate7 = {
+        scriptid = "workflowstate7"
+        donotexitworkflow = false
+        name = "Entry"
+        positionx = 203
+        positiony = 233
+        workflowactions = {
+          BEFORELOAD = {
+            triggertype = "BEFORELOAD"
+            setdisplaytypeaction = {
+              workflowaction35 = {
+                scriptid = "workflowaction35"
+                displaytype = "HIDDEN"
+                field = "STDBODYNEXTAPPROVER"
+                isinactive = false
+                issublistfield = false
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+            }
+          }
+          BEFORESUBMIT = {
+            triggertype = "BEFORESUBMIT"
+            setfieldvalueaction = {
+              workflowaction34 = {
+                scriptid = "workflowaction34"
+                field = netsuite.workflow.instance.customworkflow_poawf_2.workflowstates.workflowstate.workflowstate7.workflowstatecustomfields.workflowstatecustomfield.custwfstate_poawf_nextapprover_entry_2.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuefield = "STDENTITYPURCHASEORDERAPPROVER"
+                valuejoinfield = "STDBODYEMPLOYEE"
+                valuetype = "FIELD"
+                initcondition = {
+                  formula = "isEmpty(\"Employee:Purchase Approver\") = 'F' AND ( \"Total\" > \"Employee:Purchase Limit\" OR isEmpty(\"Employee:Purchase Limit\") = 'T' )"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Employee_Purchase_Approver@fs = {
+                        name = "Employee:Purchase Approver"
+                        value = "STDBODYEMPLOYEE:STDENTITYPURCHASEORDERAPPROVER"
+                      }
+                      Total = {
+                        name = "Total"
+                        value = "STDBODYTOTAL"
+                      }
+                      Employee_Purchase_Limit@fs = {
+                        name = "Employee:Purchase Limit"
+                        value = "STDBODYEMPLOYEE:STDENTITYPURCHASEORDERLIMIT"
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+              workflowaction32 = {
+                scriptid = "workflowaction32"
+                eventtypes = "CREATE"
+                field = netsuite.workflow.instance.customworkflow_poawf_2.workflowstates.workflowstate.workflowstate7.workflowstatecustomfields.workflowstatecustomfield.custwfstate_poawf_nextapprover_entry_2.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuefield = "STDENTITYSUPERVISOR"
+                valuejoinfield = "STDBODYEMPLOYEE"
+                valuetype = "FIELD"
+                initcondition = {
+                  formula = "isEmpty(\"Employee:Supervisor\") = 'F' AND isEmpty(\"Employee:Purchase Approver\") = 'T' AND ( \"Total\" > \"Employee:Purchase Limit\" OR isEmpty(\"Employee:Purchase Limit\") = 'T' )"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Employee_Supervisor@f = {
+                        name = "Employee:Supervisor"
+                        value = "STDBODYEMPLOYEE:STDENTITYSUPERVISOR"
+                      }
+                      Employee_Purchase_Approver@fs = {
+                        name = "Employee:Purchase Approver"
+                        value = "STDBODYEMPLOYEE:STDENTITYPURCHASEORDERAPPROVER"
+                      }
+                      Total = {
+                        name = "Total"
+                        value = "STDBODYTOTAL"
+                      }
+                      Employee_Purchase_Limit@fs = {
+                        name = "Employee:Purchase Limit"
+                        value = "STDBODYEMPLOYEE:STDENTITYPURCHASEORDERLIMIT"
+                      }
+                    }
+                  }
+                }
+                index = 1
+              }
+              workflowaction33 = {
+                scriptid = "workflowaction33"
+                field = "STDBODYNEXTAPPROVER"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuefield = netsuite.workflow.instance.customworkflow_poawf_2.workflowstates.workflowstate.workflowstate7.workflowstatecustomfields.workflowstatecustomfield.custwfstate_poawf_nextapprover_entry_2.scriptid
+                valuetype = "FIELD"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 2
+              }
+            }
+          }
+          AFTERSUBMIT = {
+            triggertype = "AFTERSUBMIT"
+            sendemailaction = {
+              workflowaction31 = {
+                scriptid = "workflowaction31"
+                attachmenttype = "SPECIFIC"
+                body = "<font size=\"2\"><span class=\"Apple-style-span\" style=\"border-collapse: separate; color: rgb(0, 0, 0); font-family: 'Times New Roman'; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;\"><span class=\"Apple-style-span\" style=\"font-family: Tahoma,Geneva,sans-serif; font-size: 11px; white-space: nowrap;\">&lt;br&gt;You have a new employee purchase request from <br>{employee.entityid} to approve. &lt;br&gt;You can log in to <br>http://www.netsuite.com to approve.</span></span></font>"
+                includerecordlink = true
+                includetransaction = false
+                isinactive = false
+                recipientfield = "STDBODYNEXTAPPROVER"
+                recipienttype = "FIELD"
+                schedulemode = "DELAY"
+                senderfield = "STDUSERUSER"
+                sendertype = "FIELD"
+                subject = "Purchase Request to Approve"
+                usetemplate = false
+                initcondition = {
+                  formula = "isEmpty(\"Next Approver\") = 'F' AND \"Approval Status\" IN (\"Approval Status1\") AND isEmpty(\"User\") = 'F'"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Next_Approver@s = {
+                        name = "Next Approver"
+                        value = "STDBODYNEXTAPPROVER"
+                      }
+                      Approval_Status@s = {
+                        name = "Approval Status"
+                        value = "STDBODYAPPROVALSTATUS"
+                      }
+                      Approval_Status1@s = {
+                        name = "Approval Status1"
+                        selectrecordtype = "-243"
+                        value = "1"
+                      }
+                      User = {
+                        name = "User"
+                        value = "STDUSERUSER"
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        workflowstatecustomfields = {
+          workflowstatecustomfield = {
+            custwfstate_poawf_nextapprover_entry_2 = {
+              scriptid = "custwfstate_poawf_nextapprover_entry_2"
+              applyformatting = false
+              defaultchecked = false
+              description = "Purchase Approval Workflow : Entry Workflow State Field"
+              displaytype = "NORMAL"
+              fieldtype = "SELECT"
+              label = "next Approver"
+              selectrecordtype = "-4"
+              storevalue = true
+              index = 0
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition29 = {
+              scriptid = "workflowtransition29"
+              tostate = netsuite.workflow.instance.customworkflow_poawf_2.workflowstates.workflowstate.workflowstate2.scriptid
+              triggertype = "AFTERSUBMIT"
+              initcondition = {
+                formula = "isEmpty(\"Next Approver\") = 'F'"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Next_Approver@s = {
+                      name = "Next Approver"
+                      value = "STDBODYNEXTAPPROVER"
+                    }
+                  }
+                }
+              }
+              index = 0
+            }
+            workflowtransition30 = {
+              scriptid = "workflowtransition30"
+              tostate = netsuite.workflow.instance.customworkflow_poawf_2.workflowstates.workflowstate.workflowstate5.scriptid
+              triggertype = "AFTERSUBMIT"
+              initcondition = {
+                type = "VISUAL_BUILDER"
+              }
+              index = 1
+            }
+          }
+        }
+        index = 2
+      }
+      workflowstate2 = {
+        scriptid = "workflowstate2"
+        description = "Purchase Approval Workflow Pending Approval Workflow State"
+        donotexitworkflow = false
+        name = "Pending Approval"
+        positionx = 203
+        positiony = 323
+        workflowactions = {
+          BEFORELOAD = {
+            triggertype = "BEFORELOAD"
+            addbuttonaction = {
+              workflowaction_4747_poawf_approvebutton = {
+                scriptid = "workflowaction_4747_poawf_approvebutton"
+                checkconditionbeforeexecution = false
+                isinactive = false
+                label = "Approve"
+                saverecordfirst = false
+                initcondition = {
+                  formula = "\"Approval Status\" IN (\"Approval Status1\") AND \"Next Approver\" IN (\"Current User\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Approval_Status@s = {
+                        name = "Approval Status"
+                        value = "STDBODYAPPROVALSTATUS"
+                      }
+                      Approval_Status1@s = {
+                        name = "Approval Status1"
+                        selectrecordtype = "-243"
+                        value = "1"
+                      }
+                      Next_Approver@s = {
+                        name = "Next Approver"
+                        value = "STDBODYNEXTAPPROVER"
+                      }
+                      Current_User@s = {
+                        name = "Current User"
+                        selectrecordtype = "-4"
+                        value = "@CURRENTUSER@"
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+              workflowaction_4747_poawf_rejectbutton = {
+                scriptid = "workflowaction_4747_poawf_rejectbutton"
+                checkconditionbeforeexecution = false
+                isinactive = false
+                label = "Reject"
+                saverecordfirst = false
+                initcondition = {
+                  formula = "\"Approval Status\" IN (\"Approval Status1\") AND \"Next Approver\" IN (\"Current User\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Approval_Status@s = {
+                        name = "Approval Status"
+                        value = "STDBODYAPPROVALSTATUS"
+                      }
+                      Approval_Status1@s = {
+                        name = "Approval Status1"
+                        selectrecordtype = "-243"
+                        value = "1"
+                      }
+                      Next_Approver@s = {
+                        name = "Next Approver"
+                        value = "STDBODYNEXTAPPROVER"
+                      }
+                      Current_User@s = {
+                        name = "Current User"
+                        selectrecordtype = "-4"
+                        value = "@CURRENTUSER@"
+                      }
+                    }
+                  }
+                }
+                index = 1
+              }
+            }
+            lockrecordaction = {
+              workflowaction2 = {
+                scriptid = "workflowaction2"
+                isinactive = false
+                initcondition = {
+                  formula = "\"User Role\" NOT IN (\"Role1\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      User_Role@s = {
+                        name = "User Role"
+                        value = "STDUSERROLE"
+                      }
+                      Role1 = {
+                        name = "Role1"
+                        selectrecordtype = "-118"
+                        value = "ADMINISTRATOR"
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition20 = {
+              scriptid = "workflowtransition20"
+              buttonaction = netsuite.workflow.instance.customworkflow_poawf_2.workflowstates.workflowstate.workflowstate2.workflowactions.BEFORELOAD.addbuttonaction.workflowaction_4747_poawf_approvebutton.scriptid
+              tostate = netsuite.workflow.instance.customworkflow_poawf_2.workflowstates.workflowstate.workflowstate6.scriptid
+              initcondition = {
+                type = "VISUAL_BUILDER"
+              }
+              index = 0
+            }
+            workflowtransition4 = {
+              scriptid = "workflowtransition4"
+              buttonaction = netsuite.workflow.instance.customworkflow_poawf_2.workflowstates.workflowstate.workflowstate2.workflowactions.BEFORELOAD.addbuttonaction.workflowaction_4747_poawf_rejectbutton.scriptid
+              tostate = netsuite.workflow.instance.customworkflow_poawf_2.workflowstates.workflowstate.workflowstate3.scriptid
+              initcondition = {
+                type = "VISUAL_BUILDER"
+              }
+              index = 1
+            }
+          }
+        }
+        index = 3
+      }
+      workflowstate6 = {
+        scriptid = "workflowstate6"
+        description = "Purchase Approval Workflow Set Next Approver Workflow State."
+        donotexitworkflow = false
+        name = "Set Next Approver"
+        positionx = 203
+        positiony = 413
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            setfieldvalueaction = {
+              workflowaction22 = {
+                scriptid = "workflowaction22"
+                field = netsuite.workflow.instance.customworkflow_poawf_2.workflowstates.workflowstate.workflowstate6.workflowstatecustomfields.workflowstatecustomfield.custwfstate_poawf_nextapprover_setne_2.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuefield = "STDENTITYPURCHASEORDERAPPROVER"
+                valuejoinfield = "STDBODYNEXTAPPROVER"
+                valuetype = "FIELD"
+                initcondition = {
+                  formula = "\"Next Approver:Purchase Approval Limit\" < \"Total\" AND isEmpty(\"Next Approver:Purchase Approver\") = 'F'"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Next_Approver_Purchase_Approval_Limit@sfss = {
+                        name = "Next Approver:Purchase Approval Limit"
+                        value = "STDBODYNEXTAPPROVER:STDENTITYPURCHASEORDERAPPROVALLIMIT"
+                      }
+                      Total = {
+                        name = "Total"
+                        value = "STDBODYTOTAL"
+                      }
+                      Next_Approver_Purchase_Approver@sfs = {
+                        name = "Next Approver:Purchase Approver"
+                        value = "STDBODYNEXTAPPROVER:STDENTITYPURCHASEORDERAPPROVER"
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+              workflowaction21 = {
+                scriptid = "workflowaction21"
+                field = netsuite.workflow.instance.customworkflow_poawf_2.workflowstates.workflowstate.workflowstate6.workflowstatecustomfields.workflowstatecustomfield.custwfstate_poawf_nextapprover_setne_2.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuefield = "STDENTITYSUPERVISOR"
+                valuejoinfield = "STDBODYNEXTAPPROVER"
+                valuetype = "FIELD"
+                initcondition = {
+                  formula = "isEmpty(\"Next Approver:Supervisor\") = 'F' AND \"Next Approver:Purchase Approval Limit\" < \"Total\" AND isEmpty(\"Next Approver:Purchase Approver\") = 'T'"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Next_Approver_Supervisor@sf = {
+                        name = "Next Approver:Supervisor"
+                        value = "STDBODYNEXTAPPROVER:STDENTITYSUPERVISOR"
+                      }
+                      Next_Approver_Purchase_Approval_Limit@sfss = {
+                        name = "Next Approver:Purchase Approval Limit"
+                        value = "STDBODYNEXTAPPROVER:STDENTITYPURCHASEORDERAPPROVALLIMIT"
+                      }
+                      Total = {
+                        name = "Total"
+                        value = "STDBODYTOTAL"
+                      }
+                      Next_Approver_Purchase_Approver@sfs = {
+                        name = "Next Approver:Purchase Approver"
+                        value = "STDBODYNEXTAPPROVER:STDENTITYPURCHASEORDERAPPROVER"
+                      }
+                    }
+                  }
+                }
+                index = 1
+              }
+              workflowaction27 = {
+                scriptid = "workflowaction27"
+                field = "STDBODYNEXTAPPROVER"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuefield = netsuite.workflow.instance.customworkflow_poawf_2.workflowstates.workflowstate.workflowstate6.workflowstatecustomfields.workflowstatecustomfield.custwfstate_poawf_nextapprover_setne_2.scriptid
+                valuetype = "FIELD"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 2
+              }
+            }
+            sendemailaction = {
+              workflowaction26 = {
+                scriptid = "workflowaction26"
+                attachmenttype = "SPECIFIC"
+                body = "<span class=\"Apple-style-span\" style=\"border-collapse: separate; color: rgb(0, 0, 0); font-family: 'Times New Roman'; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;\"><span class=\"Apple-style-span\" style=\"font-family: Tahoma,Geneva,sans-serif; font-size: 11px; white-space: nowrap;\">&lt;br&gt;You have a new employee purchase request from <br>{employee.entityid} to approve. &lt;br&gt;You can log in to <br>http://www.netsuite.com to approve.</span></span>"
+                includerecordlink = true
+                includetransaction = false
+                isinactive = false
+                recipientfield = "STDBODYNEXTAPPROVER"
+                recipienttype = "FIELD"
+                schedulemode = "DELAY"
+                senderfield = "STDBODYEMPLOYEE"
+                sendertype = "FIELD"
+                subject = "Purchase Request to Approve"
+                usetemplate = false
+                initcondition = {
+                  formula = "isEmpty(\"Next Approver\") = 'F'"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Next_Approver@s = {
+                        name = "Next Approver"
+                        value = "STDBODYNEXTAPPROVER"
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+            }
+          }
+          BEFORESUBMIT = {
+            triggertype = "BEFORESUBMIT"
+            setfieldvalueaction = {
+              workflowaction25 = {
+                scriptid = "workflowaction25"
+                field = netsuite.workflow.instance.customworkflow_poawf_2.workflowcustomfields.workflowcustomfield.custworkflow_poawf_approver_wf_fld_2.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuefield = "STDBODYNEXTAPPROVER"
+                valuetype = "FIELD"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        workflowstatecustomfields = {
+          workflowstatecustomfield = {
+            custwfstate_poawf_nextapprover_setne_2 = {
+              scriptid = "custwfstate_poawf_nextapprover_setne_2"
+              applyformatting = false
+              defaultchecked = false
+              description = "Purchase Approval Workflow : Set Next Approver Workflow State Field."
+              displaytype = "NORMAL"
+              fieldtype = "SELECT"
+              help = "Purchase Approval Workflow : Set Next Approver Workflow State Field."
+              label = "next approver"
+              selectrecordtype = "-4"
+              storevalue = false
+              index = 0
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition24 = {
+              scriptid = "workflowtransition24"
+              tostate = netsuite.workflow.instance.customworkflow_poawf_2.workflowstates.workflowstate.workflowstate2.scriptid
+              initcondition = {
+                formula = "isEmpty(\"Next Approver\") = 'F'"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Next_Approver@s = {
+                      name = "Next Approver"
+                      value = "STDBODYNEXTAPPROVER"
+                    }
+                  }
+                }
+              }
+              index = 0
+            }
+            workflowtransition23 = {
+              scriptid = "workflowtransition23"
+              tostate = netsuite.workflow.instance.customworkflow_poawf_2.workflowstates.workflowstate.workflowstate5.scriptid
+              initcondition = {
+                type = "VISUAL_BUILDER"
+              }
+              index = 1
+            }
+          }
+        }
+        index = 4
+      }
+      workflowstate5 = {
+        scriptid = "workflowstate5"
+        description = "Purchase Approval Workflow Approved Workflow State."
+        donotexitworkflow = true
+        name = "Approved"
+        positionx = 203
+        positiony = 503
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            setfieldvalueaction = {
+              workflowaction14 = {
+                scriptid = "workflowaction14"
+                field = "[scriptid=custbody_currentuser_hid]"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuefield = "STDUSERUSER"
+                valuetype = "FIELD"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+              workflowaction19 = {
+                scriptid = "workflowaction19"
+                field = netsuite.workflow.instance.customworkflow_poawf_2.workflowcustomfields.workflowcustomfield.custworkflow_poawf_approver_wf_fld_2.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuefield = "STDBODYNEXTAPPROVER"
+                valuetype = "FIELD"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 1
+              }
+              workflowaction18 = {
+                scriptid = "workflowaction18"
+                field = "STDBODYAPPROVALSTATUS"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = "2"
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 2
+              }
+              workflowaction17 = {
+                scriptid = "workflowaction17"
+                field = "STDBODYSUPERVISORAPPROVAL"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = true
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 3
+              }
+            }
+            sendemailaction = {
+              workflowaction16 = {
+                scriptid = "workflowaction16"
+                attachmenttype = "SPECIFIC"
+                body = '''
+<p>{custbody_currentuser_hid} has approved your Purchase Request.</p>
+<span class="Apple-style-span" style="border-collapse: separate; color: rgb(0, 0, 0); font-family: 'Times New Roman'; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span class="Apple-style-span" style="font-family: Tahoma,Geneva,sans-serif; font-size: 11px; white-space: nowrap;">You can log in to http://www.netsuite.com.</span></span>
+'''
+                includerecordlink = true
+                includetransaction = false
+                isinactive = false
+                recipientfield = "STDBODYEMPLOYEE"
+                recipienttype = "FIELD"
+                schedulemode = "DELAY"
+                senderfield = "STDUSERUSER"
+                sendertype = "FIELD"
+                subject = "Your Purchase Request has been approved"
+                usetemplate = false
+                initcondition = {
+                  formula = "isEmpty(\"User:E-mail\") = 'F' AND isEmpty(\"Employee:E-mail\") = 'F'"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      User_E_mail@fb = {
+                        name = "User:E-mail"
+                        value = "STDUSERUSER:STDENTITYEMAIL"
+                      }
+                      Employee_E_mail@fb = {
+                        name = "Employee:E-mail"
+                        value = "STDBODYEMPLOYEE:STDENTITYEMAIL"
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+            }
+          }
+          BEFORELOAD = {
+            triggertype = "BEFORELOAD"
+            lockrecordaction = {
+              workflowaction15 = {
+                scriptid = "workflowaction15"
+                isinactive = false
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        index = 5
+      }
+      workflowstate3 = {
+        scriptid = "workflowstate3"
+        description = "Purchase Approval Workflow Rejected Workflow State."
+        donotexitworkflow = false
+        name = "Rejected"
+        positionx = 203
+        positiony = 593
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            setfieldvalueaction = {
+              workflowaction5 = {
+                scriptid = "workflowaction5"
+                field = "[scriptid=custbody_currentuser_hid]"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuefield = "STDUSERUSER"
+                valuetype = "FIELD"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+              workflowaction8 = {
+                scriptid = "workflowaction8"
+                field = netsuite.workflow.instance.customworkflow_poawf_2.workflowcustomfields.workflowcustomfield.custworkflow_poawf_approver_wf_fld_2.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuefield = "STDBODYNEXTAPPROVER"
+                valuetype = "FIELD"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 1
+              }
+              workflowaction7 = {
+                scriptid = "workflowaction7"
+                field = "STDBODYAPPROVALSTATUS"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = "3"
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 2
+              }
+            }
+            sendemailaction = {
+              workflowaction6 = {
+                scriptid = "workflowaction6"
+                attachmenttype = "SPECIFIC"
+                body = "<span class=\"Apple-style-span\" style=\"border-collapse: separate; color: rgb(0, 0, 0); font-family: 'Times New Roman'; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;\"><span class=\"Apple-style-span\" style=\"font-family: Tahoma,Geneva,sans-serif; font-size: 11px; white-space: nowrap;\">{custbody_currentuser_hid} has rejected your Purchase <br>Request.<br><br>You can log in to http://www.netsuite.com.</span></span>"
+                includerecordlink = true
+                includetransaction = false
+                isinactive = false
+                recipientfield = "STDBODYEMPLOYEE"
+                recipienttype = "FIELD"
+                schedulemode = "DELAY"
+                senderfield = "STDUSERUSER"
+                sendertype = "FIELD"
+                subject = "Your Purchase Request has been rejected"
+                usetemplate = false
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        index = 6
+      }
+    }
+  }
+}

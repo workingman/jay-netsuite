@@ -1,0 +1,156 @@
+netsuite.workflow customworkflow_pcg_tfi_workflow {
+  scriptid = "customworkflow_pcg_tfi_workflow"
+  initcontexts = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+  initoncreate = true
+  initonvieworupdate = false
+  isinactive = false
+  islogenabled = false
+  keephistory = "ONLYWHENTESTING"
+  name = "Use Tax Workflow"
+  recordtypes = "VENDORBILL"
+  releasestatus = "NOTINITIATING"
+  runasadmin = false
+  initcondition = {
+    formula = "isEmpty(\"Use Tax Rate\") = 'F'"
+    type = "VISUAL_BUILDER"
+    parameters = {
+      parameter = {
+        Use_Tax_Rate@s = {
+          name = "Use Tax Rate"
+          value = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_usetaxrate.scriptid
+        }
+      }
+    }
+  }
+  workflowcustomfields = {
+    workflowcustomfield = {
+      custworkflow_pcg_tfi_use_tax_amount = {
+        scriptid = "custworkflow_pcg_tfi_use_tax_amount"
+        applyformatting = true
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "CURRENCY"
+        label = "Use Tax Amount"
+        storevalue = true
+        index = 0
+      }
+      custworkflow_pcg_tfi_use_tax_payable = {
+        scriptid = "custworkflow_pcg_tfi_use_tax_payable"
+        applyformatting = true
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "CURRENCY"
+        label = "Use Tax Payable"
+        storevalue = true
+        index = 1
+      }
+    }
+  }
+  workflowstates = {
+    workflowstate = {
+      workflowstate241 = {
+        scriptid = "workflowstate241"
+        donotexitworkflow = false
+        name = "State 1"
+        positionx = 243
+        positiony = 133
+        workflowactions = {
+          BEFORESUBMIT = {
+            triggertype = "BEFORESUBMIT"
+            setfieldvalueaction = {
+              workflowaction1788 = {
+                scriptid = "workflowaction1788"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                field = netsuite.workflow.instance.customworkflow_pcg_tfi_workflow.workflowcustomfields.workflowcustomfield.custworkflow_pcg_tfi_use_tax_amount.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueformula = "{usertotal}*{custbody_pcg_tfi_usetaxrate}"
+                valuetype = "FORMULA"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+              workflowaction1789 = {
+                scriptid = "workflowaction1789"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                field = netsuite.workflow.instance.customworkflow_pcg_tfi_workflow.workflowcustomfields.workflowcustomfield.custworkflow_pcg_tfi_use_tax_payable.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueformula = "{usertotal}*{custbody_pcg_tfi_usetaxrate}*-1"
+                valuetype = "FORMULA"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 1
+              }
+            }
+            createlineaction = {
+              workflowaction1790 = {
+                scriptid = "workflowaction1790"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                isinactive = false
+                position = "AFTERLASTLINE"
+                sublist = "ITEM"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                fieldsettings = {
+                  fieldsetting = {
+                    STDCOLITEM = {
+                      targetfield = "STDCOLITEM"
+                      index = 0
+                    }
+                    STDCOLQUANTITY = {
+                      targetfield = "STDCOLQUANTITY"
+                      valuetext = "1"
+                      index = 1
+                    }
+                    STDCOLRATE = {
+                      targetfield = "STDCOLRATE"
+                      valuefield = netsuite.workflow.instance.customworkflow_pcg_tfi_workflow.workflowcustomfields.workflowcustomfield.custworkflow_pcg_tfi_use_tax_payable.scriptid
+                      index = 2
+                    }
+                  }
+                }
+                index = 0
+              }
+              workflowaction1791 = {
+                scriptid = "workflowaction1791"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                isinactive = false
+                position = "AFTERLASTLINE"
+                sublist = "ITEM"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                fieldsettings = {
+                  fieldsetting = {
+                    STDCOLITEM = {
+                      targetfield = "STDCOLITEM"
+                      index = 0
+                    }
+                    STDCOLQUANTITY = {
+                      targetfield = "STDCOLQUANTITY"
+                      valuetext = "1"
+                      index = 1
+                    }
+                    STDCOLRATE = {
+                      targetfield = "STDCOLRATE"
+                      valuefield = netsuite.workflow.instance.customworkflow_pcg_tfi_workflow.workflowcustomfields.workflowcustomfield.custworkflow_pcg_tfi_use_tax_amount.scriptid
+                      index = 2
+                    }
+                  }
+                }
+                index = 1
+              }
+            }
+          }
+        }
+        index = 0
+      }
+    }
+  }
+}

@@ -1,0 +1,909 @@
+netsuite.savedsearch customsearch_pcg_trx_rank_all_hala {
+  scriptid = "customsearch_pcg_trx_rank_all_hala"
+  dependencies = {
+    dependency = [
+      "[appid=com.qssiwms.qssipowerhousewmsintegration, scriptid=custitemnumber_qssiph_box_id]",
+      "[appid=com.qssiwms.qssipowerhousewmsintegration, scriptid=custitemnumber_qssiph_effective_date]",
+      "[appid=com.qssiwms.qssipowerhousewmsintegration, scriptid=custitemnumber_qssiph_pack_date]",
+      "[appid=com.qssiwms.qssipowerhousewmsintegration, scriptid=custitemnumber_qssiph_shipping_mark]",
+      netsuite.transactionbodycustomfield.instance.custbody_pcg_initial_ratio_lb_cs.scriptid,
+      netsuite.transactionbodycustomfield.instance.custbody_pcg_lot_review.scriptid,
+      netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_lot_avail_sell.scriptid,
+      netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_lot_cost_per_lb.scriptid,
+      netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_sell_by_date.scriptid,
+      netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_trx_creates_new_lot.scriptid,
+      netsuite.transactionbodycustomfield.instance.custbody_tfi_freeze_use_by_date.scriptid,
+      netsuite.transactioncolumncustomfield.instance.custcol_pcg_initial_ratio_lb_cs.scriptid,
+      netsuite.transactioncolumncustomfield.instance.custcol_pcg_lot_review.scriptid,
+      netsuite.transactioncolumncustomfield.instance.custcol_pcg_tfi_ecoli_cert_number.scriptid,
+      netsuite.transactioncolumncustomfield.instance.custcol_pcg_tfi_establishment_number.scriptid,
+      netsuite.transactioncolumncustomfield.instance.custcol_pcg_tfi_lot_avail_sell.scriptid,
+      netsuite.transactioncolumncustomfield.instance.custcol_pcg_tfi_lot_cost_per_lb.scriptid,
+      netsuite.transactioncolumncustomfield.instance.custcol_pcg_tfi_sell_by_date.scriptid,
+      netsuite.transactioncolumncustomfield.instance.custcol_pcg_tfi_trx_creates_new_lot.scriptid,
+      netsuite.transactioncolumncustomfield.instance.custcol_qssiph_box_id.scriptid,
+      netsuite.transactioncolumncustomfield.instance.custcol_qssiph_shipping_mark.scriptid,
+      netsuite.transactioncolumncustomfield.instance.custcol_tfi_freeze_use_by_date.scriptid,
+      netsuite.itemcustomfield.instance.custitem_pcg_tfi_halal.scriptid,
+      netsuite.itemcustomfield.instance.custitem_pcg_tfi_item_lbs_cs.scriptid,
+      netsuite.itemnumbercustomfield.instance.custitemnumber_pcg_tfi_case_box_count.scriptid,
+      netsuite.itemnumbercustomfield.instance.custitemnumber_pcg_tfi_catch_weight.scriptid,
+      netsuite.itemnumbercustomfield.instance.custitemnumber_pcg_tfi_chilled_lot_age_days.scriptid,
+      netsuite.itemnumbercustomfield.instance.custitemnumber_pcg_tfi_ecoli_cert_number.scriptid,
+      netsuite.itemnumbercustomfield.instance.custitemnumber_pcg_tfi_establishment_number.scriptid,
+      netsuite.itemnumbercustomfield.instance.custitemnumber_pcg_tfi_ever_frozen_checkbox.scriptid,
+      netsuite.itemnumbercustomfield.instance.custitemnumber_pcg_tfi_lot_age_days_old.scriptid,
+      netsuite.itemnumbercustomfield.instance.custitemnumber_pcg_tfi_lot_avail_sell.scriptid,
+      netsuite.itemnumbercustomfield.instance.custitemnumber_pcg_tfi_lot_cost_per_lb.scriptid,
+      netsuite.itemnumbercustomfield.instance.custitemnumber_pcg_tfi_thawing_applied.scriptid,
+      netsuite.itemnumbercustomfield.instance.custitemnumber_tfi_pcg_interface_notes.scriptid,
+      netsuite.itemnumbercustomfield.instance.custitemnumber_tfi_pcg_lot_avail_cases.scriptid,
+      netsuite.itemnumbercustomfield.instance.custitemnumber_tfi_pcg_source_location.scriptid,
+      netsuite.itemnumbercustomfield.instance.custitemnumber_tfi_pcg_source_trx_number.scriptid,
+      netsuite.itemnumbercustomfield.instance.custitemnumber_tfi_pcg_source_trx_type.scriptid,
+      netsuite.itemnumbercustomfield.instance.custitemnumberpcg_lot_avail_weight.scriptid,
+      netsuite.itemnumbercustomfield.instance.custitemnumbertfi_freeze_use_by_date.scriptid,
+      netsuite.itemnumbercustomfield.instance.custitemnumbertfi_pcg_initial_ratio_lb_cs.scriptid,
+      netsuite.itemnumbercustomfield.instance.custitemnumbertfi_sell_by_date.scriptid,
+    ]
+  }
+  definition = "1c1c7cb4abb09d878563df6939d082adc6ae1104d80f7d9e6665c5cc249c4cb5@GZC@2023.1.13@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"
+  search_filter = [
+    {
+      FLAG_DATE_TIME_SECOND = false
+      FLAG_FROM_AVAILABLE_FILTER = false
+      FLAG_NOT = false
+      FLAG_OR = false
+      FIELD_OR_CLAUSE_STATUS = "N"
+      FIELD_NUM_LEFT_PARENS = 0
+      FIELD_NUM_RIGHT_PARENS = 0
+      FIELD_FILTER_NAME = "Transaction_QUANTITY"
+      FIELD_ATTRIBUTE = "GT"
+      FIELD_TYPE = "FLOAT"
+      RECORDS = [
+        {
+          KEY_ID = 0
+          FIELD_VALUE = "0"
+        },
+        {
+          KEY_ID = 1
+        },
+      ]
+    },
+    {
+      FLAG_DATE_TIME_SECOND = false
+      FLAG_FROM_AVAILABLE_FILTER = false
+      FLAG_NOT = false
+      FLAG_OR = false
+      FIELD_OR_CLAUSE_STATUS = "N"
+      FIELD_NUM_LEFT_PARENS = 0
+      FIELD_NUM_RIGHT_PARENS = 0
+      FIELD_FILTER_NAME = "Transaction_FORMULANUMERIC"
+      FIELD_FORMULA = "{quantity}"
+      FIELD_ATTRIBUTE = "GT"
+      FIELD_TYPE = "FLOAT"
+      RECORDS = [
+        {
+          KEY_ID = 0
+          FIELD_VALUE = "0"
+        },
+        {
+          KEY_ID = 1
+        },
+      ]
+    },
+    {
+      FLAG_DATE_TIME_SECOND = false
+      FLAG_FROM_AVAILABLE_FILTER = false
+      FLAG_NOT = false
+      FLAG_OR = false
+      FIELD_OR_CLAUSE_STATUS = "N"
+      FIELD_NUM_LEFT_PARENS = 0
+      FIELD_NUM_RIGHT_PARENS = 0
+      FIELD_FILTER_NAME = "Transaction_FORMULANUMERIC"
+      FIELD_FORMULA = "case when nvl({inventorydetail.quantity},0) = 0 then 0 else 1 end"
+      FIELD_ATTRIBUTE = "EQUAL"
+      FIELD_TYPE = "FLOAT"
+      RECORDS = [
+        {
+          KEY_ID = 0
+          FIELD_VALUE = "1"
+        },
+        {
+          KEY_ID = 1
+        },
+      ]
+    },
+    {
+      FLAG_DATE_TIME_SECOND = false
+      FLAG_FROM_AVAILABLE_FILTER = false
+      FLAG_NOT = false
+      FLAG_OR = false
+      FIELD_OR_CLAUSE_STATUS = "N"
+      FIELD_NUM_LEFT_PARENS = 0
+      FIELD_NUM_RIGHT_PARENS = 0
+      FIELD_FILTER_NAME = "Transaction_FORMULANUMERIC"
+      FIELD_FORMULA = "case when {inventorydetail.inventorynumber} = {serialnumber} then 1 else 0 end"
+      FIELD_ATTRIBUTE = "EQUAL"
+      FIELD_TYPE = "FLOAT"
+      RECORDS = [
+        {
+          KEY_ID = 0
+          FIELD_VALUE = "1"
+        },
+        {
+          KEY_ID = 1
+        },
+      ]
+    },
+    {
+      FLAG_DATE_TIME_SECOND = false
+      FLAG_FROM_AVAILABLE_FILTER = false
+      FLAG_NOT = false
+      FLAG_OR = false
+      FIELD_OR_CLAUSE_STATUS = "N"
+      FIELD_NUM_LEFT_PARENS = 0
+      FIELD_NUM_RIGHT_PARENS = 0
+      FIELD_FILTER_NAME = "Transaction_FORMULANUMERIC"
+      FIELD_FORMULA = "case when {locationnohierarchy} = {inventorydetail.location} then 1 else 0 end"
+      FIELD_ATTRIBUTE = "EQUAL"
+      FIELD_TYPE = "FLOAT"
+      RECORDS = [
+        {
+          KEY_ID = 0
+          FIELD_VALUE = "1"
+        },
+        {
+          KEY_ID = 1
+        },
+      ]
+    },
+    {
+      FLAG_DATE_TIME_SECOND = false
+      FLAG_FROM_AVAILABLE_FILTER = false
+      FLAG_NOT = false
+      FLAG_OR = false
+      FIELD_OR_CLAUSE_STATUS = "N"
+      FIELD_NUM_LEFT_PARENS = 0
+      FIELD_NUM_RIGHT_PARENS = 0
+      FIELD_FILTER_NAME = "Transaction_FORMULANUMERIC"
+      FIELD_FORMULA = "case when {itemnumber.location} = {locationnohierarchy} then 1 else 0 end"
+      FIELD_ATTRIBUTE = "EQUAL"
+      FIELD_TYPE = "FLOAT"
+      RECORDS = [
+        {
+          KEY_ID = 0
+          FIELD_VALUE = "1"
+        },
+        {
+          KEY_ID = 1
+        },
+      ]
+    },
+    {
+      FLAG_DATE_TIME_SECOND = false
+      FLAG_FROM_AVAILABLE_FILTER = false
+      FLAG_NOT = false
+      FLAG_OR = false
+      FIELD_OR_CLAUSE_STATUS = "N"
+      FIELD_NUM_LEFT_PARENS = 0
+      FIELD_NUM_RIGHT_PARENS = 0
+      FIELD_FILTER_NAME = "Transaction_FORMULANUMERIC"
+      FIELD_FORMULA = "Case when {type} = &apos;Item Fulfillment&apos; and {status} &lt;&gt; &apos;Shipped&apos; then 0 else 1 end"
+      FIELD_ATTRIBUTE = "EQUAL"
+      FIELD_TYPE = "FLOAT"
+      RECORDS = [
+        {
+          KEY_ID = 0
+          FIELD_VALUE = "1"
+        },
+        {
+          KEY_ID = 1
+        },
+      ]
+    },
+    {
+      FLAG_DATE_TIME_SECOND = false
+      FLAG_FROM_AVAILABLE_FILTER = false
+      FLAG_NOT = false
+      FLAG_OR = false
+      FIELD_OR_CLAUSE_STATUS = "N"
+      FIELD_NUM_LEFT_PARENS = 0
+      FIELD_NUM_RIGHT_PARENS = 0
+      FIELD_FILTER_NAME = "Transaction_FORMULANUMERIC"
+      FIELD_FORMULA = "case when {item.custitem_pcg_tfi_halal} = &apos;HALAL&apos; then 1 else 0 end"
+      FIELD_ATTRIBUTE = "EQUAL"
+      FIELD_TYPE = "FLOAT"
+      RECORDS = [
+        {
+          KEY_ID = 0
+          FIELD_VALUE = "1"
+        },
+        {
+          KEY_ID = 1
+        },
+      ]
+    },
+  ]
+  available_filters = [
+    {
+      SEQ_NUMBER = 1
+      FIELD_NAME = "IT_Item_NAME"
+      FIELD_CUSTOM_LABEL = "Item"
+      FLAG_FOOTER = true
+      FLAG_FOOTER_MULTI_SELECT = false
+    },
+    {
+      SEQ_NUMBER = 2
+      FIELD_NAME = "Transaction_SERIALNUMBER"
+      FIELD_CUSTOM_LABEL = "Lot"
+      FLAG_FOOTER = true
+      FLAG_FOOTER_MULTI_SELECT = false
+    },
+    {
+      SEQ_NUMBER = 3
+      FIELD_NAME = "Transaction_NUMBERTEXT"
+      FLAG_FOOTER = true
+      FLAG_FOOTER_MULTI_SELECT = false
+    },
+    {
+      SEQ_NUMBER = 4
+      FIELD_NAME = "Transaction_TYPE"
+      FLAG_FOOTER = true
+      FLAG_FOOTER_MULTI_SELECT = false
+    },
+    {
+      SEQ_NUMBER = 5
+      FIELD_NAME = "CUSTBODY_PCG_TFI_TRX_CREATES_NEW_LOT"
+      FIELD_CUSTOM_LABEL = "Lot Inception - Header"
+      FLAG_FOOTER = true
+      FLAG_FOOTER_MULTI_SELECT = false
+    },
+    {
+      SEQ_NUMBER = 6
+      FIELD_NAME = "CUSTCOL_PCG_TFI_TRX_CREATES_NEW_LOT"
+      FIELD_CUSTOM_LABEL = "Lot Inception - Line"
+      FLAG_FOOTER = true
+      FLAG_FOOTER_MULTI_SELECT = false
+    },
+    {
+      SEQ_NUMBER = 7
+      FIELD_NAME = "IN_InventoryNumber_ISONHAND"
+      FLAG_FOOTER = true
+      FLAG_FOOTER_MULTI_SELECT = false
+    },
+  ]
+  return_fields = [
+    {
+      FIELD_ALIAS = "Transaction_SERIALNUMBER"
+      FIELD_INDEX = 1
+      FIELD_LABEL = "Lot Number (trx)"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_FORMULATEXT"
+      FIELD_INDEX = 2
+      FIELD_LABEL = "Item  (trx)"
+      FIELD_FORMULA = "nvl(REGEXP_REPLACE(REGEXP_SUBSTR({item},&apos;: [^:]+*$&apos;),&apos;: &apos;,&apos;&apos;),{item})"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_FORMULANUMERIC"
+      FIELD_INDEX = 3
+      FIELD_LABEL = "Dense Rank"
+      FIELD_FORMULA = "DENSE_RANK() OVER (PARTITION BY {serialnumber}, {item}   ORDER BY {serialnumber}, {item}, {datecreated}  ) "
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_DATECREATED"
+      FIELD_INDEX = 4
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_TYPE"
+      FIELD_INDEX = 5
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_NUMBER"
+      FIELD_INDEX = 6
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_STATUS"
+      FIELD_INDEX = 7
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_QUANTITY"
+      FIELD_INDEX = 8
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_FORMULANUMERIC"
+      FIELD_INDEX = 9
+      FIELD_LABEL = "Inventory Detail Qty"
+      FIELD_FORMULA = "nvl({inventorydetail.quantity},0) "
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "CUSTBODY_PCG_TFI_TRX_CREATES_NEW_LOT"
+      FIELD_INDEX = 10
+      FIELD_LABEL = "Lot Inception Header"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "CUSTCOL_PCG_TFI_TRX_CREATES_NEW_LOT"
+      FIELD_INDEX = 11
+      FIELD_LABEL = "Lot Inception Line"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "CUSTBODY_PCG_LOT_REVIEW"
+      FIELD_INDEX = 12
+      FIELD_LABEL = "Lot Review Header"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "CUSTCOL_PCG_LOT_REVIEW"
+      FIELD_INDEX = 13
+      FIELD_LABEL = "Lot Review Line"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_FORMULATEXT"
+      FIELD_INDEX = 14
+      FIELD_LABEL = "TRX Standard Fields &gt;&gt;&gt;"
+      FIELD_FORMULA = "&apos;TRX Standard Fields &gt;&gt;&gt;&apos;"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_FORMULATEXT"
+      FIELD_INDEX = 15
+      FIELD_LABEL = "Calculations &gt;&gt;&gt;"
+      FIELD_FORMULA = "&apos;TRX Calculations &gt;&gt;&gt;&apos;"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_FORMULANUMERIC"
+      FIELD_INDEX = 16
+      FIELD_LABEL = "Lot Quantity  (trx sum)"
+      FIELD_FORMULA = "nvl({inventorydetail.quantity},0)*case when {type} in (&apos;Item Fulfillment&apos;, &apos;Work Order Issue&apos;) then -1 else SIGN({quantity}) end"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_FORMULANUMERIC"
+      FIELD_INDEX = 17
+      FIELD_LABEL = "ALL Actual Weight (trx sum)"
+      FIELD_FORMULA = "nvl({custcol_cw_catch_weight},0)*case when {type} in (&apos;Item Fulfillment&apos;, &apos;Work Order Issue&apos;) then -1 else SIGN({quantity}) end+nvl({custbody_pcg_tfi_wo__actual_lbs},0)"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_FORMULANUMERIC"
+      FIELD_INDEX = 18
+      FIELD_LABEL = "ALL Actual Cases (trx sum)"
+      FIELD_FORMULA = "nvl({custcol_pcg_tfi_actual_case_count},0)*case when {type} in (&apos;Item Fulfillment&apos;, &apos;Work Order Issue&apos;) then -1 else SIGN({quantity}) end+nvl({custbody_pcg_tfi_wo_al_cases},0)"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_FORMULANUMERIC"
+      FIELD_INDEX = 19
+      FIELD_LABEL = "Actual Weight (trx sum)"
+      FIELD_FORMULA = "nvl({custcol_cw_catch_weight},0)*case when {type} in (&apos;Item Fulfillment&apos;, &apos;Work Order Issue&apos;) then -1 else SIGN({quantity}) end"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_FORMULANUMERIC"
+      FIELD_INDEX = 20
+      FIELD_LABEL = "Actual Cases (trx sum)"
+      FIELD_FORMULA = "nvl({custcol_pcg_tfi_actual_case_count},0)*case when {type} in (&apos;Item Fulfillment&apos;, &apos;Work Order Issue&apos;) then -1 else SIGN({quantity}) end"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_FORMULANUMERIC"
+      FIELD_INDEX = 21
+      FIELD_LABEL = "WO Actual Weight (trx sum)"
+      FIELD_FORMULA = "nvl({custbody_pcg_tfi_wo__actual_lbs},0)"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_FORMULANUMERIC"
+      FIELD_INDEX = 22
+      FIELD_LABEL = "WO Actual Cases (trx sum)"
+      FIELD_FORMULA = "nvl({custbody_pcg_tfi_wo_al_cases},0)"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_FORMULANUMERIC"
+      FIELD_INDEX = 23
+      FIELD_LABEL = "RATIO LB/CS"
+      FIELD_FUNCTION = "ROUND2"
+      FIELD_FORMULA = "CASE WHEN nvl({custcol_pcg_tfi_actual_case_count},0)+nvl({custbody_pcg_tfi_wo_al_cases},0) = 0 THEN 0 ELSE (nvl({custcol_cw_catch_weight},0)*case when {type} in (&apos;Item Fulfillment&apos;, &apos;Work Order Issue&apos;) then -1 else SIGN({quantity}) end+nvl({custbody_pcg_tfi_wo__actual_lbs},0))/(nvl({custcol_pcg_tfi_actual_case_count},0)*case when {type} in (&apos;Item Fulfillment&apos;, &apos;Work Order Issue&apos;) then -1 else SIGN({quantity}) end+nvl({custbody_pcg_tfi_wo_al_cases},0)) END"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IT_CUSTITEM_PCG_TFI_ITEM_LBS_CS"
+      FIELD_INDEX = 24
+      FIELD_LABEL = "Ratio per UOM"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_EFFECTIVERATE"
+      FIELD_INDEX = 25
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_FORMULATEXT"
+      FIELD_INDEX = 26
+      FIELD_LABEL = "TRX Custom Fields &gt;&gt;&gt;"
+      FIELD_FORMULA = "&apos;TRX Custom Fields &gt;&gt;&gt;&apos;"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "CUSTBODY_PCG_INITIAL_RATIO_LB_CS"
+      FIELD_INDEX = 27
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "CUSTCOL_PCG_INITIAL_RATIO_LB_CS"
+      FIELD_INDEX = 28
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "CUSTBODY_PCG_TFI_LOT_COST_PER_LB"
+      FIELD_INDEX = 29
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "CUSTCOL_PCG_TFI_LOT_COST_PER_LB"
+      FIELD_INDEX = 30
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "CUSTBODY_PCG_TFI_SELL_BY_DATE"
+      FIELD_INDEX = 31
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "CUSTCOL_PCG_TFI_SELL_BY_DATE"
+      FIELD_INDEX = 32
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "CUSTBODY_PCG_TFI_LOT_AVAIL_SELL"
+      FIELD_INDEX = 33
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "CUSTCOL_PCG_TFI_LOT_AVAIL_SELL"
+      FIELD_INDEX = 34
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "CUSTBODY_TFI_FREEZE_USE_BY_DATE"
+      FIELD_INDEX = 35
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "CUSTCOL_TFI_FREEZE_USE_BY_DATE"
+      FIELD_INDEX = 36
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "CUSTCOL_QSSIPH_BOX_ID"
+      FIELD_INDEX = 37
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "CUSTCOL_PCG_TFI_ESTABLISHMENT_NUMBER"
+      FIELD_INDEX = 38
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "CUSTCOL_QSSIPH_SHIPPING_MARK"
+      FIELD_INDEX = 39
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "CUSTCOL_PCG_TFI_ECOLI_CERT_NUMBER"
+      FIELD_INDEX = 40
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_FORMULATEXT"
+      FIELD_INDEX = 41
+      FIELD_LABEL = "TRX Standard Fields &gt;&gt;&gt;"
+      FIELD_FORMULA = "&apos;TRX Standard Fields &gt;&gt;&gt;&apos;"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_LINE"
+      FIELD_INDEX = 42
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_LINESEQUENCENUMBER"
+      FIELD_INDEX = 43
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_LINEUNIQUEKEY"
+      FIELD_INDEX = 44
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_INTERNALID"
+      FIELD_INDEX = 45
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_LINE"
+      FIELD_INDEX = 46
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_FORMULANUMERIC"
+      FIELD_INDEX = 47
+      FIELD_LABEL = "Item internal id"
+      FIELD_FORMULA = "{item.internalid}"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_FORMULANUMERIC"
+      FIELD_INDEX = 48
+      FIELD_LABEL = "Inventory detail internal id"
+      FIELD_FORMULA = "{inventorydetail.internalid}"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_QUANTITY"
+      FIELD_INDEX = 49
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_ITEM"
+      FIELD_INDEX = 50
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_FORMULATEXT"
+      FIELD_INDEX = 51
+      FIELD_LABEL = "Lot Record &gt;&gt;&gt;"
+      FIELD_FORMULA = "&apos;LOT RECORD (Do not use Details QTY. Use Lot search for Details QTY i.e. On-Hand, Available)  &gt;&gt;&gt;&apos;"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IN_InventoryNumber_INTERNALID"
+      FIELD_INDEX = 52
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IN_InventoryNumber_ITEM"
+      FIELD_INDEX = 53
+      FIELD_LABEL = "Item Name"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IN_InventoryNumber_INVENTORYNUMBER"
+      FIELD_INDEX = 54
+      FIELD_LABEL = "Lot Number"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_FORMULATEXT"
+      FIELD_INDEX = 55
+      FIELD_LABEL = "Status"
+      FIELD_FORMULA = "case when {itemnumber.isonhand} = &apos;T&apos; and {itemnumber.quantityavailable} &gt;= 1 then &apos;Available&apos; when {itemnumber.isonhand} = &apos;F&apos; then &apos;Not in Stock&apos; when {itemnumber.isonhand} = &apos;T&apos; and {itemnumber.quantityavailable} = 0 then &apos;Committed&apos; else null end"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IN_InventoryNumber_EXPIRATIONDATE"
+      FIELD_INDEX = 56
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IN_InventoryNumber_MEMO"
+      FIELD_INDEX = 57
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IN_InventoryNumber_DATECREATED"
+      FIELD_INDEX = 58
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IN_InventoryNumber_LOCATION"
+      FIELD_INDEX = 59
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IN_InventoryNumber_QUANTITYONHAND"
+      FIELD_INDEX = 60
+      FIELD_LABEL = "DNU onhand"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IN_InventoryNumber_QUANTITYAVAILABLE"
+      FIELD_INDEX = 61
+      FIELD_LABEL = "DNU avail"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IN_InventoryNumber_QUANTITYINTRANSIT"
+      FIELD_INDEX = 62
+      FIELD_LABEL = "DNU intransit"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IN_InventoryNumber_QUANTITYONORDER"
+      FIELD_INDEX = 63
+      FIELD_LABEL = "DNU onorder"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IN_CUSTITEMNUMBER_PCG_TFI_CATCH_WEIGHT"
+      FIELD_INDEX = 64
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IN_CUSTITEMNUMBERPCG_LOT_AVAIL_WEIGHT"
+      FIELD_INDEX = 65
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IN_CUSTITEMNUMBER_PCG_TFI_CASE_BOX_COUNT"
+      FIELD_INDEX = 66
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IN_CUSTITEMNUMBER_TFI_PCG_LOT_AVAIL_CASES"
+      FIELD_INDEX = 67
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IN_CUSTITEMNUMBERTFI_PCG_INITIAL_RATIO_LB_CS"
+      FIELD_INDEX = 68
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IN_CUSTITEMNUMBER_PCG_TFI_LOT_COST_PER_LB"
+      FIELD_INDEX = 69
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IN_CUSTITEMNUMBER_QSSIPH_PACK_DATE"
+      FIELD_INDEX = 70
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IN_CUSTITEMNUMBER_PCG_TFI_LOT_AGE_DAYS_OLD"
+      FIELD_INDEX = 71
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IN_CUSTITEMNUMBERTFI_SELL_BY_DATE"
+      FIELD_INDEX = 72
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IN_CUSTITEMNUMBER_PCG_TFI_LOT_AVAIL_SELL"
+      FIELD_INDEX = 73
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IN_CUSTITEMNUMBER_QSSIPH_EFFECTIVE_DATE"
+      FIELD_INDEX = 74
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IN_CUSTITEMNUMBERTFI_FREEZE_USE_BY_DATE"
+      FIELD_INDEX = 75
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IN_CUSTITEMNUMBER_PCG_TFI_CHILLED_LOT_AGE_DAYS"
+      FIELD_INDEX = 76
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IN_CUSTITEMNUMBER_PCG_TFI_EVER_FROZEN_CHECKBOX"
+      FIELD_INDEX = 77
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IN_CUSTITEMNUMBER_PCG_TFI_THAWING_APPLIED"
+      FIELD_INDEX = 78
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IN_CUSTITEMNUMBER_QSSIPH_BOX_ID"
+      FIELD_INDEX = 79
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IN_CUSTITEMNUMBER_PCG_TFI_ESTABLISHMENT_NUMBER"
+      FIELD_INDEX = 80
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IN_CUSTITEMNUMBER_QSSIPH_SHIPPING_MARK"
+      FIELD_INDEX = 81
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IN_CUSTITEMNUMBER_PCG_TFI_ECOLI_CERT_NUMBER"
+      FIELD_INDEX = 82
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IN_CUSTITEMNUMBER_TFI_PCG_SOURCE_TRX_NUMBER"
+      FIELD_INDEX = 83
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IN_CUSTITEMNUMBER_TFI_PCG_SOURCE_TRX_TYPE"
+      FIELD_INDEX = 84
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IN_CUSTITEMNUMBER_TFI_PCG_SOURCE_LOCATION"
+      FIELD_INDEX = 85
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IN_CUSTITEMNUMBER_TFI_PCG_INTERFACE_NOTES"
+      FIELD_INDEX = 86
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IN_InventoryNumber_ISONHAND"
+      FIELD_INDEX = 87
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IN_InventoryNumber_EXTERNALID"
+      FIELD_INDEX = 88
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_FORMULATEXT"
+      FIELD_INDEX = 89
+      FIELD_LABEL = "ITEM &gt;&gt;&gt;"
+      FIELD_FORMULA = "&apos;ITEM &gt;&gt;&gt;&apos;"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_ITEM"
+      FIELD_INDEX = 90
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IT_Item_PARENT"
+      FIELD_INDEX = 91
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IT_Item_DISPLAYNAME"
+      FIELD_INDEX = 92
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_FORMULATEXT"
+      FIELD_INDEX = 93
+      FIELD_LABEL = "MISC&gt;&gt;&gt;"
+      FIELD_FORMULA = "&apos;MISC&gt;&gt;&gt;&apos;"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "ID_InventoryDetail_INVENTORYNUMBER"
+      FIELD_INDEX = 94
+      FIELD_LABEL = "Lot Check (Inv Details)"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_FORMULANUMERIC"
+      FIELD_INDEX = 95
+      FIELD_LABEL = "TRX Count"
+      FIELD_FORMULA = "1"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_FORMULATEXT"
+      FIELD_INDEX = 96
+      FIELD_LABEL = "INTERNAL IDS &gt;&gt;&gt;"
+      FIELD_FORMULA = "&apos;INTERNAL IDS &gt;&gt;&gt;&apos;"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_FORMULANUMERIC"
+      FIELD_INDEX = 97
+      FIELD_LABEL = "Item Internal Id"
+      FIELD_FORMULA = "{item.internalid}"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_FORMULANUMERIC"
+      FIELD_INDEX = 98
+      FIELD_LABEL = "Item Number Internal Id"
+      FIELD_FORMULA = "{itemnumber.internalid}"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_FORMULANUMERIC"
+      FIELD_INDEX = 99
+      FIELD_LABEL = "Inventory Detail Internal Id"
+      FIELD_FORMULA = "{inventorydetail.internalid}"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "Transaction_FORMULANUMERIC"
+      FIELD_INDEX = 100
+      FIELD_LABEL = "Item Number internal id"
+      FIELD_FORMULA = "{itemnumber.internalid}"
+      FIELD_FORMULA_ERROR = false
+    },
+    {
+      FIELD_ALIAS = "IT_CUSTITEM_PCG_TFI_HALAL"
+      FIELD_INDEX = 101
+      FIELD_FORMULA_ERROR = false
+    },
+  ]
+  sort_columns = [
+    {
+      KEY_FIELD = "Transaction_SERIALNUMBER"
+      FILELD_ORDER = 1
+      FLAG_DESCENDING = false
+    },
+    {
+      KEY_FIELD = "Transaction_DATECREATED"
+      FILELD_ORDER = 2
+      FLAG_DESCENDING = false
+    },
+  ]
+  audience = {
+    FLAG_AUDIENCE_ALL_CUSTOMERS = false
+    FLAG_AUDIENCE_ALL_EMPLOYEES = false
+    FLAG_AUDIENCE_ALL_PARTNERS = false
+    FLAG_AUDIENCE_ALL_ROLES = true
+    FLAG_AUDIENCE_ALL_VENDORS = false
+  }
+  KEY_SCRIPT_ID = "customsearch_pcg_trx_rank_all_hala"
+  FIELD_DEFAULT_NAME = "TRX | Lot Audit Rank | Halal [SPECIAL]"
+  FIELD_SEARCH_TYPE = "Transaction"
+  FLAG_PUBLIC = true
+  FLAG_LIST = true
+  FLAG_PORTLET = true
+  FLAG_MACHINE = false
+  FLAG_REMINDER = true
+  FLAG_SHOW_LINK = true
+  FLAG_PREFERRED_LIST = false
+  FLAG_PREFERRED_PORTLET = false
+  FLAG_PREFERRED_MACHINE = false
+  FLAG_PREFERRED_FORM = false
+  FLAG_PREFERRED_RESULTS = false
+  FLAG_VIEW_AS_REPORT = false
+  FLAG_VIEW_AS_GRAPH = false
+  FLAG_VIEW_AS_GRID = false
+  FLAG_UNRESTRICTED = false
+  FLAG_DISABLE_DRILL_DOWN = false
+  FIELD_CURRENCY_RATE_TYPE = "ACCTTYPE"
+  FLAG_HIDE_FILTER_DROPDOWNS = false
+  KEY_DEFAULT_TEXT_FIELD_FILTER = "STARTSWITH"
+  FLAG_AVAILABLE_AS_FEED = false
+  FLAG_GLOBAL_EDIT = false
+  FLAG_CSV = false
+  FLAG_EXCEL = false
+  FLAG_PDF = false
+  FLAG_TRIGGERED_ALERT = false
+  FLAG_SCHEDULED_ALERT = false
+  FLAG_SCHEDULED_ALERT_SUMMARIES = false
+  FLAG_SEND_EMPTY_RESULTS = false
+  FLAG_ALERT_ALLOW_SUBSCRIBE = false
+  FLAG_ALERT_INCLUDE_VIEW_LINK = true
+  FLAG_HAS_TOTALS = true
+  FLAG_INCLUDE_PERIOD_END_TRANSACTIONS = false
+  FLAG_BUILT_IN = false
+  FLAG_SEND_ON_UPDATE = false
+  FLAG_SHOW_AUDIT_TRAIL = false
+  KEY_AUDIENCE = 0
+}

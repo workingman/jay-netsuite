@@ -1,0 +1,38 @@
+netsuite.centercategory custcentercategory_pcg_analyze_lot_trx {
+  scriptid = "custcentercategory_pcg_analyze_lot_trx"
+  center = netsuite.center.instance.custcenter_pcg_tfi_mfg_inv.scriptid
+  centertab = netsuite.centertab.instance.custcentertab_pcg_lot_header_review.scriptid
+  label = "Analyze Lot Transactions"
+  links = {
+    link = {
+      customscript_pcg_setlotinception_mr = {
+        linklabel = "Execute:  Program marks TRX with Lot Inception"
+        linkobject = netsuite.mapreducescript.instance.customscript_pcg_setlotinception_mr.scriptid
+        linktasktype = "LIST"
+        shortlist = false
+        index = 0
+      }
+      customsearch_pcg_tfi_trx_lot_audit_initi = {
+        linklabel = "Verify: Transaction Search"
+        linkobject = netsuite.savedsearch.instance.customsearch_pcg_tfi_trx_lot_audit_initi.scriptid
+        linktasktype = "SRCH_RSLT"
+        shortlist = false
+        index = 1
+      }
+      customsearch_pcg_invnum_loc = {
+        linklabel = "Verify: Lot Search"
+        linkobject = netsuite.savedsearch.instance.customsearch_pcg_invnum_loc.scriptid
+        linktasktype = "SRCH_RSLT"
+        shortlist = false
+        index = 2
+      }
+      customtransaction_wo_line_extension = {
+        linklabel = "WO Extension"
+        linkobject = netsuite.customtransactiontype.instance.customtransaction_wo_line_extension.scriptid
+        linktasktype = "LIST"
+        shortlist = false
+        index = 3
+      }
+    }
+  }
+}

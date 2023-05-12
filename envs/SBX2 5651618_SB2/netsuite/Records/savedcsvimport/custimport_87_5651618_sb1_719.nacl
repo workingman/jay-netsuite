@@ -1,0 +1,74 @@
+netsuite.savedcsvimport custimport_87_5651618_sb1_719 {
+  scriptid = "custimport_87_5651618_sb1_719"
+  charencoding = "windows-1252"
+  columndelimiter = "COMMA"
+  datahandling = "UPDATE"
+  decimaldelimiter = "PERIOD"
+  entryform = netsuite.entryForm.instance.custform_pcg_tfi_assembly.scriptid
+  ignorereadonly = true
+  importname = "Assembly Update with Hierarchy Node Id (Lot)"
+  logsystemnotescustfields = false
+  multiselectdelimiter = "|"
+  overwritemissingfields = false
+  overwritesublists = false
+  recordtype = "LOTNUMBEREDASSEMBLYITEM"
+  runserversuitescript = true
+  usemultithread = false
+  validatemandatorycustfields = true
+  audience = {
+    allemployees = false
+    allpartners = false
+    allroles = false
+    globaledit = false
+    ispublic = true
+  }
+  filemappings = {
+    filemapping = {
+      LOTNUMBEREDASSEMBLYITEM = {
+        file = "LOTNUMBEREDASSEMBLYITEM"
+      }
+    }
+  }
+  recordmappings = {
+    recordmapping = {
+      LOTNUMBEREDASSEMBLYITEM = {
+        record = "LOTNUMBEREDASSEMBLYITEM"
+        fieldmappings = {
+          fieldmapping = {
+            ITEMID = {
+              field = "ITEMID"
+              columnreference = {
+                column = "ITEM NAME/NUMBER"
+                file = "LOTNUMBEREDASSEMBLYITEM"
+                type = "NAME"
+              }
+            }
+          }
+        }
+      }
+      LOTNUMBEREDASSEMBLYITEM_HIERARCHYVERSIONS@f = {
+        record = "LOTNUMBEREDASSEMBLYITEM:HIERARCHYVERSIONS"
+        fieldmappings = {
+          fieldmapping = {
+            HIERARCHYNODE = {
+              field = "HIERARCHYNODE"
+              columnreference = {
+                column = "Hierarchy Node"
+                file = "LOTNUMBEREDASSEMBLYITEM"
+                type = "INTERNAL_ID"
+              }
+            }
+            HIERARCHYVERSION = {
+              field = "HIERARCHYVERSION"
+              value = "7"
+            }
+            ISINCLUDED = {
+              field = "ISINCLUDED"
+              value = "T"
+            }
+          }
+        }
+      }
+    }
+  }
+}

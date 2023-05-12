@@ -1,0 +1,74 @@
+netsuite.savedcsvimport custimport_266_5651618_647 {
+  scriptid = "custimport_266_5651618_647"
+  charencoding = "windows-1252"
+  columndelimiter = "COMMA"
+  datahandling = "UPDATE"
+  decimaldelimiter = "PERIOD"
+  entryform = netsuite.entryForm.instance.custform_pcg_tfi_inventory.scriptid
+  ignorereadonly = true
+  importname = "TFI Inventory Vendor Update"
+  logsystemnotescustfields = false
+  multiselectdelimiter = "|"
+  overwritemissingfields = false
+  overwritesublists = false
+  recordtype = "INVENTORYITEM"
+  runserversuitescript = true
+  usemultithread = false
+  validatemandatorycustfields = true
+  audience = {
+    allemployees = false
+    allpartners = false
+    allroles = false
+    globaledit = false
+    ispublic = false
+  }
+  filemappings = {
+    filemapping = {
+      INVENTORYITEM = {
+        file = "INVENTORYITEM"
+      }
+    }
+  }
+  recordmappings = {
+    recordmapping = {
+      INVENTORYITEM_ITEMVENDOR@f = {
+        record = "INVENTORYITEM:ITEMVENDOR"
+        fieldmappings = {
+          fieldmapping = {
+            PREFERREDVENDOR = {
+              field = "PREFERREDVENDOR"
+              value = "T"
+            }
+            PURCHASEPRICE = {
+              field = "PURCHASEPRICE"
+              value = "0"
+            }
+            VENDOR = {
+              field = "VENDOR"
+              columnreference = {
+                column = "Preferred Vendor ID"
+                file = "INVENTORYITEM"
+                type = "INTERNAL_ID"
+              }
+            }
+          }
+        }
+      }
+      INVENTORYITEM = {
+        record = "INVENTORYITEM"
+        fieldmappings = {
+          fieldmapping = {
+            ID = {
+              field = "ID"
+              columnreference = {
+                column = "Internal ID"
+                file = "INVENTORYITEM"
+                type = "NAME"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

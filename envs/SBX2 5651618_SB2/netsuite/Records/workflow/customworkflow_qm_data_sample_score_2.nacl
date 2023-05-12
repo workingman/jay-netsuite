@@ -1,0 +1,225 @@
+netsuite.workflow customworkflow_qm_data_sample_score_2 {
+  scriptid = "customworkflow_qm_data_sample_score_2"
+  description = '''
+Populates the Test Pass and Test Fail fields with integers in the following scorecards for sampled items:
+•	QM Incoming Inspections Scorecard
+•	QM Inspection Detail Scorecard
+•	QM Inspection Field Scorecard
+•	QM Inspection Samples Scorecard
+'''
+  initcontexts = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBAPPLICATION|WEBSTORE|WORKBOOKBUILDER|WORKFLOW"
+  initoncreate = true
+  initonvieworupdate = true
+  isinactive = false
+  islogenabled = false
+  keephistory = "ALWAYS"
+  name = netsuite.translationcollection.instance.custcollection_qm_translation_5.strings.string.customworkflow_qm_data_sample_scorec_upd.scriptid
+  recordtypes = "[scriptid=customrecord_qm_quality_samples]"
+  releasestatus = "RELEASED"
+  runasadmin = true
+  initcondition = {
+    type = "VISUAL_BUILDER"
+  }
+  workflowstates = {
+    workflowstate = {
+      workflowstate8 = {
+        scriptid = "workflowstate8"
+        description = "Updates the Test Pass and Test Fail Fields in the Quality Data Samples Record"
+        donotexitworkflow = false
+        name = "Update Fields for Data Samples"
+        positionx = 243
+        positiony = 133
+        workflowactions = {
+          BEFORESUBMIT = {
+            triggertype = "BEFORESUBMIT"
+            setfieldvalueaction = {
+              workflowaction17 = {
+                scriptid = "workflowaction17"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBAPPLICATION|WEBSTORE|WORKBOOKBUILDER|WORKFLOW"
+                eventtypes = "CREATE|EDIT"
+                field = "[scriptid=customrecord_qm_quality_samples.custrecord_qm_sample_test_pass]"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "\"Result Status\" IN (\"Quality Result Status1\",\"Quality Result Status2\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Result_Status@s = {
+                        name = "Result Status"
+                        value = "[scriptid=customrecord_qm_quality_samples.custrecord_qm_sample_field_status]"
+                      }
+                      Quality_Result_Status1@s = {
+                        name = "Quality Result Status1"
+                        selectrecordtype = "[scriptid=customlist_qm_result_status]"
+                        value = "[scriptid=customlist_qm_result_status.val_26193_4543716_590]"
+                      }
+                      Quality_Result_Status2@s = {
+                        name = "Quality Result Status2"
+                        selectrecordtype = "[scriptid=customlist_qm_result_status]"
+                        value = "[scriptid=customlist_qm_result_status.val_20920_4543716_173]"
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+              workflowaction18 = {
+                scriptid = "workflowaction18"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBAPPLICATION|WEBSTORE|WORKBOOKBUILDER|WORKFLOW"
+                eventtypes = "CREATE|EDIT"
+                field = "[scriptid=customrecord_qm_quality_samples.custrecord_qm_sample_test_fail]"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "\"Result Status\" IN (\"Quality Result Status1\",\"Quality Result Status2\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Result_Status@s = {
+                        name = "Result Status"
+                        value = "[scriptid=customrecord_qm_quality_samples.custrecord_qm_sample_field_status]"
+                      }
+                      Quality_Result_Status1@s = {
+                        name = "Quality Result Status1"
+                        selectrecordtype = "[scriptid=customlist_qm_result_status]"
+                        value = "[scriptid=customlist_qm_result_status.val_26193_4543716_590]"
+                      }
+                      Quality_Result_Status2@s = {
+                        name = "Quality Result Status2"
+                        selectrecordtype = "[scriptid=customlist_qm_result_status]"
+                        value = "[scriptid=customlist_qm_result_status.val_20920_4543716_173]"
+                      }
+                    }
+                  }
+                }
+                index = 1
+              }
+              workflowaction19 = {
+                scriptid = "workflowaction19"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBAPPLICATION|WEBSTORE|WORKBOOKBUILDER|WORKFLOW"
+                eventtypes = "CREATE|EDIT"
+                field = "[scriptid=customrecord_qm_quality_samples.custrecord_qm_sample_test_pass]"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetext = "1"
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "\"Result Status\" IN (\"Quality Result Status1\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Result_Status@s = {
+                        name = "Result Status"
+                        value = "[scriptid=customrecord_qm_quality_samples.custrecord_qm_sample_field_status]"
+                      }
+                      Quality_Result_Status1@s = {
+                        name = "Quality Result Status1"
+                        selectrecordtype = "[scriptid=customlist_qm_result_status]"
+                        value = "[scriptid=customlist_qm_result_status.val_20921_4543716_705]"
+                      }
+                    }
+                  }
+                }
+                index = 2
+              }
+              workflowaction20 = {
+                scriptid = "workflowaction20"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBAPPLICATION|WEBSTORE|WORKBOOKBUILDER|WORKFLOW"
+                eventtypes = "CREATE|EDIT"
+                field = "[scriptid=customrecord_qm_quality_samples.custrecord_qm_sample_test_fail]"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetext = "0"
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "\"Result Status\" IN (\"Quality Result Status1\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Result_Status@s = {
+                        name = "Result Status"
+                        value = "[scriptid=customrecord_qm_quality_samples.custrecord_qm_sample_field_status]"
+                      }
+                      Quality_Result_Status1@s = {
+                        name = "Quality Result Status1"
+                        selectrecordtype = "[scriptid=customlist_qm_result_status]"
+                        value = "[scriptid=customlist_qm_result_status.val_20921_4543716_705]"
+                      }
+                    }
+                  }
+                }
+                index = 3
+              }
+              workflowaction21 = {
+                scriptid = "workflowaction21"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBAPPLICATION|WEBSTORE|WORKBOOKBUILDER|WORKFLOW"
+                eventtypes = "CREATE|EDIT"
+                field = "[scriptid=customrecord_qm_quality_samples.custrecord_qm_sample_test_pass]"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetext = "0"
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "\"Result Status\" IN (\"Quality Result Status1\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Result_Status@s = {
+                        name = "Result Status"
+                        value = "[scriptid=customrecord_qm_quality_samples.custrecord_qm_sample_field_status]"
+                      }
+                      Quality_Result_Status1@s = {
+                        name = "Quality Result Status1"
+                        selectrecordtype = "[scriptid=customlist_qm_result_status]"
+                        value = "[scriptid=customlist_qm_result_status.val_20922_4543716_410]"
+                      }
+                    }
+                  }
+                }
+                index = 4
+              }
+              workflowaction22 = {
+                scriptid = "workflowaction22"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBAPPLICATION|WEBSTORE|WORKBOOKBUILDER|WORKFLOW"
+                field = "[scriptid=customrecord_qm_quality_samples.custrecord_qm_sample_test_fail]"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetext = "1"
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "\"Result Status\" IN (\"Quality Result Status1\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Result_Status@s = {
+                        name = "Result Status"
+                        value = "[scriptid=customrecord_qm_quality_samples.custrecord_qm_sample_field_status]"
+                      }
+                      Quality_Result_Status1@s = {
+                        name = "Quality Result Status1"
+                        selectrecordtype = "[scriptid=customlist_qm_result_status]"
+                        value = "[scriptid=customlist_qm_result_status.val_20922_4543716_410]"
+                      }
+                    }
+                  }
+                }
+                index = 5
+              }
+            }
+          }
+        }
+        index = 0
+      }
+    }
+  }
+  nameTranslate = true
+}

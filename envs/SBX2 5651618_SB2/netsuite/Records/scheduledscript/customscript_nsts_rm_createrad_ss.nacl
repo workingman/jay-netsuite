@@ -1,0 +1,372 @@
+netsuite.scheduledscript customscript_nsts_rm_createrad_ss {
+  scriptid = "customscript_nsts_rm_createrad_ss"
+  defaultfunction = "createRebateDetail_Scheduled"
+  description = "Asynchronous script used to create the Rebate Agreement Detail records"
+  isinactive = false
+  name = "NSTS | RM - Create Agreement Details SS"
+  notifyadmins = false
+  notifyowner = true
+  scriptfile = "[/SuiteBundles/Bundle 233151/NSTS_RM_SS_CreateAgreementDetails.js]"
+  scriptcustomfields = {
+    scriptcustomfield = {
+      custscript_nsts_rm_item_ids = {
+        scriptid = "custscript_nsts_rm_item_ids"
+        accesslevel = "2"
+        applyformatting = false
+        checkspelling = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "CLOBTEXT"
+        isformula = false
+        ismandatory = false
+        label = "Item IDs (JSON Format)"
+        searchlevel = "2"
+        storevalue = true
+        index = 0
+      }
+      custscript_nsts_rm_customer_ids = {
+        scriptid = "custscript_nsts_rm_customer_ids"
+        accesslevel = "2"
+        applyformatting = false
+        checkspelling = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "CLOBTEXT"
+        isformula = false
+        ismandatory = false
+        label = "Customer IDs (JSON Format)"
+        searchlevel = "2"
+        storevalue = true
+        index = 1
+      }
+      custscript_nsts_rm_vendor_ids = {
+        scriptid = "custscript_nsts_rm_vendor_ids"
+        accesslevel = "2"
+        applyformatting = false
+        checkspelling = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "CLOBTEXT"
+        isformula = false
+        ismandatory = false
+        label = "Vendor IDs (JSON Format)"
+        searchlevel = "2"
+        storevalue = true
+        index = 2
+      }
+      custscript_nsts_rm_calc_method = {
+        scriptid = "custscript_nsts_rm_calc_method"
+        accesslevel = "2"
+        applyformatting = false
+        checkspelling = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "SELECT"
+        isformula = false
+        ismandatory = false
+        label = "Calculation Method"
+        onparentdelete = "NO_ACTION"
+        searchlevel = "2"
+        selectrecordtype = netsuite.customlist.instance.customlist_nsts_rm_calc_method.scriptid
+        storevalue = true
+        index = 3
+      }
+      custscript_nsts_rm_cost_basis = {
+        scriptid = "custscript_nsts_rm_cost_basis"
+        accesslevel = "2"
+        applyformatting = false
+        checkspelling = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "TEXT"
+        isformula = false
+        ismandatory = false
+        label = "Cost Basis"
+        searchlevel = "2"
+        storevalue = true
+        index = 4
+      }
+      custscript_nsts_rm_percent = {
+        scriptid = "custscript_nsts_rm_percent"
+        accesslevel = "2"
+        applyformatting = true
+        checkspelling = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "PERCENT"
+        isformula = false
+        ismandatory = false
+        label = "Percent"
+        searchlevel = "2"
+        storevalue = true
+        index = 5
+      }
+      custscript_nsts_rm_amount = {
+        scriptid = "custscript_nsts_rm_amount"
+        accesslevel = "2"
+        applyformatting = true
+        checkspelling = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "FLOAT"
+        isformula = false
+        ismandatory = false
+        label = "Amount"
+        searchlevel = "2"
+        storevalue = true
+        index = 6
+      }
+      custscript_nsts_rm_uom = {
+        scriptid = "custscript_nsts_rm_uom"
+        accesslevel = "2"
+        applyformatting = false
+        checkspelling = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "TEXT"
+        isformula = false
+        ismandatory = false
+        label = "UOM"
+        searchlevel = "2"
+        storevalue = true
+        index = 7
+      }
+      custscript_nsts_rm_rebate_type = {
+        scriptid = "custscript_nsts_rm_rebate_type"
+        accesslevel = "2"
+        applyformatting = false
+        checkspelling = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "SELECT"
+        isformula = false
+        ismandatory = false
+        label = "Rebate Type"
+        onparentdelete = "NO_ACTION"
+        searchlevel = "2"
+        selectrecordtype = netsuite.customlist.instance.customlist_nsts_rm_rebate_type_list.scriptid
+        storevalue = true
+        index = 8
+      }
+      custscript_nsts_rm_include_all = {
+        scriptid = "custscript_nsts_rm_include_all"
+        accesslevel = "2"
+        applyformatting = false
+        checkspelling = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "CHECKBOX"
+        isformula = false
+        ismandatory = false
+        label = "Include all Entities"
+        searchlevel = "2"
+        storevalue = true
+        index = 9
+      }
+      custscript_nsts_rm_rebate_agreement = {
+        scriptid = "custscript_nsts_rm_rebate_agreement"
+        accesslevel = "2"
+        applyformatting = false
+        checkspelling = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "TEXT"
+        isformula = false
+        ismandatory = false
+        label = "Agreement"
+        searchlevel = "2"
+        storevalue = true
+        index = 10
+      }
+      custscript_nsts_rm_rebate_cost = {
+        scriptid = "custscript_nsts_rm_rebate_cost"
+        accesslevel = "2"
+        applyformatting = true
+        checkspelling = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "CURRENCY"
+        isformula = false
+        ismandatory = false
+        label = "Rebate Cost"
+        searchlevel = "2"
+        storevalue = true
+        index = 11
+      }
+      custscript_nsts_rm_is_entity_group = {
+        scriptid = "custscript_nsts_rm_is_entity_group"
+        accesslevel = "2"
+        applyformatting = false
+        checkspelling = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "CLOBTEXT"
+        isformula = false
+        ismandatory = false
+        label = "Is Entity Group (JSON Format)"
+        searchlevel = "2"
+        storevalue = true
+        index = 12
+      }
+      custscript_nsts_rm_item_class = {
+        scriptid = "custscript_nsts_rm_item_class"
+        accesslevel = "2"
+        applyformatting = false
+        checkspelling = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "CLOBTEXT"
+        isformula = false
+        ismandatory = false
+        label = "Item Classification (JSON Format)"
+        searchlevel = "2"
+        storevalue = true
+        index = 13
+      }
+      custscript_nsts_rm_customer_class = {
+        scriptid = "custscript_nsts_rm_customer_class"
+        accesslevel = "2"
+        applyformatting = false
+        checkspelling = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "CLOBTEXT"
+        isformula = false
+        ismandatory = false
+        label = "Customer Classification (JSON Format)"
+        searchlevel = "2"
+        storevalue = true
+        index = 14
+      }
+      custscript_nsts_rm_vendor_class = {
+        scriptid = "custscript_nsts_rm_vendor_class"
+        accesslevel = "2"
+        applyformatting = false
+        checkspelling = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "CLOBTEXT"
+        isformula = false
+        ismandatory = false
+        label = "LONGVendor Classification (JSON Format)"
+        searchlevel = "2"
+        storevalue = true
+        index = 15
+      }
+      custscript_nsts_rm_pass_through_perc = {
+        scriptid = "custscript_nsts_rm_pass_through_perc"
+        accesslevel = "2"
+        applyformatting = true
+        checkspelling = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "PERCENT"
+        isformula = false
+        ismandatory = false
+        label = "Price Pass Through %"
+        searchlevel = "2"
+        storevalue = true
+        index = 16
+      }
+      custscript_nsts_rm_pass_through_val = {
+        scriptid = "custscript_nsts_rm_pass_through_val"
+        accesslevel = "2"
+        applyformatting = true
+        checkspelling = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "CURRENCY"
+        isformula = false
+        ismandatory = false
+        label = "Price Pass Through Value"
+        searchlevel = "2"
+        storevalue = true
+        index = 17
+      }
+    }
+  }
+  scriptdeployments = {
+    scriptdeployment = {
+      customdeploy_nsts_rm_createrad_ss1 = {
+        scriptid = "customdeploy_nsts_rm_createrad_ss1"
+        custscript_nsts_rm_include_all = false
+        isdeployed = true
+        loglevel = "DEBUG"
+        status = "NOTSCHEDULED"
+        title = "NSTS | RM - Create Agreement Details SS 1"
+        recurrence = {
+          single = {
+            startdate = "2015-05-04"
+            starttime = "22:00:00Z"
+          }
+        }
+      }
+      customdeploy_nsts_rm_createrad_ss2 = {
+        scriptid = "customdeploy_nsts_rm_createrad_ss2"
+        custscript_nsts_rm_include_all = false
+        isdeployed = true
+        loglevel = "DEBUG"
+        status = "NOTSCHEDULED"
+        title = "NSTS | RM - Create Agreement Details SS 2"
+        recurrence = {
+          single = {
+            startdate = "2015-08-11"
+            starttime = "22:00:00Z"
+          }
+        }
+      }
+      customdeploy_nsts_rm_createrad_ss5 = {
+        scriptid = "customdeploy_nsts_rm_createrad_ss5"
+        custscript_nsts_rm_include_all = false
+        isdeployed = true
+        loglevel = "DEBUG"
+        status = "NOTSCHEDULED"
+        title = "NSTS | RM - Create Agreement Details SS 5"
+        recurrence = {
+          single = {
+            startdate = "2015-08-11"
+            starttime = "22:00:00Z"
+          }
+        }
+      }
+      customdeploy_nsts_rm_createrad_ss3 = {
+        scriptid = "customdeploy_nsts_rm_createrad_ss3"
+        custscript_nsts_rm_include_all = false
+        isdeployed = true
+        loglevel = "DEBUG"
+        status = "NOTSCHEDULED"
+        title = "NSTS | RM - Create Agreement Details SS 3"
+        recurrence = {
+          single = {
+            startdate = "2015-08-11"
+            starttime = "22:00:00Z"
+          }
+        }
+      }
+      customdeploy_nsts_rm_createrad_ss4 = {
+        scriptid = "customdeploy_nsts_rm_createrad_ss4"
+        custscript_nsts_rm_include_all = false
+        isdeployed = true
+        loglevel = "DEBUG"
+        status = "NOTSCHEDULED"
+        title = "NSTS | RM - Create Agreement Details SS 4"
+        recurrence = {
+          single = {
+            startdate = "2015-08-11"
+            starttime = "22:00:00Z"
+          }
+        }
+      }
+    }
+  }
+  libraries = {
+    library = [
+      {
+        scriptfile = "[/SuiteBundles/Bundle 233151/Rebate Management v2/Utils/NSTS_RM_Lib_Constants.js]"
+      },
+      {
+        scriptfile = "[/SuiteBundles/Bundle 233151/Rebate Management v2/Utils/NSTS_RM_Lib_UtilObjectsAndFunctions.js]"
+      },
+    ]
+  }
+}

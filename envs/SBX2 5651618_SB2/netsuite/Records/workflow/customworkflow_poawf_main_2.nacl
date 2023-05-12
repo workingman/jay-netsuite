@@ -1,0 +1,189 @@
+netsuite.workflow customworkflow_poawf_main_2 {
+  scriptid = "customworkflow_poawf_main_2"
+  description = "Check user role."
+  initoncreate = true
+  initonvieworupdate = false
+  isinactive = true
+  islogenabled = false
+  keephistory = "ALWAYS"
+  name = "TFX PO Approval - Main"
+  recordtypes = "PURCHASEORDER"
+  releasestatus = "NOTINITIATING"
+  runasadmin = false
+  initcondition = {
+    type = "VISUAL_BUILDER"
+  }
+  workflowcustomfields = {
+    workflowcustomfield = {
+      custworkflow_poawf_userrole_2 = {
+        scriptid = "custworkflow_poawf_userrole_2"
+        applyformatting = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "SELECT"
+        label = "User Role Field"
+        selectrecordtype = "-118"
+        storevalue = true
+        index = 0
+      }
+    }
+  }
+  workflowstates = {
+    workflowstate = {
+      workflowstate8 = {
+        scriptid = "workflowstate8"
+        description = "Check User Role"
+        donotexitworkflow = false
+        name = "Check User Role"
+        positionx = 203
+        positiony = 53
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            setfieldvalueaction = {
+              workflowaction36 = {
+                scriptid = "workflowaction36"
+                field = netsuite.workflow.instance.customworkflow_poawf_main_2.workflowcustomfields.workflowcustomfield.custworkflow_poawf_userrole_2.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuefield = "STDUSERROLE"
+                valuetype = "FIELD"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition37 = {
+              scriptid = "workflowtransition37"
+              tostate = netsuite.workflow.instance.customworkflow_poawf_main_2.workflowstates.workflowstate.workflowstate9.scriptid
+              initcondition = {
+                formula = "\"Workflow:User Role Field\" IN (\"Role1\")"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Workflow_User_Role_Field@fss = {
+                      name = "Workflow:User Role Field"
+                      value = netsuite.workflow.instance.customworkflow_poawf_main_2.workflowcustomfields.workflowcustomfield.custworkflow_poawf_userrole_2.scriptid
+                    }
+                    Role1 = {
+                      name = "Role1"
+                      selectrecordtype = "-118"
+                      value = "EMPLOYEE_CENTER"
+                    }
+                  }
+                }
+              }
+              index = 0
+            }
+            workflowtransition39 = {
+              scriptid = "workflowtransition39"
+              tostate = netsuite.workflow.instance.customworkflow_poawf_main_2.workflowstates.workflowstate.workflowstate10.scriptid
+              initcondition = {
+                formula = "\"Workflow:User Role Field\" NOT IN (\"Role1\")"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Workflow_User_Role_Field@fss = {
+                      name = "Workflow:User Role Field"
+                      value = netsuite.workflow.instance.customworkflow_poawf_main_2.workflowcustomfields.workflowcustomfield.custworkflow_poawf_userrole_2.scriptid
+                    }
+                    Role1 = {
+                      name = "Role1"
+                      selectrecordtype = "-118"
+                      value = "EMPLOYEE_CENTER"
+                    }
+                  }
+                }
+              }
+              index = 1
+            }
+          }
+        }
+        index = 0
+      }
+      workflowstate9 = {
+        scriptid = "workflowstate9"
+        donotexitworkflow = false
+        name = "Initiate PO Approval - Employee Center"
+        positionx = 203
+        positiony = 143
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            initiateworkflowaction = {
+              workflowaction38 = {
+                scriptid = "workflowaction38"
+                initiatedworkflow = "[scriptid=customworkflow_poawf]"
+                isinactive = false
+                schedulemode = "DELAY"
+                initcondition = {
+                  formula = "\"Workflow:User Role Field\" IN (\"Role1\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Workflow_User_Role_Field@fss = {
+                        name = "Workflow:User Role Field"
+                        value = netsuite.workflow.instance.customworkflow_poawf_main_2.workflowcustomfields.workflowcustomfield.custworkflow_poawf_userrole_2.scriptid
+                      }
+                      Role1 = {
+                        name = "Role1"
+                        selectrecordtype = "-118"
+                        value = "EMPLOYEE_CENTER"
+                      }
+                    }
+                  }
+                }
+                workflowfieldsettings = {
+                  workflowfieldsetting = {
+                    customworkflow_poawf_custworkflow_poawf_approval_state@uvuuu = {
+                      targetworkflowfield = "[scriptid=customworkflow_poawf.custworkflow_poawf_approval_state]"
+                    }
+                    customworkflow_poawf_custworkflow_poawf_approver_wf_fld@uvuuuu = {
+                      targetworkflowfield = "[scriptid=customworkflow_poawf.custworkflow_poawf_approver_wf_fld]"
+                    }
+                  }
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        index = 1
+      }
+      workflowstate10 = {
+        scriptid = "workflowstate10"
+        donotexitworkflow = true
+        name = "Exit - Non Employee Center"
+        positionx = 203
+        positiony = 233
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            setfieldvalueaction = {
+              workflowaction40 = {
+                scriptid = "workflowaction40"
+                field = "STDBODYAPPROVALSTATUS"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = "2"
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        index = 2
+      }
+    }
+  }
+}

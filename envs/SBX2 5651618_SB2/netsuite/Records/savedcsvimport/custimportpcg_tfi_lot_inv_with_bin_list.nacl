@@ -1,0 +1,92 @@
+netsuite.savedcsvimport custimportpcg_tfi_lot_inv_with_bin_list {
+  scriptid = "custimportpcg_tfi_lot_inv_with_bin_list"
+  charencoding = "windows-1252"
+  columndelimiter = "COMMA"
+  datahandling = "UPDATE"
+  decimaldelimiter = "PERIOD"
+  description = "Lot Inventory Item - Add Associated Bins"
+  entryform = netsuite.entryForm.instance.custform_pcg_inventory_item.scriptid
+  ignorereadonly = true
+  importname = "Lot Inventory Item - Add Associated Bins"
+  logsystemnotescustfields = false
+  multiselectdelimiter = "|"
+  overwritemissingfields = false
+  overwritesublists = false
+  recordtype = "LOTNUMBEREDINVENTORYITEM"
+  runserversuitescript = true
+  usemultithread = false
+  validatemandatorycustfields = true
+  audience = {
+    allemployees = false
+    allpartners = false
+    allroles = false
+    globaledit = false
+    ispublic = true
+  }
+  filemappings = {
+    filemapping = {
+      LOTNUMBEREDINVENTORYITEM_BINNUMBER@f = {
+        file = "LOTNUMBEREDINVENTORYITEM:BINNUMBER"
+        foreignkey = "External ID"
+      }
+      LOTNUMBEREDINVENTORYITEM = {
+        file = "LOTNUMBEREDINVENTORYITEM"
+        primarykey = "External ID"
+      }
+    }
+  }
+  recordmappings = {
+    recordmapping = {
+      LOTNUMBEREDINVENTORYITEM_BINNUMBER@f = {
+        record = "LOTNUMBEREDINVENTORYITEM:BINNUMBER"
+        fieldmappings = {
+          fieldmapping = {
+            BINNUMBER = {
+              field = "BINNUMBER"
+              columnreference = {
+                column = "Bin"
+                file = "LOTNUMBEREDINVENTORYITEM:BINNUMBER"
+                type = "NAME"
+              }
+            }
+            LOCATION = {
+              field = "LOCATION"
+              value = "1"
+            }
+            PREFERREDBIN = {
+              field = "PREFERREDBIN"
+              columnreference = {
+                column = "Preferred"
+                file = "LOTNUMBEREDINVENTORYITEM:BINNUMBER"
+                type = "NAME"
+              }
+            }
+          }
+        }
+      }
+      LOTNUMBEREDINVENTORYITEM = {
+        record = "LOTNUMBEREDINVENTORYITEM"
+        fieldmappings = {
+          fieldmapping = {
+            EXTERNALID = {
+              field = "EXTERNALID"
+              columnreference = {
+                column = "External ID"
+                file = "LOTNUMBEREDINVENTORYITEM"
+                type = "NAME"
+              }
+            }
+            ID = {
+              field = "ID"
+              columnreference = {
+                column = "Internal ID"
+                file = "LOTNUMBEREDINVENTORYITEM"
+                type = "NAME"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

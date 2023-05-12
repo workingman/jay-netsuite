@@ -1,0 +1,399 @@
+netsuite.workflow customworkflow_qm_receipt_quarantin_2 {
+  scriptid = "customworkflow_qm_receipt_quarantin_2"
+  description = "Move receipt materials to a designated bin. You can also set inventory status in accordance with pre-post inspection quarantine rules."
+  initoncreate = false
+  initonvieworupdate = true
+  isinactive = false
+  islogenabled = false
+  keephistory = "ALWAYS"
+  name = netsuite.translationcollection.instance.custcollection_qm_translation_8.strings.string.customworkflow_qm_receipt_quarantine.scriptid
+  recordtypes = "[scriptid=customrecord_qm_queue]"
+  releasestatus = "RELEASED"
+  runasadmin = true
+  initcondition = {
+    formula = '''
+{custrecord_qm_queue_status.id}=1
+          and
+          {custrecord_qm_queue_processed.id}='T'
+          and
+          {custrecord_qm_queue_trigger.id}=1
+'''
+    type = "FORMULA"
+  }
+  workflowcustomfields = {
+    workflowcustomfield = {
+      custworkflow_qm_rq_is_quarantined_2 = {
+        scriptid = "custworkflow_qm_rq_is_quarantined_2"
+        applyformatting = false
+        defaultchecked = false
+        description = "Records whether or not the custom action to quarantine inventory has been invoked (so we avoid attempting to quarantine twice)."
+        displaytype = "NORMAL"
+        fieldtype = "CHECKBOX"
+        help = "Records whether or not the custom action to quarantine inventory has been invoked (so we avoid attempting to quarantine twice)."
+        label = "Is Quarantined"
+        storevalue = true
+        index = 0
+      }
+      custworkflow_qm_rq_nm_2 = {
+        scriptid = "custworkflow_qm_rq_nm_2"
+        applyformatting = false
+        defaultchecked = true
+        description = "Determines if emails should be sent to managers to notify of items being quarantined (final state only)."
+        displaytype = "NORMAL"
+        fieldtype = "CHECKBOX"
+        help = "Determines if emails should be sent to managers to notify of items being quarantined (final state only)."
+        label = "Notify Managers"
+        storevalue = true
+        index = 1
+      }
+    }
+  }
+  workflowstates = {
+    workflowstate = {
+      workflowstate_qm_rq_1 = {
+        scriptid = "workflowstate_qm_rq_1"
+        description = "Initial state for any queue record that is associated with an item receipt."
+        donotexitworkflow = false
+        name = "Received"
+        positionx = 253
+        positiony = 103
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition_qm_rq_1_3 = {
+              scriptid = "workflowtransition_qm_rq_1_3"
+              tostate = netsuite.workflow.instance.customworkflow_qm_receipt_quarantin_2.workflowstates.workflowstate.workflowstate_qm_rq_3.scriptid
+              triggertype = "AFTERSUBMIT"
+              initcondition = {
+                formula = "{custrecord_qm_queue_status}='Pending' and {custrecord_qm_queue_action}='Quarantine'"
+                type = "FORMULA"
+              }
+              index = 0
+            }
+            workflowtransition_qm_rq_1_2 = {
+              scriptid = "workflowtransition_qm_rq_1_2"
+              tostate = netsuite.workflow.instance.customworkflow_qm_receipt_quarantin_2.workflowstates.workflowstate.workflowstate_qm_rq_2.scriptid
+              triggertype = "AFTERSUBMIT"
+              initcondition = {
+                formula = "{custrecord_qm_queue_status}='Pass'"
+                type = "FORMULA"
+              }
+              index = 1
+            }
+            workflowtransition_qm_rq_1_4 = {
+              scriptid = "workflowtransition_qm_rq_1_4"
+              tostate = netsuite.workflow.instance.customworkflow_qm_receipt_quarantin_2.workflowstates.workflowstate.workflowstate_qm_rq_4.scriptid
+              triggertype = "AFTERSUBMIT"
+              initcondition = {
+                formula = "{custrecord_qm_queue_status}='Fail' and {custrecord_qm_queue_action}='Quarantine'"
+                type = "FORMULA"
+              }
+              index = 2
+            }
+            workflowtransition_qm_wf_rq_1_5 = {
+              scriptid = "workflowtransition_qm_wf_rq_1_5"
+              tostate = netsuite.workflow.instance.customworkflow_qm_receipt_quarantin_2.workflowstates.workflowstate.workflowstate_qm_wf_rq_5.scriptid
+              triggertype = "AFTERSUBMIT"
+              initcondition = {
+                formula = "{custrecord_qm_queue_status}='Fail' and ({custrecord_qm_queue_action}!='Quarantine' or ({custrecord_qm_queue_action.id} is null))"
+                type = "FORMULA"
+              }
+              index = 3
+            }
+          }
+        }
+        index = 0
+      }
+      workflowstate_qm_rq_2 = {
+        scriptid = "workflowstate_qm_rq_2"
+        description = "Queue records with completed inspections that have \"passed\" and are available for sale/consumption."
+        donotexitworkflow = false
+        name = "Released"
+        positionx = 53
+        positiony = 213
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            customaction = {
+              workflowaction_qm_rq_2_qrq = {
+                scriptid = "workflowaction_qm_rq_2_qrq"
+                isinactive = false
+                schedulemode = "DELAY"
+                scripttype = "[scriptid=customscript_qm_wf_receipt_quarantine]"
+                initcondition = {
+                  formula = "{custworkflow_qm_rq_is_quarantined.id}='T'"
+                  type = "FORMULA"
+                }
+                parametersettings = {
+                  parametersetting = {
+                    customscript_qm_wf_receipt_quarantine_custscript_qm_wf_rq_do_quarantine@uuuuvuuuuu = {
+                      targetparameter = "[scriptid=customscript_qm_wf_receipt_quarantine.custscript_qm_wf_rq_do_quarantine]"
+                      valuechecked = false
+                    }
+                    customscript_qm_wf_receipt_quarantine_custscript_qm_wf_rq_do_set_status@uuuuvuuuuuu = {
+                      targetparameter = "[scriptid=customscript_qm_wf_receipt_quarantine.custscript_qm_wf_rq_do_set_status]"
+                      valuechecked = true
+                    }
+                    customscript_qm_wf_receipt_quarantine_custscript_qm_wf_rq_quarantine_status@uuuuvuuuuu = {
+                      targetparameter = "[scriptid=customscript_qm_wf_receipt_quarantine.custscript_qm_wf_rq_quarantine_status]"
+                      valuetext = "2"
+                    }
+                    customscript_qm_wf_receipt_quarantine_custscript_qm_wf_rq_via_bin_xfer@uuuuvuuuuuu = {
+                      targetparameter = "[scriptid=customscript_qm_wf_receipt_quarantine.custscript_qm_wf_rq_via_bin_xfer]"
+                      valuechecked = true
+                    }
+                    customscript_qm_wf_receipt_quarantine_custscript_qm_wf_rq_quarantine_bin@uuuuvuuuuu = {
+                      targetparameter = "[scriptid=customscript_qm_wf_receipt_quarantine.custscript_qm_wf_rq_quarantine_bin]"
+                    }
+                    customscript_qm_wf_receipt_quarantine_custscript_qm_wf_rq_good_inv@uuuuvuuuuu = {
+                      targetparameter = "[scriptid=customscript_qm_wf_receipt_quarantine.custscript_qm_wf_rq_good_inv]"
+                    }
+                    customscript_qm_wf_receipt_quarantine_custscript_qm_wf_rq_good_status@uuuuvuuuuu = {
+                      targetparameter = "[scriptid=customscript_qm_wf_receipt_quarantine.custscript_qm_wf_rq_good_status]"
+                    }
+                  }
+                }
+                index = 0
+              }
+            }
+            setfieldvalueaction = {
+              workflowaction_qm_rq_2_sfv = {
+                scriptid = "workflowaction_qm_rq_2_sfv"
+                field = netsuite.workflow.instance.customworkflow_qm_receipt_quarantin_2.workflowcustomfields.workflowcustomfield.custworkflow_qm_rq_is_quarantined_2.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "UPPER({custwfstate_qm_rq_2_as})=UPPER('T')"
+                  type = "FORMULA"
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        workflowstatecustomfields = {
+          workflowstatecustomfield = {
+            custwfstate_qm_rq_2_as_2 = {
+              scriptid = "custwfstate_qm_rq_2_as_2"
+              applyformatting = false
+              defaultchecked = true
+              displaytype = "NORMAL"
+              fieldtype = "CHECKBOX"
+              label = "Action Successful (19)"
+              storevalue = true
+              index = 0
+            }
+          }
+        }
+        index = 1
+      }
+      workflowstate_qm_rq_3 = {
+        scriptid = "workflowstate_qm_rq_3"
+        description = "Queue records awaiting inspections that have been designated to be quarantined until \"passed\"."
+        donotexitworkflow = false
+        name = "Quarantined Pending Inspection"
+        positionx = 253
+        positiony = 213
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            customaction = {
+              workflowaction_qm_rq_3_qrq = {
+                scriptid = "workflowaction_qm_rq_3_qrq"
+                isinactive = false
+                schedulemode = "DELAY"
+                scripttype = "[scriptid=customscript_qm_wf_receipt_quarantine]"
+                initcondition = {
+                  formula = "{custworkflow_qm_rq_is_quarantined.id}='F'"
+                  type = "FORMULA"
+                }
+                parametersettings = {
+                  parametersetting = {
+                    customscript_qm_wf_receipt_quarantine_custscript_qm_wf_rq_do_quarantine@uuuuvuuuuu = {
+                      targetparameter = "[scriptid=customscript_qm_wf_receipt_quarantine.custscript_qm_wf_rq_do_quarantine]"
+                      valuechecked = true
+                    }
+                    customscript_qm_wf_receipt_quarantine_custscript_qm_wf_rq_do_set_status@uuuuvuuuuuu = {
+                      targetparameter = "[scriptid=customscript_qm_wf_receipt_quarantine.custscript_qm_wf_rq_do_set_status]"
+                      valuechecked = true
+                    }
+                    customscript_qm_wf_receipt_quarantine_custscript_qm_wf_rq_quarantine_status@uuuuvuuuuu = {
+                      targetparameter = "[scriptid=customscript_qm_wf_receipt_quarantine.custscript_qm_wf_rq_quarantine_status]"
+                      valuetext = "2"
+                    }
+                    customscript_qm_wf_receipt_quarantine_custscript_qm_wf_rq_via_bin_xfer@uuuuvuuuuuu = {
+                      targetparameter = "[scriptid=customscript_qm_wf_receipt_quarantine.custscript_qm_wf_rq_via_bin_xfer]"
+                      valuechecked = true
+                    }
+                    customscript_qm_wf_receipt_quarantine_custscript_qm_wf_rq_quarantine_bin@uuuuvuuuuu = {
+                      targetparameter = "[scriptid=customscript_qm_wf_receipt_quarantine.custscript_qm_wf_rq_quarantine_bin]"
+                    }
+                    customscript_qm_wf_receipt_quarantine_custscript_qm_wf_rq_good_inv@uuuuvuuuuu = {
+                      targetparameter = "[scriptid=customscript_qm_wf_receipt_quarantine.custscript_qm_wf_rq_good_inv]"
+                    }
+                    customscript_qm_wf_receipt_quarantine_custscript_qm_wf_rq_good_status@uuuuvuuuuu = {
+                      targetparameter = "[scriptid=customscript_qm_wf_receipt_quarantine.custscript_qm_wf_rq_good_status]"
+                    }
+                  }
+                }
+                index = 0
+              }
+            }
+            setfieldvalueaction = {
+              workflowaction_qm_rq_iq_update1 = {
+                scriptid = "workflowaction_qm_rq_iq_update1"
+                field = netsuite.workflow.instance.customworkflow_qm_receipt_quarantin_2.workflowcustomfields.workflowcustomfield.custworkflow_qm_rq_is_quarantined_2.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = true
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "{custwfstate_qm_rq_3_as.id}='T'"
+                  type = "FORMULA"
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        workflowstatecustomfields = {
+          workflowstatecustomfield = {
+            custwfstate_qm_rq_3_as_2 = {
+              scriptid = "custwfstate_qm_rq_3_as_2"
+              applyformatting = false
+              defaultchecked = true
+              description = "Return value from Quality Receipt Quarantine."
+              displaytype = "NORMAL"
+              fieldtype = "CHECKBOX"
+              label = "Action Successful (18)"
+              storevalue = true
+              index = 0
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition_qm_tran_qpi2r = {
+              scriptid = "workflowtransition_qm_tran_qpi2r"
+              tostate = netsuite.workflow.instance.customworkflow_qm_receipt_quarantin_2.workflowstates.workflowstate.workflowstate_qm_rq_2.scriptid
+              triggertype = "AFTERSUBMIT"
+              initcondition = {
+                formula = "{custrecord_qm_queue_status}='Pass'"
+                type = "FORMULA"
+              }
+              index = 0
+            }
+            workflowtransition_qm_tran_qpi2q = {
+              scriptid = "workflowtransition_qm_tran_qpi2q"
+              tostate = netsuite.workflow.instance.customworkflow_qm_receipt_quarantin_2.workflowstates.workflowstate.workflowstate_qm_rq_4.scriptid
+              triggertype = "AFTERSUBMIT"
+              initcondition = {
+                formula = "{custrecord_qm_queue_status}='Fail'"
+                type = "FORMULA"
+              }
+              index = 1
+            }
+          }
+        }
+        index = 2
+      }
+      workflowstate_qm_rq_4 = {
+        scriptid = "workflowstate_qm_rq_4"
+        description = "Queue records with completed inspections that have \"failed\" and are unavailable for sale/consumption."
+        donotexitworkflow = false
+        name = "Quarantined"
+        positionx = 443
+        positiony = 213
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            customaction = {
+              workflowaction_qm_rq_quarantine3 = {
+                scriptid = "workflowaction_qm_rq_quarantine3"
+                isinactive = false
+                schedulemode = "DELAY"
+                scripttype = "[scriptid=customscript_qm_wf_receipt_quarantine]"
+                initcondition = {
+                  formula = "{custworkflow_qm_rq_is_quarantined.id}='F'"
+                  type = "FORMULA"
+                }
+                parametersettings = {
+                  parametersetting = {
+                    customscript_qm_wf_receipt_quarantine_custscript_qm_wf_rq_do_quarantine@uuuuvuuuuu = {
+                      targetparameter = "[scriptid=customscript_qm_wf_receipt_quarantine.custscript_qm_wf_rq_do_quarantine]"
+                      valuechecked = true
+                    }
+                    customscript_qm_wf_receipt_quarantine_custscript_qm_wf_rq_do_set_status@uuuuvuuuuuu = {
+                      targetparameter = "[scriptid=customscript_qm_wf_receipt_quarantine.custscript_qm_wf_rq_do_set_status]"
+                      valuechecked = true
+                    }
+                    customscript_qm_wf_receipt_quarantine_custscript_qm_wf_rq_quarantine_status@uuuuvuuuuu = {
+                      targetparameter = "[scriptid=customscript_qm_wf_receipt_quarantine.custscript_qm_wf_rq_quarantine_status]"
+                      valuetext = "3"
+                    }
+                    customscript_qm_wf_receipt_quarantine_custscript_qm_wf_rq_via_bin_xfer@uuuuvuuuuuu = {
+                      targetparameter = "[scriptid=customscript_qm_wf_receipt_quarantine.custscript_qm_wf_rq_via_bin_xfer]"
+                      valuechecked = true
+                    }
+                    customscript_qm_wf_receipt_quarantine_custscript_qm_wf_rq_quarantine_bin@uuuuvuuuuu = {
+                      targetparameter = "[scriptid=customscript_qm_wf_receipt_quarantine.custscript_qm_wf_rq_quarantine_bin]"
+                    }
+                    customscript_qm_wf_receipt_quarantine_custscript_qm_wf_rq_good_inv@uuuuvuuuuu = {
+                      targetparameter = "[scriptid=customscript_qm_wf_receipt_quarantine.custscript_qm_wf_rq_good_inv]"
+                    }
+                    customscript_qm_wf_receipt_quarantine_custscript_qm_wf_rq_good_status@uuuuvuuuuu = {
+                      targetparameter = "[scriptid=customscript_qm_wf_receipt_quarantine.custscript_qm_wf_rq_good_status]"
+                    }
+                  }
+                }
+                index = 0
+              }
+            }
+            setfieldvalueaction = {
+              workflowaction_qm_rq_4_sfv = {
+                scriptid = "workflowaction_qm_rq_4_sfv"
+                field = netsuite.workflow.instance.customworkflow_qm_receipt_quarantin_2.workflowcustomfields.workflowcustomfield.custworkflow_qm_rq_is_quarantined_2.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = true
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "{custwfstate_qm_rq_4_as.id}='T'"
+                  type = "FORMULA"
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        workflowstatecustomfields = {
+          workflowstatecustomfield = {
+            custwfstate_qm_rq_4_as_2 = {
+              scriptid = "custwfstate_qm_rq_4_as_2"
+              applyformatting = false
+              defaultchecked = true
+              description = "Return value from the call to custom action to perform a quarantine/release."
+              displaytype = "NORMAL"
+              fieldtype = "CHECKBOX"
+              label = "Action Successful"
+              storevalue = true
+              index = 0
+            }
+          }
+        }
+        index = 3
+      }
+      workflowstate_qm_wf_rq_5 = {
+        scriptid = "workflowstate_qm_wf_rq_5"
+        description = "End state reached when inspection fails but does not trigger any actions to be handled by this workflow."
+        donotexitworkflow = false
+        name = "Done"
+        positionx = 633
+        positiony = 103
+        index = 4
+      }
+    }
+  }
+  nameTranslate = true
+}

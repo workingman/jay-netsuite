@@ -1,0 +1,60 @@
+netsuite.savedcsvimport custimport_tfi_cust_bu_pc_upd {
+  scriptid = "custimport_tfi_cust_bu_pc_upd"
+  charencoding = "windows-1252"
+  columndelimiter = "COMMA"
+  datahandling = "UPDATE"
+  decimaldelimiter = "PERIOD"
+  entryform = netsuite.entryForm.instance.custform_pcg_tfi_customer.scriptid
+  ignorereadonly = true
+  importname = "Update Customer BU & PC"
+  logsystemnotescustfields = false
+  multiselectdelimiter = "|"
+  overwritemissingfields = false
+  overwritesublists = false
+  preventduplicates = false
+  recordtype = "CUSTOMER"
+  runserversuitescript = true
+  usemultithread = false
+  validatemandatorycustfields = true
+  audience = {
+    allemployees = false
+    allpartners = false
+    allroles = false
+    globaledit = false
+    ispublic = false
+  }
+  filemappings = {
+    filemapping = {
+      CUSTOMER = {
+        file = "CUSTOMER"
+      }
+    }
+  }
+  recordmappings = {
+    recordmapping = {
+      CUSTOMER = {
+        record = "CUSTOMER"
+        fieldmappings = {
+          fieldmapping = {
+            cseg_bus_unit = {
+              field = netsuite.customsegment.instance.cseg_bus_unit.scriptid
+              value = "8"
+            }
+            cseg_lineofbusiness = {
+              field = netsuite.customsegment.instance.cseg_lineofbusiness.scriptid
+              value = "5"
+            }
+            ID = {
+              field = "ID"
+              columnreference = {
+                column = "Internal ID"
+                file = "CUSTOMER"
+                type = "NAME"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

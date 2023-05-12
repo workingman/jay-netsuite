@@ -1,0 +1,2292 @@
+netsuite.workflow customworkflow7 {
+  scriptid = "customworkflow7"
+  initcontexts = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+  initoncreate = true
+  initonvieworupdate = true
+  isinactive = false
+  islogenabled = true
+  keephistory = "ALWAYS"
+  name = "TFI PO Approval"
+  recordtypes = "PURCHASEORDER"
+  releasestatus = "NOTINITIATING"
+  runasadmin = true
+  initcondition = {
+    type = "VISUAL_BUILDER"
+  }
+  workflowstates = {
+    workflowstate = {
+      workflowstate320 = {
+        scriptid = "workflowstate320"
+        donotexitworkflow = false
+        name = "Initiation"
+        positionx = 243
+        positiony = 133
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            setfieldvalueaction = {
+              workflowaction2053 = {
+                scriptid = "workflowaction2053"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                field = "STDBODYAPPROVALSTATUS"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = "1"
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "isChecked(\"Submit for Reapproval\") = 'T'"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Submit_for_Reapproval@s = {
+                        name = "Submit for Reapproval"
+                        value = netsuite.transactionbodycustomfield.instance.custbody_pcg_submit_reapproval.scriptid
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+              workflowaction2070 = {
+                scriptid = "workflowaction2070"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                field = netsuite.transactionbodycustomfield.instance.custbody_req_for_approval.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 1
+              }
+              workflowaction2071 = {
+                scriptid = "workflowaction2071"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                field = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_dept_lead_approval.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "\"Approval Status\" NOT IN (\"Approval Status1\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Approval_Status@s = {
+                        name = "Approval Status"
+                        value = "STDBODYAPPROVALSTATUS"
+                      }
+                      Approval_Status1@s = {
+                        name = "Approval Status1"
+                        selectrecordtype = "-243"
+                        value = "3"
+                      }
+                    }
+                  }
+                }
+                index = 2
+              }
+              workflowaction2072 = {
+                scriptid = "workflowaction2072"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                field = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_dept_lead_approver.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "\"Approval Status\" NOT IN (\"Approval Status1\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Approval_Status@s = {
+                        name = "Approval Status"
+                        value = "STDBODYAPPROVALSTATUS"
+                      }
+                      Approval_Status1@s = {
+                        name = "Approval Status1"
+                        selectrecordtype = "-243"
+                        value = "3"
+                      }
+                    }
+                  }
+                }
+                index = 3
+              }
+              workflowaction2073 = {
+                scriptid = "workflowaction2073"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                field = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_cco_approval.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "\"Approval Status\" NOT IN (\"Approval Status1\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Approval_Status@s = {
+                        name = "Approval Status"
+                        value = "STDBODYAPPROVALSTATUS"
+                      }
+                      Approval_Status1@s = {
+                        name = "Approval Status1"
+                        selectrecordtype = "-243"
+                        value = "3"
+                      }
+                    }
+                  }
+                }
+                index = 4
+              }
+              workflowaction2074 = {
+                scriptid = "workflowaction2074"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                field = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_cco_approver.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "\"Approval Status\" NOT IN (\"Approval Status1\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Approval_Status@s = {
+                        name = "Approval Status"
+                        value = "STDBODYAPPROVALSTATUS"
+                      }
+                      Approval_Status1@s = {
+                        name = "Approval Status1"
+                        selectrecordtype = "-243"
+                        value = "3"
+                      }
+                    }
+                  }
+                }
+                index = 5
+              }
+              workflowaction2075 = {
+                scriptid = "workflowaction2075"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                field = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_controller_approval.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "\"Approval Status\" NOT IN (\"Approval Status1\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Approval_Status@s = {
+                        name = "Approval Status"
+                        value = "STDBODYAPPROVALSTATUS"
+                      }
+                      Approval_Status1@s = {
+                        name = "Approval Status1"
+                        selectrecordtype = "-243"
+                        value = "3"
+                      }
+                    }
+                  }
+                }
+                index = 6
+              }
+              workflowaction2076 = {
+                scriptid = "workflowaction2076"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                field = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_controller_approver.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "\"Approval Status\" NOT IN (\"Approval Status1\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Approval_Status@s = {
+                        name = "Approval Status"
+                        value = "STDBODYAPPROVALSTATUS"
+                      }
+                      Approval_Status1@s = {
+                        name = "Approval Status1"
+                        selectrecordtype = "-243"
+                        value = "3"
+                      }
+                    }
+                  }
+                }
+                index = 7
+              }
+              workflowaction2077 = {
+                scriptid = "workflowaction2077"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                field = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_cfo_approval.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "\"Approval Status\" NOT IN (\"Approval Status1\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Approval_Status@s = {
+                        name = "Approval Status"
+                        value = "STDBODYAPPROVALSTATUS"
+                      }
+                      Approval_Status1@s = {
+                        name = "Approval Status1"
+                        selectrecordtype = "-243"
+                        value = "3"
+                      }
+                    }
+                  }
+                }
+                index = 8
+              }
+              workflowaction2078 = {
+                scriptid = "workflowaction2078"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                field = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_cfo_approver.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "\"Approval Status\" NOT IN (\"Approval Status1\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Approval_Status@s = {
+                        name = "Approval Status"
+                        value = "STDBODYAPPROVALSTATUS"
+                      }
+                      Approval_Status1@s = {
+                        name = "Approval Status1"
+                        selectrecordtype = "-243"
+                        value = "3"
+                      }
+                    }
+                  }
+                }
+                index = 9
+              }
+            }
+          }
+          BEFORELOAD = {
+            triggertype = "BEFORELOAD"
+            addbuttonaction = {
+              workflowaction2079 = {
+                scriptid = "workflowaction2079"
+                checkconditionbeforeexecution = true
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                isinactive = false
+                label = "Request for Approval"
+                saverecordfirst = true
+                initcondition = {
+                  formula = "\"Approval Status\" IN (\"Approval Status1\") AND isChecked(\"Request for Approval\") = 'F'"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Approval_Status@s = {
+                        name = "Approval Status"
+                        value = "STDBODYAPPROVALSTATUS"
+                      }
+                      Approval_Status1@s = {
+                        name = "Approval Status1"
+                        selectrecordtype = "-243"
+                        value = "1"
+                      }
+                      Request_for_Approval@s = {
+                        name = "Request for Approval"
+                        value = netsuite.transactionbodycustomfield.instance.custbody_req_for_approval.scriptid
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition1701 = {
+              scriptid = "workflowtransition1701"
+              buttonaction = netsuite.workflow.instance.customworkflow7.workflowstates.workflowstate.workflowstate320.workflowactions.BEFORELOAD.addbuttonaction.workflowaction2079.scriptid
+              contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+              tostate = netsuite.workflow.instance.customworkflow7.workflowstates.workflowstate.workflowstate324.scriptid
+              initcondition = {
+                type = "VISUAL_BUILDER"
+              }
+              index = 0
+            }
+            workflowtransition1702 = {
+              scriptid = "workflowtransition1702"
+              contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+              tostate = netsuite.workflow.instance.customworkflow7.workflowstates.workflowstate.workflowstate324.scriptid
+              initcondition = {
+                formula = "isChecked(\"Submit for Reapproval\") = 'T'"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Submit_for_Reapproval@s = {
+                      name = "Submit for Reapproval"
+                      value = netsuite.transactionbodycustomfield.instance.custbody_pcg_submit_reapproval.scriptid
+                    }
+                  }
+                }
+              }
+              index = 1
+            }
+          }
+        }
+        index = 0
+      }
+      workflowstate324 = {
+        scriptid = "workflowstate324"
+        donotexitworkflow = false
+        name = "Request for Approval"
+        positionx = 253
+        positiony = 253
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            setfieldvalueaction = {
+              workflowaction2080 = {
+                scriptid = "workflowaction2080"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                field = netsuite.transactionbodycustomfield.instance.custbody_req_for_approval.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = true
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+              workflowaction2081 = {
+                scriptid = "workflowaction2081"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                field = "STDBODYEMPLOYEE"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "\"User Role\" IN (\"Role1\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      User_Role@s = {
+                        name = "User Role"
+                        value = "STDUSERROLE"
+                      }
+                      Role1 = {
+                        name = "Role1"
+                        selectrecordtype = "-118"
+                        value = "ADMINISTRATOR"
+                      }
+                    }
+                  }
+                }
+                index = 1
+              }
+              workflowaction2082 = {
+                scriptid = "workflowaction2082"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                field = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_controller_approver.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = "[ACCOUNT_SPECIFIC_VALUE]"
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "\"Vendor Product Type\" IN (\"Vendor Product Type1\",\"Vendor Product Type2\",\"Vendor Product Type3\",\"Vendor Product Type4\",\"Vendor Product Type5\",\"Vendor Product Type6\",\"Vendor Product Type7\",\"Vendor Product Type8\",\"Vendor Product Type9\",\"Vendor Product Type10\",\"Vendor Product Type11\",\"Vendor Product Type12\",\"Vendor Product Type13\",\"Vendor Product Type14\",\"Vendor Product Type15\",\"Vendor Product Type16\",\"Vendor Product Type17\",\"Vendor Product Type18\",\"Vendor Product Type19\",\"Vendor Product Type20\",\"Vendor Product Type21\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Vendor_Product_Type@s = {
+                        name = "Vendor Product Type"
+                        value = netsuite.transactionbodycustomfield.instance.custbody_tfi_vend_prod_type.scriptid
+                      }
+                      Vendor_Product_Type1@s = {
+                        name = "Vendor Product Type1"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273313_5651618_300.scriptid
+                      }
+                      Vendor_Product_Type2@s = {
+                        name = "Vendor Product Type2"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273325_5651618_588.scriptid
+                      }
+                      Vendor_Product_Type3@s = {
+                        name = "Vendor Product Type3"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_154320_5651618_sb1_791.scriptid
+                      }
+                      Vendor_Product_Type4@s = {
+                        name = "Vendor Product Type4"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273314_5651618_417.scriptid
+                      }
+                      Vendor_Product_Type5@s = {
+                        name = "Vendor Product Type5"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273315_5651618_882.scriptid
+                      }
+                      Vendor_Product_Type6@s = {
+                        name = "Vendor Product Type6"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273316_5651618_986.scriptid
+                      }
+                      Vendor_Product_Type7@s = {
+                        name = "Vendor Product Type7"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208577_5651618_sb1_883.scriptid
+                      }
+                      Vendor_Product_Type8@s = {
+                        name = "Vendor Product Type8"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273317_5651618_825.scriptid
+                      }
+                      Vendor_Product_Type9@s = {
+                        name = "Vendor Product Type9"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273321_5651618_233.scriptid
+                      }
+                      Vendor_Product_Type10@s = {
+                        name = "Vendor Product Type10"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273318_5651618_788.scriptid
+                      }
+                      Vendor_Product_Type11@s = {
+                        name = "Vendor Product Type11"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273327_5651618_562.scriptid
+                      }
+                      Vendor_Product_Type12@s = {
+                        name = "Vendor Product Type12"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208578_5651618_sb1_351.scriptid
+                      }
+                      Vendor_Product_Type13@s = {
+                        name = "Vendor Product Type13"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273326_5651618_409.scriptid
+                      }
+                      Vendor_Product_Type14@s = {
+                        name = "Vendor Product Type14"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273319_5651618_478.scriptid
+                      }
+                      Vendor_Product_Type15@s = {
+                        name = "Vendor Product Type15"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208580_5651618_sb1_169.scriptid
+                      }
+                      Vendor_Product_Type16@s = {
+                        name = "Vendor Product Type16"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273320_5651618_627.scriptid
+                      }
+                      Vendor_Product_Type17@s = {
+                        name = "Vendor Product Type17"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208575_5651618_sb1_462.scriptid
+                      }
+                      Vendor_Product_Type18@s = {
+                        name = "Vendor Product Type18"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273322_5651618_738.scriptid
+                      }
+                      Vendor_Product_Type19@s = {
+                        name = "Vendor Product Type19"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208579_5651618_sb1_485.scriptid
+                      }
+                      Vendor_Product_Type20@s = {
+                        name = "Vendor Product Type20"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273323_5651618_943.scriptid
+                      }
+                      Vendor_Product_Type21@s = {
+                        name = "Vendor Product Type21"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273324_5651618_865.scriptid
+                      }
+                    }
+                  }
+                }
+                index = 2
+              }
+              workflowaction2083 = {
+                scriptid = "workflowaction2083"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                field = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_cfo_approver.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = "[ACCOUNT_SPECIFIC_VALUE]"
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "\"Vendor Product Type\" IN (\"Vendor Product Type1\",\"Vendor Product Type2\",\"Vendor Product Type3\",\"Vendor Product Type4\",\"Vendor Product Type5\",\"Vendor Product Type6\",\"Vendor Product Type7\",\"Vendor Product Type8\",\"Vendor Product Type9\",\"Vendor Product Type10\",\"Vendor Product Type11\",\"Vendor Product Type12\",\"Vendor Product Type13\",\"Vendor Product Type14\",\"Vendor Product Type15\",\"Vendor Product Type16\",\"Vendor Product Type17\",\"Vendor Product Type18\",\"Vendor Product Type19\",\"Vendor Product Type20\",\"Vendor Product Type21\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Vendor_Product_Type@s = {
+                        name = "Vendor Product Type"
+                        value = netsuite.transactionbodycustomfield.instance.custbody_tfi_vend_prod_type.scriptid
+                      }
+                      Vendor_Product_Type1@s = {
+                        name = "Vendor Product Type1"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273313_5651618_300.scriptid
+                      }
+                      Vendor_Product_Type2@s = {
+                        name = "Vendor Product Type2"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273325_5651618_588.scriptid
+                      }
+                      Vendor_Product_Type3@s = {
+                        name = "Vendor Product Type3"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_154320_5651618_sb1_791.scriptid
+                      }
+                      Vendor_Product_Type4@s = {
+                        name = "Vendor Product Type4"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273314_5651618_417.scriptid
+                      }
+                      Vendor_Product_Type5@s = {
+                        name = "Vendor Product Type5"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273315_5651618_882.scriptid
+                      }
+                      Vendor_Product_Type6@s = {
+                        name = "Vendor Product Type6"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273316_5651618_986.scriptid
+                      }
+                      Vendor_Product_Type7@s = {
+                        name = "Vendor Product Type7"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208577_5651618_sb1_883.scriptid
+                      }
+                      Vendor_Product_Type8@s = {
+                        name = "Vendor Product Type8"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273317_5651618_825.scriptid
+                      }
+                      Vendor_Product_Type9@s = {
+                        name = "Vendor Product Type9"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273321_5651618_233.scriptid
+                      }
+                      Vendor_Product_Type10@s = {
+                        name = "Vendor Product Type10"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273318_5651618_788.scriptid
+                      }
+                      Vendor_Product_Type11@s = {
+                        name = "Vendor Product Type11"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273327_5651618_562.scriptid
+                      }
+                      Vendor_Product_Type12@s = {
+                        name = "Vendor Product Type12"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208578_5651618_sb1_351.scriptid
+                      }
+                      Vendor_Product_Type13@s = {
+                        name = "Vendor Product Type13"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273326_5651618_409.scriptid
+                      }
+                      Vendor_Product_Type14@s = {
+                        name = "Vendor Product Type14"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273319_5651618_478.scriptid
+                      }
+                      Vendor_Product_Type15@s = {
+                        name = "Vendor Product Type15"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208580_5651618_sb1_169.scriptid
+                      }
+                      Vendor_Product_Type16@s = {
+                        name = "Vendor Product Type16"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273320_5651618_627.scriptid
+                      }
+                      Vendor_Product_Type17@s = {
+                        name = "Vendor Product Type17"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208575_5651618_sb1_462.scriptid
+                      }
+                      Vendor_Product_Type18@s = {
+                        name = "Vendor Product Type18"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273322_5651618_738.scriptid
+                      }
+                      Vendor_Product_Type19@s = {
+                        name = "Vendor Product Type19"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208579_5651618_sb1_485.scriptid
+                      }
+                      Vendor_Product_Type20@s = {
+                        name = "Vendor Product Type20"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273323_5651618_943.scriptid
+                      }
+                      Vendor_Product_Type21@s = {
+                        name = "Vendor Product Type21"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273324_5651618_865.scriptid
+                      }
+                    }
+                  }
+                }
+                index = 3
+              }
+              workflowaction2084 = {
+                scriptid = "workflowaction2084"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                field = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_dept_lead_approver.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuefield = "STDENTITYPURCHASEORDERAPPROVER"
+                valuejoinfield = "STDBODYEMPLOYEE"
+                valuetype = "FIELD"
+                initcondition = {
+                  formula = "\"Vendor Product Type\" IN (\"Vendor Product Type1\",\"Vendor Product Type2\",\"Vendor Product Type3\",\"Vendor Product Type4\",\"Vendor Product Type5\",\"Vendor Product Type6\",\"Vendor Product Type7\",\"Vendor Product Type8\",\"Vendor Product Type9\",\"Vendor Product Type10\",\"Vendor Product Type11\",\"Vendor Product Type12\",\"Vendor Product Type13\",\"Vendor Product Type14\",\"Vendor Product Type15\",\"Vendor Product Type16\",\"Vendor Product Type17\",\"Vendor Product Type18\",\"Vendor Product Type19\",\"Vendor Product Type20\",\"Vendor Product Type21\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Vendor_Product_Type@s = {
+                        name = "Vendor Product Type"
+                        value = netsuite.transactionbodycustomfield.instance.custbody_tfi_vend_prod_type.scriptid
+                      }
+                      Vendor_Product_Type1@s = {
+                        name = "Vendor Product Type1"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273313_5651618_300.scriptid
+                      }
+                      Vendor_Product_Type2@s = {
+                        name = "Vendor Product Type2"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273325_5651618_588.scriptid
+                      }
+                      Vendor_Product_Type3@s = {
+                        name = "Vendor Product Type3"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_154320_5651618_sb1_791.scriptid
+                      }
+                      Vendor_Product_Type4@s = {
+                        name = "Vendor Product Type4"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273314_5651618_417.scriptid
+                      }
+                      Vendor_Product_Type5@s = {
+                        name = "Vendor Product Type5"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273315_5651618_882.scriptid
+                      }
+                      Vendor_Product_Type6@s = {
+                        name = "Vendor Product Type6"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273316_5651618_986.scriptid
+                      }
+                      Vendor_Product_Type7@s = {
+                        name = "Vendor Product Type7"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208577_5651618_sb1_883.scriptid
+                      }
+                      Vendor_Product_Type8@s = {
+                        name = "Vendor Product Type8"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273317_5651618_825.scriptid
+                      }
+                      Vendor_Product_Type9@s = {
+                        name = "Vendor Product Type9"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273321_5651618_233.scriptid
+                      }
+                      Vendor_Product_Type10@s = {
+                        name = "Vendor Product Type10"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273318_5651618_788.scriptid
+                      }
+                      Vendor_Product_Type11@s = {
+                        name = "Vendor Product Type11"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273327_5651618_562.scriptid
+                      }
+                      Vendor_Product_Type12@s = {
+                        name = "Vendor Product Type12"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208578_5651618_sb1_351.scriptid
+                      }
+                      Vendor_Product_Type13@s = {
+                        name = "Vendor Product Type13"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273326_5651618_409.scriptid
+                      }
+                      Vendor_Product_Type14@s = {
+                        name = "Vendor Product Type14"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273319_5651618_478.scriptid
+                      }
+                      Vendor_Product_Type15@s = {
+                        name = "Vendor Product Type15"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208580_5651618_sb1_169.scriptid
+                      }
+                      Vendor_Product_Type16@s = {
+                        name = "Vendor Product Type16"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273320_5651618_627.scriptid
+                      }
+                      Vendor_Product_Type17@s = {
+                        name = "Vendor Product Type17"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208575_5651618_sb1_462.scriptid
+                      }
+                      Vendor_Product_Type18@s = {
+                        name = "Vendor Product Type18"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273322_5651618_738.scriptid
+                      }
+                      Vendor_Product_Type19@s = {
+                        name = "Vendor Product Type19"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208579_5651618_sb1_485.scriptid
+                      }
+                      Vendor_Product_Type20@s = {
+                        name = "Vendor Product Type20"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273323_5651618_943.scriptid
+                      }
+                      Vendor_Product_Type21@s = {
+                        name = "Vendor Product Type21"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273324_5651618_865.scriptid
+                      }
+                    }
+                  }
+                }
+                index = 4
+              }
+              workflowaction2085 = {
+                scriptid = "workflowaction2085"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                field = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_cco_approver.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = "[ACCOUNT_SPECIFIC_VALUE]"
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "\"Vendor Product Type\" IN (\"Vendor Product Type1\",\"Vendor Product Type2\",\"Vendor Product Type3\",\"Vendor Product Type4\",\"Vendor Product Type5\",\"Vendor Product Type6\",\"Vendor Product Type7\",\"Vendor Product Type8\",\"Vendor Product Type9\",\"Vendor Product Type10\",\"Vendor Product Type11\",\"Vendor Product Type12\",\"Vendor Product Type13\",\"Vendor Product Type14\",\"Vendor Product Type15\",\"Vendor Product Type16\",\"Vendor Product Type17\",\"Vendor Product Type18\",\"Vendor Product Type19\",\"Vendor Product Type20\",\"Vendor Product Type21\",\"Vendor Product Type22\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Vendor_Product_Type@s = {
+                        name = "Vendor Product Type"
+                        value = netsuite.transactionbodycustomfield.instance.custbody_tfi_vend_prod_type.scriptid
+                      }
+                      Vendor_Product_Type1@s = {
+                        name = "Vendor Product Type1"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273313_5651618_300.scriptid
+                      }
+                      Vendor_Product_Type2@s = {
+                        name = "Vendor Product Type2"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273325_5651618_588.scriptid
+                      }
+                      Vendor_Product_Type3@s = {
+                        name = "Vendor Product Type3"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_154320_5651618_sb1_791.scriptid
+                      }
+                      Vendor_Product_Type4@s = {
+                        name = "Vendor Product Type4"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273314_5651618_417.scriptid
+                      }
+                      Vendor_Product_Type5@s = {
+                        name = "Vendor Product Type5"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273315_5651618_882.scriptid
+                      }
+                      Vendor_Product_Type6@s = {
+                        name = "Vendor Product Type6"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273316_5651618_986.scriptid
+                      }
+                      Vendor_Product_Type7@s = {
+                        name = "Vendor Product Type7"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208577_5651618_sb1_883.scriptid
+                      }
+                      Vendor_Product_Type8@s = {
+                        name = "Vendor Product Type8"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273317_5651618_825.scriptid
+                      }
+                      Vendor_Product_Type9@s = {
+                        name = "Vendor Product Type9"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273321_5651618_233.scriptid
+                      }
+                      Vendor_Product_Type10@s = {
+                        name = "Vendor Product Type10"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273318_5651618_788.scriptid
+                      }
+                      Vendor_Product_Type11@s = {
+                        name = "Vendor Product Type11"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273327_5651618_562.scriptid
+                      }
+                      Vendor_Product_Type12@s = {
+                        name = "Vendor Product Type12"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208578_5651618_sb1_351.scriptid
+                      }
+                      Vendor_Product_Type13@s = {
+                        name = "Vendor Product Type13"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_154321_5651618_sb1_512.scriptid
+                      }
+                      Vendor_Product_Type14@s = {
+                        name = "Vendor Product Type14"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273326_5651618_409.scriptid
+                      }
+                      Vendor_Product_Type15@s = {
+                        name = "Vendor Product Type15"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273319_5651618_478.scriptid
+                      }
+                      Vendor_Product_Type16@s = {
+                        name = "Vendor Product Type16"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208580_5651618_sb1_169.scriptid
+                      }
+                      Vendor_Product_Type17@s = {
+                        name = "Vendor Product Type17"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273320_5651618_627.scriptid
+                      }
+                      Vendor_Product_Type18@s = {
+                        name = "Vendor Product Type18"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208575_5651618_sb1_462.scriptid
+                      }
+                      Vendor_Product_Type19@s = {
+                        name = "Vendor Product Type19"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273322_5651618_738.scriptid
+                      }
+                      Vendor_Product_Type20@s = {
+                        name = "Vendor Product Type20"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208579_5651618_sb1_485.scriptid
+                      }
+                      Vendor_Product_Type21@s = {
+                        name = "Vendor Product Type21"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273323_5651618_943.scriptid
+                      }
+                      Vendor_Product_Type22@s = {
+                        name = "Vendor Product Type22"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273324_5651618_865.scriptid
+                      }
+                    }
+                  }
+                }
+                index = 5
+              }
+            }
+          }
+          BEFORELOAD = {
+            triggertype = "BEFORELOAD"
+            addbuttonaction = {
+              workflowaction2086 = {
+                scriptid = "workflowaction2086"
+                checkconditionbeforeexecution = true
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                isinactive = false
+                label = "Dept Lead Approval"
+                saverecordfirst = true
+                initcondition = {
+                  formula = "\"Department Lead Approver\" IN (\"Current User\") AND isEmpty(\"Department Lead Approval\") = 'T'"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Department_Lead_Approver@s = {
+                        name = "Department Lead Approver"
+                        value = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_dept_lead_approver.scriptid
+                      }
+                      Current_User@s = {
+                        name = "Current User"
+                        selectrecordtype = "-4"
+                        value = "@CURRENTUSER@"
+                      }
+                      Department_Lead_Approval@s = {
+                        name = "Department Lead Approval"
+                        value = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_dept_lead_approval.scriptid
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+              workflowaction2087 = {
+                scriptid = "workflowaction2087"
+                checkconditionbeforeexecution = true
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                isinactive = false
+                label = "Controller  Approval"
+                saverecordfirst = true
+                initcondition = {
+                  formula = "\"Controller Approver\" IN (\"Current User\") AND isEmpty(\"Department Lead Approval\") = 'F' AND \"Vendor Product Type\" IN (\"Vendor Product Type1\",\"Vendor Product Type2\",\"Vendor Product Type3\",\"Vendor Product Type4\",\"Vendor Product Type5\",\"Vendor Product Type6\",\"Vendor Product Type7\") AND \"Total\" >= \"Controller Approver:Purchase Approval Limit\""
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Controller_Approver@s = {
+                        name = "Controller Approver"
+                        value = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_controller_approver.scriptid
+                      }
+                      Current_User@s = {
+                        name = "Current User"
+                        selectrecordtype = "-4"
+                        value = "@CURRENTUSER@"
+                      }
+                      Department_Lead_Approval@s = {
+                        name = "Department Lead Approval"
+                        value = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_dept_lead_approval.scriptid
+                      }
+                      Vendor_Product_Type@s = {
+                        name = "Vendor Product Type"
+                        value = netsuite.transactionbodycustomfield.instance.custbody_tfi_vend_prod_type.scriptid
+                      }
+                      Vendor_Product_Type1@s = {
+                        name = "Vendor Product Type1"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_154320_5651618_sb1_791.scriptid
+                      }
+                      Vendor_Product_Type2@s = {
+                        name = "Vendor Product Type2"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = "[SCRIPT_ID_NOT_SPECIFIED]"
+                      }
+                      Vendor_Product_Type3@s = {
+                        name = "Vendor Product Type3"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208577_5651618_sb1_883.scriptid
+                      }
+                      Vendor_Product_Type4@s = {
+                        name = "Vendor Product Type4"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208578_5651618_sb1_351.scriptid
+                      }
+                      Vendor_Product_Type5@s = {
+                        name = "Vendor Product Type5"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208580_5651618_sb1_169.scriptid
+                      }
+                      Vendor_Product_Type6@s = {
+                        name = "Vendor Product Type6"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208575_5651618_sb1_462.scriptid
+                      }
+                      Vendor_Product_Type7@s = {
+                        name = "Vendor Product Type7"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208579_5651618_sb1_485.scriptid
+                      }
+                      Total = {
+                        name = "Total"
+                        value = "STDBODYTOTAL"
+                      }
+                      Controller_Approver_Purchase_Approval_Limit@sfss = {
+                        name = "Controller Approver:Purchase Approval Limit"
+                        value = "[scriptid=custbody_pcg_tfi_controller_approver]:STDENTITYPURCHASEORDERAPPROVALLIMIT"
+                      }
+                    }
+                  }
+                }
+                index = 1
+              }
+              workflowaction2088 = {
+                scriptid = "workflowaction2088"
+                checkconditionbeforeexecution = true
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                isinactive = false
+                label = "CCO  Approval"
+                saverecordfirst = true
+                initcondition = {
+                  formula = "\"CCO approver\" IN (\"Current User\") AND \"Vendor Product Type\" IN (\"Vendor Product Type1\") OR ( \"Vendor Product Type\" IN (\"Vendor Product Type2\",\"Vendor Product Type3\",\"Vendor Product Type4\",\"Vendor Product Type5\",\"Vendor Product Type6\",\"Vendor Product Type7\",\"Vendor Product Type8\") AND isEmpty(\"Department Lead Approval\") = 'F' AND \"Total\" > \"Department Lead Approver:Purchase Limit\" AND \"Total\" <= \"CCO approver:Purchase Approval Limit\" )"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      CCO_approver@s = {
+                        name = "CCO approver"
+                        value = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_cco_approver.scriptid
+                      }
+                      Current_User@s = {
+                        name = "Current User"
+                        selectrecordtype = "-4"
+                        value = "@CURRENTUSER@"
+                      }
+                      Vendor_Product_Type@s = {
+                        name = "Vendor Product Type"
+                        value = netsuite.transactionbodycustomfield.instance.custbody_tfi_vend_prod_type.scriptid
+                      }
+                      Vendor_Product_Type1@s = {
+                        name = "Vendor Product Type1"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_154321_5651618_sb1_512.scriptid
+                      }
+                      Vendor_Product_Type2@s = {
+                        name = "Vendor Product Type2"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_154320_5651618_sb1_791.scriptid
+                      }
+                      Vendor_Product_Type3@s = {
+                        name = "Vendor Product Type3"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = "[SCRIPT_ID_NOT_SPECIFIED]"
+                      }
+                      Vendor_Product_Type4@s = {
+                        name = "Vendor Product Type4"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208577_5651618_sb1_883.scriptid
+                      }
+                      Vendor_Product_Type5@s = {
+                        name = "Vendor Product Type5"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208578_5651618_sb1_351.scriptid
+                      }
+                      Vendor_Product_Type6@s = {
+                        name = "Vendor Product Type6"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208580_5651618_sb1_169.scriptid
+                      }
+                      Vendor_Product_Type7@s = {
+                        name = "Vendor Product Type7"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208575_5651618_sb1_462.scriptid
+                      }
+                      Vendor_Product_Type8@s = {
+                        name = "Vendor Product Type8"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208579_5651618_sb1_485.scriptid
+                      }
+                      Department_Lead_Approval@s = {
+                        name = "Department Lead Approval"
+                        value = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_dept_lead_approval.scriptid
+                      }
+                      Total = {
+                        name = "Total"
+                        value = "STDBODYTOTAL"
+                      }
+                      Department_Lead_Approver_Purchase_Limit@ssfs = {
+                        name = "Department Lead Approver:Purchase Limit"
+                        value = "[scriptid=custbody_pcg_tfi_dept_lead_approver]:STDENTITYPURCHASEORDERLIMIT"
+                      }
+                      CCO_approver_Purchase_Approval_Limit@sfss = {
+                        name = "CCO approver:Purchase Approval Limit"
+                        value = "[scriptid=custbody_pcg_tfi_cco_approver]:STDENTITYPURCHASEORDERAPPROVALLIMIT"
+                      }
+                    }
+                  }
+                }
+                index = 2
+              }
+              workflowaction2089 = {
+                scriptid = "workflowaction2089"
+                checkconditionbeforeexecution = true
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                isinactive = false
+                label = "CFO  Approval"
+                saverecordfirst = true
+                initcondition = {
+                  formula = "\"CFO Approver\" IN (\"Current User\") AND ( \"Vendor Product Type\" IN (\"Vendor Product Type1\",\"Vendor Product Type2\",\"Vendor Product Type3\",\"Vendor Product Type4\",\"Vendor Product Type5\",\"Vendor Product Type6\",\"Vendor Product Type7\") AND isEmpty(\"Department Lead Approval\") = 'F' AND \"Total\" > \"Department Lead Approver:Purchase Limit\" AND \"Total\" > \"Controller Approver:Purchase Approval Limit\" )"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      CFO_Approver@s = {
+                        name = "CFO Approver"
+                        value = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_cfo_approver.scriptid
+                      }
+                      Current_User@s = {
+                        name = "Current User"
+                        selectrecordtype = "-4"
+                        value = "@CURRENTUSER@"
+                      }
+                      Vendor_Product_Type@s = {
+                        name = "Vendor Product Type"
+                        value = netsuite.transactionbodycustomfield.instance.custbody_tfi_vend_prod_type.scriptid
+                      }
+                      Vendor_Product_Type1@s = {
+                        name = "Vendor Product Type1"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_154320_5651618_sb1_791.scriptid
+                      }
+                      Vendor_Product_Type2@s = {
+                        name = "Vendor Product Type2"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = "[SCRIPT_ID_NOT_SPECIFIED]"
+                      }
+                      Vendor_Product_Type3@s = {
+                        name = "Vendor Product Type3"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208577_5651618_sb1_883.scriptid
+                      }
+                      Vendor_Product_Type4@s = {
+                        name = "Vendor Product Type4"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208578_5651618_sb1_351.scriptid
+                      }
+                      Vendor_Product_Type5@s = {
+                        name = "Vendor Product Type5"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208580_5651618_sb1_169.scriptid
+                      }
+                      Vendor_Product_Type6@s = {
+                        name = "Vendor Product Type6"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208575_5651618_sb1_462.scriptid
+                      }
+                      Vendor_Product_Type7@s = {
+                        name = "Vendor Product Type7"
+                        selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                        value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208579_5651618_sb1_485.scriptid
+                      }
+                      Department_Lead_Approval@s = {
+                        name = "Department Lead Approval"
+                        value = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_dept_lead_approval.scriptid
+                      }
+                      Total = {
+                        name = "Total"
+                        value = "STDBODYTOTAL"
+                      }
+                      Department_Lead_Approver_Purchase_Limit@ssfs = {
+                        name = "Department Lead Approver:Purchase Limit"
+                        value = "[scriptid=custbody_pcg_tfi_dept_lead_approver]:STDENTITYPURCHASEORDERLIMIT"
+                      }
+                      Controller_Approver_Purchase_Approval_Limit@sfss = {
+                        name = "Controller Approver:Purchase Approval Limit"
+                        value = "[scriptid=custbody_pcg_tfi_controller_approver]:STDENTITYPURCHASEORDERAPPROVALLIMIT"
+                      }
+                    }
+                  }
+                }
+                index = 3
+              }
+              workflowaction2090 = {
+                scriptid = "workflowaction2090"
+                checkconditionbeforeexecution = true
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                isinactive = false
+                label = "Reject"
+                saverecordfirst = true
+                initcondition = {
+                  formula = "( \"Approval Status\" IN (\"Approval Status1\") AND \"Department Lead Approval\" NOT IN (\"WF Status1\") AND ( isEmpty(\"Controller Approval\") = 'T' OR isEmpty(\"CCO Approval\") = 'T' OR isEmpty(\"CFO Approval\") = 'T' ) AND isChecked(\"Request for Approval\") = 'T' AND \"Department Lead Approver\" IN (\"Current User\") OR \"Controller Approver\" IN (\"Current User\") OR \"CCO approver\" IN (\"Current User\") OR \"CFO Approver\" IN (\"Current User\") )"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Approval_Status@s = {
+                        name = "Approval Status"
+                        value = "STDBODYAPPROVALSTATUS"
+                      }
+                      Approval_Status1@s = {
+                        name = "Approval Status1"
+                        selectrecordtype = "-243"
+                        value = "1"
+                      }
+                      Department_Lead_Approval@s = {
+                        name = "Department Lead Approval"
+                        value = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_dept_lead_approval.scriptid
+                      }
+                      WF_Status1@s = {
+                        name = "WF Status1"
+                        selectrecordtype = netsuite.customlist.instance.customlist1072.scriptid
+                        value = netsuite.customlist.instance.customlist1072.customvalues.customvalue.val_141716_5651618_sb1_957.scriptid
+                      }
+                      Controller_Approval@s = {
+                        name = "Controller Approval"
+                        value = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_controller_approval.scriptid
+                      }
+                      CCO_Approval@s = {
+                        name = "CCO Approval"
+                        value = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_cco_approval.scriptid
+                      }
+                      CFO_Approval@s = {
+                        name = "CFO Approval"
+                        value = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_cfo_approval.scriptid
+                      }
+                      Request_for_Approval@s = {
+                        name = "Request for Approval"
+                        value = netsuite.transactionbodycustomfield.instance.custbody_req_for_approval.scriptid
+                      }
+                      Department_Lead_Approver@s = {
+                        name = "Department Lead Approver"
+                        value = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_dept_lead_approver.scriptid
+                      }
+                      Current_User@s = {
+                        name = "Current User"
+                        selectrecordtype = "-4"
+                        value = "@CURRENTUSER@"
+                      }
+                      Controller_Approver@s = {
+                        name = "Controller Approver"
+                        value = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_controller_approver.scriptid
+                      }
+                      CCO_approver@s = {
+                        name = "CCO approver"
+                        value = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_cco_approver.scriptid
+                      }
+                      CFO_Approver@s = {
+                        name = "CFO Approver"
+                        value = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_cfo_approver.scriptid
+                      }
+                    }
+                  }
+                }
+                index = 4
+              }
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition1703 = {
+              scriptid = "workflowtransition1703"
+              buttonaction = netsuite.workflow.instance.customworkflow7.workflowstates.workflowstate.workflowstate324.workflowactions.BEFORELOAD.addbuttonaction.workflowaction2090.scriptid
+              contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+              tostate = netsuite.workflow.instance.customworkflow7.workflowstates.workflowstate.workflowstate331.scriptid
+              initcondition = {
+                type = "VISUAL_BUILDER"
+              }
+              index = 0
+            }
+            workflowtransition1704 = {
+              scriptid = "workflowtransition1704"
+              buttonaction = netsuite.workflow.instance.customworkflow7.workflowstates.workflowstate.workflowstate324.workflowactions.BEFORELOAD.addbuttonaction.workflowaction2086.scriptid
+              contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+              tostate = netsuite.workflow.instance.customworkflow7.workflowstates.workflowstate.workflowstate325.scriptid
+              initcondition = {
+                formula = "\"Vendor Product Type\" IN (\"Vendor Product Type1\",\"Vendor Product Type2\",\"Vendor Product Type3\",\"Vendor Product Type4\",\"Vendor Product Type5\",\"Vendor Product Type6\",\"Vendor Product Type7\",\"Vendor Product Type8\",\"Vendor Product Type9\",\"Vendor Product Type10\",\"Vendor Product Type11\",\"Vendor Product Type12\",\"Vendor Product Type13\",\"Vendor Product Type14\",\"Vendor Product Type15\",\"Vendor Product Type16\",\"Vendor Product Type17\",\"Vendor Product Type18\",\"Vendor Product Type19\",\"Vendor Product Type20\")"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Vendor_Product_Type@s = {
+                      name = "Vendor Product Type"
+                      value = netsuite.transactionbodycustomfield.instance.custbody_tfi_vend_prod_type.scriptid
+                    }
+                    Vendor_Product_Type1@s = {
+                      name = "Vendor Product Type1"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273313_5651618_300.scriptid
+                    }
+                    Vendor_Product_Type2@s = {
+                      name = "Vendor Product Type2"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273325_5651618_588.scriptid
+                    }
+                    Vendor_Product_Type3@s = {
+                      name = "Vendor Product Type3"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_154320_5651618_sb1_791.scriptid
+                    }
+                    Vendor_Product_Type4@s = {
+                      name = "Vendor Product Type4"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273314_5651618_417.scriptid
+                    }
+                    Vendor_Product_Type5@s = {
+                      name = "Vendor Product Type5"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273315_5651618_882.scriptid
+                    }
+                    Vendor_Product_Type6@s = {
+                      name = "Vendor Product Type6"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273316_5651618_986.scriptid
+                    }
+                    Vendor_Product_Type7@s = {
+                      name = "Vendor Product Type7"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208577_5651618_sb1_883.scriptid
+                    }
+                    Vendor_Product_Type8@s = {
+                      name = "Vendor Product Type8"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273317_5651618_825.scriptid
+                    }
+                    Vendor_Product_Type9@s = {
+                      name = "Vendor Product Type9"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273318_5651618_788.scriptid
+                    }
+                    Vendor_Product_Type10@s = {
+                      name = "Vendor Product Type10"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273327_5651618_562.scriptid
+                    }
+                    Vendor_Product_Type11@s = {
+                      name = "Vendor Product Type11"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208578_5651618_sb1_351.scriptid
+                    }
+                    Vendor_Product_Type12@s = {
+                      name = "Vendor Product Type12"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273326_5651618_409.scriptid
+                    }
+                    Vendor_Product_Type13@s = {
+                      name = "Vendor Product Type13"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273319_5651618_478.scriptid
+                    }
+                    Vendor_Product_Type14@s = {
+                      name = "Vendor Product Type14"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208580_5651618_sb1_169.scriptid
+                    }
+                    Vendor_Product_Type15@s = {
+                      name = "Vendor Product Type15"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273320_5651618_627.scriptid
+                    }
+                    Vendor_Product_Type16@s = {
+                      name = "Vendor Product Type16"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208575_5651618_sb1_462.scriptid
+                    }
+                    Vendor_Product_Type17@s = {
+                      name = "Vendor Product Type17"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273322_5651618_738.scriptid
+                    }
+                    Vendor_Product_Type18@s = {
+                      name = "Vendor Product Type18"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208579_5651618_sb1_485.scriptid
+                    }
+                    Vendor_Product_Type19@s = {
+                      name = "Vendor Product Type19"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273323_5651618_943.scriptid
+                    }
+                    Vendor_Product_Type20@s = {
+                      name = "Vendor Product Type20"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273324_5651618_865.scriptid
+                    }
+                  }
+                }
+              }
+              index = 1
+            }
+            workflowtransition1705 = {
+              scriptid = "workflowtransition1705"
+              buttonaction = netsuite.workflow.instance.customworkflow7.workflowstates.workflowstate.workflowstate324.workflowactions.BEFORELOAD.addbuttonaction.workflowaction2087.scriptid
+              contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+              tostate = netsuite.workflow.instance.customworkflow7.workflowstates.workflowstate.workflowstate326.scriptid
+              initcondition = {
+                formula = "\"Vendor Product Type\" IN (\"Vendor Product Type1\",\"Vendor Product Type2\",\"Vendor Product Type3\",\"Vendor Product Type4\",\"Vendor Product Type5\",\"Vendor Product Type6\",\"Vendor Product Type7\",\"Vendor Product Type8\",\"Vendor Product Type9\",\"Vendor Product Type10\",\"Vendor Product Type11\",\"Vendor Product Type12\",\"Vendor Product Type13\",\"Vendor Product Type14\",\"Vendor Product Type15\",\"Vendor Product Type16\",\"Vendor Product Type17\",\"Vendor Product Type18\",\"Vendor Product Type19\",\"Vendor Product Type20\",\"Vendor Product Type21\")"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Vendor_Product_Type@s = {
+                      name = "Vendor Product Type"
+                      value = netsuite.transactionbodycustomfield.instance.custbody_tfi_vend_prod_type.scriptid
+                    }
+                    Vendor_Product_Type1@s = {
+                      name = "Vendor Product Type1"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273313_5651618_300.scriptid
+                    }
+                    Vendor_Product_Type2@s = {
+                      name = "Vendor Product Type2"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273325_5651618_588.scriptid
+                    }
+                    Vendor_Product_Type3@s = {
+                      name = "Vendor Product Type3"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_154320_5651618_sb1_791.scriptid
+                    }
+                    Vendor_Product_Type4@s = {
+                      name = "Vendor Product Type4"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273314_5651618_417.scriptid
+                    }
+                    Vendor_Product_Type5@s = {
+                      name = "Vendor Product Type5"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273315_5651618_882.scriptid
+                    }
+                    Vendor_Product_Type6@s = {
+                      name = "Vendor Product Type6"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273316_5651618_986.scriptid
+                    }
+                    Vendor_Product_Type7@s = {
+                      name = "Vendor Product Type7"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208577_5651618_sb1_883.scriptid
+                    }
+                    Vendor_Product_Type8@s = {
+                      name = "Vendor Product Type8"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273317_5651618_825.scriptid
+                    }
+                    Vendor_Product_Type9@s = {
+                      name = "Vendor Product Type9"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273321_5651618_233.scriptid
+                    }
+                    Vendor_Product_Type10@s = {
+                      name = "Vendor Product Type10"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273318_5651618_788.scriptid
+                    }
+                    Vendor_Product_Type11@s = {
+                      name = "Vendor Product Type11"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273327_5651618_562.scriptid
+                    }
+                    Vendor_Product_Type12@s = {
+                      name = "Vendor Product Type12"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208578_5651618_sb1_351.scriptid
+                    }
+                    Vendor_Product_Type13@s = {
+                      name = "Vendor Product Type13"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273326_5651618_409.scriptid
+                    }
+                    Vendor_Product_Type14@s = {
+                      name = "Vendor Product Type14"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273319_5651618_478.scriptid
+                    }
+                    Vendor_Product_Type15@s = {
+                      name = "Vendor Product Type15"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208580_5651618_sb1_169.scriptid
+                    }
+                    Vendor_Product_Type16@s = {
+                      name = "Vendor Product Type16"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273320_5651618_627.scriptid
+                    }
+                    Vendor_Product_Type17@s = {
+                      name = "Vendor Product Type17"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208575_5651618_sb1_462.scriptid
+                    }
+                    Vendor_Product_Type18@s = {
+                      name = "Vendor Product Type18"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273322_5651618_738.scriptid
+                    }
+                    Vendor_Product_Type19@s = {
+                      name = "Vendor Product Type19"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208579_5651618_sb1_485.scriptid
+                    }
+                    Vendor_Product_Type20@s = {
+                      name = "Vendor Product Type20"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273323_5651618_943.scriptid
+                    }
+                    Vendor_Product_Type21@s = {
+                      name = "Vendor Product Type21"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273324_5651618_865.scriptid
+                    }
+                  }
+                }
+              }
+              index = 2
+            }
+            workflowtransition1706 = {
+              scriptid = "workflowtransition1706"
+              buttonaction = netsuite.workflow.instance.customworkflow7.workflowstates.workflowstate.workflowstate324.workflowactions.BEFORELOAD.addbuttonaction.workflowaction2088.scriptid
+              contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+              tostate = netsuite.workflow.instance.customworkflow7.workflowstates.workflowstate.workflowstate327.scriptid
+              initcondition = {
+                formula = "\"Vendor Product Type\" IN (\"Vendor Product Type1\",\"Vendor Product Type2\",\"Vendor Product Type3\",\"Vendor Product Type4\",\"Vendor Product Type5\",\"Vendor Product Type6\",\"Vendor Product Type7\",\"Vendor Product Type8\",\"Vendor Product Type9\",\"Vendor Product Type10\",\"Vendor Product Type11\",\"Vendor Product Type12\",\"Vendor Product Type13\",\"Vendor Product Type14\",\"Vendor Product Type15\",\"Vendor Product Type16\",\"Vendor Product Type17\",\"Vendor Product Type18\",\"Vendor Product Type19\",\"Vendor Product Type20\",\"Vendor Product Type21\",\"Vendor Product Type22\")"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Vendor_Product_Type@s = {
+                      name = "Vendor Product Type"
+                      value = netsuite.transactionbodycustomfield.instance.custbody_tfi_vend_prod_type.scriptid
+                    }
+                    Vendor_Product_Type1@s = {
+                      name = "Vendor Product Type1"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273313_5651618_300.scriptid
+                    }
+                    Vendor_Product_Type2@s = {
+                      name = "Vendor Product Type2"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273325_5651618_588.scriptid
+                    }
+                    Vendor_Product_Type3@s = {
+                      name = "Vendor Product Type3"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_154320_5651618_sb1_791.scriptid
+                    }
+                    Vendor_Product_Type4@s = {
+                      name = "Vendor Product Type4"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273314_5651618_417.scriptid
+                    }
+                    Vendor_Product_Type5@s = {
+                      name = "Vendor Product Type5"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273315_5651618_882.scriptid
+                    }
+                    Vendor_Product_Type6@s = {
+                      name = "Vendor Product Type6"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273316_5651618_986.scriptid
+                    }
+                    Vendor_Product_Type7@s = {
+                      name = "Vendor Product Type7"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208577_5651618_sb1_883.scriptid
+                    }
+                    Vendor_Product_Type8@s = {
+                      name = "Vendor Product Type8"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273317_5651618_825.scriptid
+                    }
+                    Vendor_Product_Type9@s = {
+                      name = "Vendor Product Type9"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273321_5651618_233.scriptid
+                    }
+                    Vendor_Product_Type10@s = {
+                      name = "Vendor Product Type10"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273318_5651618_788.scriptid
+                    }
+                    Vendor_Product_Type11@s = {
+                      name = "Vendor Product Type11"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273327_5651618_562.scriptid
+                    }
+                    Vendor_Product_Type12@s = {
+                      name = "Vendor Product Type12"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208578_5651618_sb1_351.scriptid
+                    }
+                    Vendor_Product_Type13@s = {
+                      name = "Vendor Product Type13"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_154321_5651618_sb1_512.scriptid
+                    }
+                    Vendor_Product_Type14@s = {
+                      name = "Vendor Product Type14"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273326_5651618_409.scriptid
+                    }
+                    Vendor_Product_Type15@s = {
+                      name = "Vendor Product Type15"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273319_5651618_478.scriptid
+                    }
+                    Vendor_Product_Type16@s = {
+                      name = "Vendor Product Type16"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208580_5651618_sb1_169.scriptid
+                    }
+                    Vendor_Product_Type17@s = {
+                      name = "Vendor Product Type17"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273320_5651618_627.scriptid
+                    }
+                    Vendor_Product_Type18@s = {
+                      name = "Vendor Product Type18"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208575_5651618_sb1_462.scriptid
+                    }
+                    Vendor_Product_Type19@s = {
+                      name = "Vendor Product Type19"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273322_5651618_738.scriptid
+                    }
+                    Vendor_Product_Type20@s = {
+                      name = "Vendor Product Type20"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208579_5651618_sb1_485.scriptid
+                    }
+                    Vendor_Product_Type21@s = {
+                      name = "Vendor Product Type21"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273323_5651618_943.scriptid
+                    }
+                    Vendor_Product_Type22@s = {
+                      name = "Vendor Product Type22"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273324_5651618_865.scriptid
+                    }
+                  }
+                }
+              }
+              index = 3
+            }
+            workflowtransition1707 = {
+              scriptid = "workflowtransition1707"
+              buttonaction = netsuite.workflow.instance.customworkflow7.workflowstates.workflowstate.workflowstate324.workflowactions.BEFORELOAD.addbuttonaction.workflowaction2089.scriptid
+              contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+              tostate = netsuite.workflow.instance.customworkflow7.workflowstates.workflowstate.workflowstate328.scriptid
+              initcondition = {
+                formula = "\"Vendor Product Type\" IN (\"Vendor Product Type1\",\"Vendor Product Type2\",\"Vendor Product Type3\",\"Vendor Product Type4\",\"Vendor Product Type5\",\"Vendor Product Type6\",\"Vendor Product Type7\",\"Vendor Product Type8\",\"Vendor Product Type9\",\"Vendor Product Type10\",\"Vendor Product Type11\",\"Vendor Product Type12\",\"Vendor Product Type13\",\"Vendor Product Type14\",\"Vendor Product Type15\",\"Vendor Product Type16\",\"Vendor Product Type17\",\"Vendor Product Type18\",\"Vendor Product Type19\",\"Vendor Product Type20\")"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Vendor_Product_Type@s = {
+                      name = "Vendor Product Type"
+                      value = netsuite.transactionbodycustomfield.instance.custbody_tfi_vend_prod_type.scriptid
+                    }
+                    Vendor_Product_Type1@s = {
+                      name = "Vendor Product Type1"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273313_5651618_300.scriptid
+                    }
+                    Vendor_Product_Type2@s = {
+                      name = "Vendor Product Type2"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273325_5651618_588.scriptid
+                    }
+                    Vendor_Product_Type3@s = {
+                      name = "Vendor Product Type3"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_154320_5651618_sb1_791.scriptid
+                    }
+                    Vendor_Product_Type4@s = {
+                      name = "Vendor Product Type4"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273314_5651618_417.scriptid
+                    }
+                    Vendor_Product_Type5@s = {
+                      name = "Vendor Product Type5"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273315_5651618_882.scriptid
+                    }
+                    Vendor_Product_Type6@s = {
+                      name = "Vendor Product Type6"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273316_5651618_986.scriptid
+                    }
+                    Vendor_Product_Type7@s = {
+                      name = "Vendor Product Type7"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208577_5651618_sb1_883.scriptid
+                    }
+                    Vendor_Product_Type8@s = {
+                      name = "Vendor Product Type8"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273317_5651618_825.scriptid
+                    }
+                    Vendor_Product_Type9@s = {
+                      name = "Vendor Product Type9"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273321_5651618_233.scriptid
+                    }
+                    Vendor_Product_Type10@s = {
+                      name = "Vendor Product Type10"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273318_5651618_788.scriptid
+                    }
+                    Vendor_Product_Type11@s = {
+                      name = "Vendor Product Type11"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208578_5651618_sb1_351.scriptid
+                    }
+                    Vendor_Product_Type12@s = {
+                      name = "Vendor Product Type12"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273326_5651618_409.scriptid
+                    }
+                    Vendor_Product_Type13@s = {
+                      name = "Vendor Product Type13"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273319_5651618_478.scriptid
+                    }
+                    Vendor_Product_Type14@s = {
+                      name = "Vendor Product Type14"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208580_5651618_sb1_169.scriptid
+                    }
+                    Vendor_Product_Type15@s = {
+                      name = "Vendor Product Type15"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273320_5651618_627.scriptid
+                    }
+                    Vendor_Product_Type16@s = {
+                      name = "Vendor Product Type16"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208575_5651618_sb1_462.scriptid
+                    }
+                    Vendor_Product_Type17@s = {
+                      name = "Vendor Product Type17"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273322_5651618_738.scriptid
+                    }
+                    Vendor_Product_Type18@s = {
+                      name = "Vendor Product Type18"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_208579_5651618_sb1_485.scriptid
+                    }
+                    Vendor_Product_Type19@s = {
+                      name = "Vendor Product Type19"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273323_5651618_943.scriptid
+                    }
+                    Vendor_Product_Type20@s = {
+                      name = "Vendor Product Type20"
+                      selectrecordtype = netsuite.customlist.instance.customlist_tfi_vend_prod_type.scriptid
+                      value = netsuite.customlist.instance.customlist_tfi_vend_prod_type.customvalues.customvalue.val_273324_5651618_865.scriptid
+                    }
+                  }
+                }
+              }
+              index = 4
+            }
+          }
+        }
+        index = 1
+      }
+      workflowstate325 = {
+        scriptid = "workflowstate325"
+        donotexitworkflow = false
+        name = "Department Approval"
+        positionx = 443
+        positiony = 133
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            setfieldvalueaction = {
+              workflowaction2091 = {
+                scriptid = "workflowaction2091"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                field = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_dept_lead_approval.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = netsuite.customlist.instance.customlist1072.customvalues.customvalue.val_141716_5651618_sb1_957.scriptid
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition1708 = {
+              scriptid = "workflowtransition1708"
+              contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+              tostate = netsuite.workflow.instance.customworkflow7.workflowstates.workflowstate.workflowstate324.scriptid
+              initcondition = {
+                formula = "\"Total\" > \"Department Lead Approver:Purchase Approval Limit\""
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Total = {
+                      name = "Total"
+                      value = "STDBODYTOTAL"
+                    }
+                    Department_Lead_Approver_Purchase_Approval_Limit@ssfss = {
+                      name = "Department Lead Approver:Purchase Approval Limit"
+                      value = "[scriptid=custbody_pcg_tfi_dept_lead_approver]:STDENTITYPURCHASEORDERAPPROVALLIMIT"
+                    }
+                  }
+                }
+              }
+              index = 0
+            }
+            workflowtransition1709 = {
+              scriptid = "workflowtransition1709"
+              contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+              tostate = netsuite.workflow.instance.customworkflow7.workflowstates.workflowstate.workflowstate330.scriptid
+              initcondition = {
+                formula = "\"Total\" <= \"Department Lead Approver:Purchase Approval Limit\""
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Total = {
+                      name = "Total"
+                      value = "STDBODYTOTAL"
+                    }
+                    Department_Lead_Approver_Purchase_Approval_Limit@ssfss = {
+                      name = "Department Lead Approver:Purchase Approval Limit"
+                      value = "[scriptid=custbody_pcg_tfi_dept_lead_approver]:STDENTITYPURCHASEORDERAPPROVALLIMIT"
+                    }
+                  }
+                }
+              }
+              index = 1
+            }
+          }
+        }
+        index = 2
+      }
+      workflowstate326 = {
+        scriptid = "workflowstate326"
+        donotexitworkflow = false
+        name = "Controller Approval"
+        positionx = 443
+        positiony = 253
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            setfieldvalueaction = {
+              workflowaction2092 = {
+                scriptid = "workflowaction2092"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                field = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_controller_approval.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = netsuite.customlist.instance.customlist1072.customvalues.customvalue.val_141716_5651618_sb1_957.scriptid
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition1710 = {
+              scriptid = "workflowtransition1710"
+              contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+              tostate = netsuite.workflow.instance.customworkflow7.workflowstates.workflowstate.workflowstate324.scriptid
+              initcondition = {
+                formula = "\"Total\" > \"Controller Approver:Purchase Approval Limit\""
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Total = {
+                      name = "Total"
+                      value = "STDBODYTOTAL"
+                    }
+                    Controller_Approver_Purchase_Approval_Limit@sfss = {
+                      name = "Controller Approver:Purchase Approval Limit"
+                      value = "[scriptid=custbody_pcg_tfi_controller_approver]:STDENTITYPURCHASEORDERAPPROVALLIMIT"
+                    }
+                  }
+                }
+              }
+              index = 0
+            }
+            workflowtransition1711 = {
+              scriptid = "workflowtransition1711"
+              contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+              tostate = netsuite.workflow.instance.customworkflow7.workflowstates.workflowstate.workflowstate330.scriptid
+              initcondition = {
+                formula = "\"Total\" <= \"Controller Approver:Purchase Approval Limit\""
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Total = {
+                      name = "Total"
+                      value = "STDBODYTOTAL"
+                    }
+                    Controller_Approver_Purchase_Approval_Limit@sfss = {
+                      name = "Controller Approver:Purchase Approval Limit"
+                      value = "[scriptid=custbody_pcg_tfi_controller_approver]:STDENTITYPURCHASEORDERAPPROVALLIMIT"
+                    }
+                  }
+                }
+              }
+              index = 1
+            }
+          }
+        }
+        index = 3
+      }
+      workflowstate327 = {
+        scriptid = "workflowstate327"
+        donotexitworkflow = false
+        name = "CCO Approval"
+        positionx = 443
+        positiony = 343
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            setfieldvalueaction = {
+              workflowaction2093 = {
+                scriptid = "workflowaction2093"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                field = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_cco_approval.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = netsuite.customlist.instance.customlist1072.customvalues.customvalue.val_141716_5651618_sb1_957.scriptid
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition1712 = {
+              scriptid = "workflowtransition1712"
+              contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+              tostate = netsuite.workflow.instance.customworkflow7.workflowstates.workflowstate.workflowstate324.scriptid
+              initcondition = {
+                type = "VISUAL_BUILDER"
+              }
+              index = 0
+            }
+            workflowtransition1713 = {
+              scriptid = "workflowtransition1713"
+              contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+              tostate = netsuite.workflow.instance.customworkflow7.workflowstates.workflowstate.workflowstate330.scriptid
+              initcondition = {
+                type = "VISUAL_BUILDER"
+              }
+              index = 1
+            }
+          }
+        }
+        index = 4
+      }
+      workflowstate328 = {
+        scriptid = "workflowstate328"
+        donotexitworkflow = false
+        name = "CFO Approval"
+        positionx = 443
+        positiony = 433
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            setfieldvalueaction = {
+              workflowaction2094 = {
+                scriptid = "workflowaction2094"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                field = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_cfo_approval.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = netsuite.customlist.instance.customlist1072.customvalues.customvalue.val_141716_5651618_sb1_957.scriptid
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition1714 = {
+              scriptid = "workflowtransition1714"
+              contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+              tostate = netsuite.workflow.instance.customworkflow7.workflowstates.workflowstate.workflowstate330.scriptid
+              initcondition = {
+                type = "VISUAL_BUILDER"
+              }
+              index = 0
+            }
+          }
+        }
+        index = 5
+      }
+      workflowstate329 = {
+        scriptid = "workflowstate329"
+        donotexitworkflow = false
+        name = "CEO Approval"
+        positionx = 443
+        positiony = 533
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition1715 = {
+              scriptid = "workflowtransition1715"
+              contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+              tostate = netsuite.workflow.instance.customworkflow7.workflowstates.workflowstate.workflowstate330.scriptid
+              initcondition = {
+                type = "VISUAL_BUILDER"
+              }
+              index = 0
+            }
+          }
+        }
+        index = 6
+      }
+      workflowstate330 = {
+        scriptid = "workflowstate330"
+        donotexitworkflow = true
+        name = "NetSuite Approval"
+        positionx = 663
+        positiony = 253
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            setfieldvalueaction = {
+              workflowaction2095 = {
+                scriptid = "workflowaction2095"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                field = "STDBODYAPPROVALSTATUS"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = "2"
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        index = 7
+      }
+      workflowstate331 = {
+        scriptid = "workflowstate331"
+        donotexitworkflow = false
+        name = "Rejection"
+        positionx = 73
+        positiony = 253
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            setfieldvalueaction = {
+              workflowaction2096 = {
+                scriptid = "workflowaction2096"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                field = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_dept_lead_approval.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = netsuite.customlist.instance.customlist1072.customvalues.customvalue.val_141717_5651618_sb1_788.scriptid
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "\"User\" IN (\"Department Lead Approver\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      User = {
+                        name = "User"
+                        value = "STDUSERUSER"
+                      }
+                      Department_Lead_Approver@s = {
+                        name = "Department Lead Approver"
+                        value = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_dept_lead_approver.scriptid
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+              workflowaction2097 = {
+                scriptid = "workflowaction2097"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                field = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_controller_approval.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = netsuite.customlist.instance.customlist1072.customvalues.customvalue.val_141717_5651618_sb1_788.scriptid
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "\"User\" IN (\"Controller Approver\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      User = {
+                        name = "User"
+                        value = "STDUSERUSER"
+                      }
+                      Controller_Approver@s = {
+                        name = "Controller Approver"
+                        value = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_controller_approver.scriptid
+                      }
+                    }
+                  }
+                }
+                index = 1
+              }
+              workflowaction2098 = {
+                scriptid = "workflowaction2098"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                field = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_cco_approval.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = netsuite.customlist.instance.customlist1072.customvalues.customvalue.val_141717_5651618_sb1_788.scriptid
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "\"User\" IN (\"CCO approver\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      User = {
+                        name = "User"
+                        value = "STDUSERUSER"
+                      }
+                      CCO_approver@s = {
+                        name = "CCO approver"
+                        value = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_cco_approver.scriptid
+                      }
+                    }
+                  }
+                }
+                index = 2
+              }
+              workflowaction2099 = {
+                scriptid = "workflowaction2099"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                field = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_cfo_approval.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = netsuite.customlist.instance.customlist1072.customvalues.customvalue.val_141717_5651618_sb1_788.scriptid
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "\"User\" IN (\"CFO Approver\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      User = {
+                        name = "User"
+                        value = "STDUSERUSER"
+                      }
+                      CFO_Approver@s = {
+                        name = "CFO Approver"
+                        value = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_cfo_approver.scriptid
+                      }
+                    }
+                  }
+                }
+                index = 3
+              }
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition1716 = {
+              scriptid = "workflowtransition1716"
+              contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+              tostate = netsuite.workflow.instance.customworkflow7.workflowstates.workflowstate.workflowstate332.scriptid
+              initcondition = {
+                type = "VISUAL_BUILDER"
+              }
+              index = 0
+            }
+          }
+        }
+        index = 8
+      }
+      workflowstate332 = {
+        scriptid = "workflowstate332"
+        donotexitworkflow = false
+        name = "NetSuite Rejection"
+        positionx = -147
+        positiony = 253
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            setfieldvalueaction = {
+              workflowaction2100 = {
+                scriptid = "workflowaction2100"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                field = "STDBODYAPPROVALSTATUS"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = "3"
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+              workflowaction2101 = {
+                scriptid = "workflowaction2101"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                field = netsuite.transactionbodycustomfield.instance.custbody_pcg_submit_reapproval.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 1
+              }
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition1700 = {
+              scriptid = "workflowtransition1700"
+              contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+              tostate = netsuite.workflow.instance.customworkflow7.workflowstates.workflowstate.workflowstate320.scriptid
+              triggertype = "AFTERSUBMIT"
+              initcondition = {
+                formula = "isChecked(\"Submit for Reapproval\") = 'T'"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Submit_for_Reapproval@s = {
+                      name = "Submit for Reapproval"
+                      value = netsuite.transactionbodycustomfield.instance.custbody_pcg_submit_reapproval.scriptid
+                    }
+                  }
+                }
+              }
+              index = 0
+            }
+          }
+        }
+        index = 9
+      }
+    }
+  }
+  _generated_dependencies = [
+    {
+      reference = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_cco_approver.scriptid
+    },
+    {
+      reference = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_controller_approver.scriptid
+    },
+    {
+      reference = netsuite.transactionbodycustomfield.instance.custbody_pcg_tfi_dept_lead_approver.scriptid
+    },
+  ]
+}

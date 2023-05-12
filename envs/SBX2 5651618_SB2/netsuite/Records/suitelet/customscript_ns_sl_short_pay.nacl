@@ -1,0 +1,122 @@
+netsuite.suitelet customscript_ns_sl_short_pay {
+  scriptid = "customscript_ns_sl_short_pay"
+  isinactive = false
+  name = "NS | SL | Short Pay"
+  notifyadmins = false
+  notifyowner = true
+  notifyuser = false
+  scriptfile = netsuite.file.instance.SuiteScripts_NetSuite_tf_SL_Inv_Short_Pay_js@dduuuuv.path
+  scriptcustomfields = {
+    scriptcustomfield = {
+      custscript_ns_client_script_file_path = {
+        scriptid = "custscript_ns_client_script_file_path"
+        accesslevel = "2"
+        applyformatting = false
+        checkspelling = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "TEXT"
+        isformula = false
+        ismandatory = false
+        label = "Client Script File Path"
+        searchlevel = "2"
+        storevalue = true
+        index = 0
+      }
+      custscript_ns_inv_srch = {
+        scriptid = "custscript_ns_inv_srch"
+        accesslevel = "2"
+        applyformatting = false
+        checkspelling = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "SELECT"
+        isformula = false
+        ismandatory = false
+        label = "Invoice Search"
+        onparentdelete = "NO_ACTION"
+        searchlevel = "2"
+        selectrecordtype = "-119"
+        storevalue = true
+        index = 1
+      }
+      custscript_ns_short_pay_item_srch = {
+        scriptid = "custscript_ns_short_pay_item_srch"
+        accesslevel = "2"
+        applyformatting = false
+        checkspelling = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "SELECT"
+        isformula = false
+        ismandatory = false
+        label = "Short Pay Item Search"
+        onparentdelete = "NO_ACTION"
+        searchlevel = "2"
+        selectrecordtype = "-119"
+        storevalue = true
+        index = 2
+      }
+      custscript_ns_sales_rep_srch = {
+        scriptid = "custscript_ns_sales_rep_srch"
+        accesslevel = "2"
+        applyformatting = false
+        checkspelling = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "SELECT"
+        isformula = false
+        ismandatory = false
+        label = "Sales Rep Search"
+        onparentdelete = "NO_ACTION"
+        searchlevel = "2"
+        selectrecordtype = "-119"
+        storevalue = true
+        index = 3
+      }
+      custscript_ns_def_appr_amt = {
+        scriptid = "custscript_ns_def_appr_amt"
+        accesslevel = "2"
+        applyformatting = true
+        checkspelling = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "CURRENCY"
+        isformula = false
+        ismandatory = false
+        label = "Default Approval Amount"
+        searchlevel = "2"
+        storevalue = true
+        index = 4
+      }
+    }
+  }
+  scriptdeployments = {
+    scriptdeployment = {
+      customdeploy_ns_sl_short_pay = {
+        scriptid = "customdeploy_ns_sl_short_pay"
+        allemployees = false
+        allpartners = false
+        allroles = true
+        custscript_ns_client_script_file_path = "/SuiteScripts/NetSuite/tf_CS_Inv_Short_Pay.js"
+        custscript_ns_def_appr_amt = 200
+        custscript_ns_sales_rep_srch = netsuite.savedsearch.instance.customsearch_ns_emp_sales_rep.scriptid
+        custscript_ns_short_pay_item_srch = netsuite.savedsearch.instance.customsearch_ns_item_short_pay.scriptid
+        isdeployed = true
+        isonline = false
+        loglevel = "DEBUG"
+        runasrole = "ADMINISTRATOR"
+        status = "RELEASED"
+        title = "NS | SL | Short Pay"
+        links = {
+          link = {
+            BASICTRANSACTIONSCUSTOM = {
+              linkcategory = "BASICTRANSACTIONSCUSTOM"
+              linklabel = "Create Short Pay"
+            }
+          }
+        }
+      }
+    }
+  }
+}

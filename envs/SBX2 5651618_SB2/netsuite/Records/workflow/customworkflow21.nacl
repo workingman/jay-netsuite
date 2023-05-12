@@ -1,0 +1,365 @@
+netsuite.workflow customworkflow21 {
+  scriptid = "customworkflow21"
+  description = "Approvals are required by amount and by overdue balance, WF is created to finance approvals"
+  initcontexts = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+  initoncreate = true
+  initonvieworupdate = true
+  isinactive = true
+  islogenabled = true
+  keephistory = "ALWAYS"
+  name = "TFI-Sales Order Approval"
+  recordtypes = "SALESORDER"
+  releasestatus = "NOTINITIATING"
+  runasadmin = true
+  initcondition = {
+    type = "VISUAL_BUILDER"
+  }
+  workflowstates = {
+    workflowstate = {
+      workflowstate316 = {
+        scriptid = "workflowstate316"
+        donotexitworkflow = false
+        name = "Calculate Diference"
+        positionx = 243
+        positiony = 133
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            setfieldvalueaction = {
+              workflowaction2036 = {
+                scriptid = "workflowaction2036"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                field = netsuite.transactionbodycustomfield.instance.custbody_pcg_ar_approval.scriptid
+                isinactive = true
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = "1"
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "\"Customer:Overdue Balance\" > 0.00"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Customer_Overdue_Balance@fs = {
+                        name = "Customer:Overdue Balance"
+                        value = "STDBODYCUSTOMER:STDENTITYOVERDUEBALANCE"
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+              workflowaction2209 = {
+                scriptid = "workflowaction2209"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OCRPLUGIN|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                field = netsuite.transactionbodycustomfield.instance.custbody_pcg_sales_manager_approver.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuefield = netsuite.transactionbodycustomfield.instance.custbody_tfi_employee_sales.scriptid
+                valuetype = "FIELD"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 1
+              }
+            }
+          }
+          BEFORELOAD = {
+            triggertype = "BEFORELOAD"
+            addbuttonaction = {
+              workflowaction2037 = {
+                scriptid = "workflowaction2037"
+                checkconditionbeforeexecution = true
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                isinactive = false
+                label = "Approval Rate"
+                saverecordfirst = true
+                initcondition = {
+                  formula = "\"Order Status\" IN (\"Order Status1\") AND \"Sales Manager Approver\" IN (\"Current User\") AND \"Sales Manager Approval\" IN (\"Approval Status1\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Order_Status@s = {
+                        name = "Order Status"
+                        value = "STDBODYORDERSTATUS"
+                      }
+                      Order_Status1@s = {
+                        name = "Order Status1"
+                        selectrecordtype = "-244"
+                        value = "11"
+                      }
+                      Sales_Manager_Approver@s = {
+                        name = "Sales Manager Approver"
+                        value = netsuite.transactionbodycustomfield.instance.custbody_pcg_sales_manager_approver.scriptid
+                      }
+                      Current_User@s = {
+                        name = "Current User"
+                        selectrecordtype = "-4"
+                        value = "@CURRENTUSER@"
+                      }
+                      Sales_Manager_Approval@s = {
+                        name = "Sales Manager Approval"
+                        value = netsuite.transactionbodycustomfield.instance.custbody_pcg_sales_manager_approval.scriptid
+                      }
+                      Approval_Status1@s = {
+                        name = "Approval Status1"
+                        selectrecordtype = "-243"
+                        value = "1"
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+            }
+          }
+          BEFORESUBMIT = {
+            triggertype = "BEFORESUBMIT"
+            workflowsublistactiongroup = {
+              workflowaction2038 = {
+                scriptid = "workflowaction2038"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                isinactive = false
+                schedulemode = "DELAY"
+                sublist = "ITEM"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                setfieldvalueaction = {
+                  workflowaction2039 = {
+                    scriptid = "workflowaction2039"
+                    field = netsuite.transactioncolumncustomfield.instance.custcoltfi_base_price_validation.scriptid
+                    isinactive = false
+                    valuechecked = false
+                    valueformula = "(({line.custcol_tfi_item_base_price}*.10-{line.custcol_tfi_item_base_price})*(-1))"
+                    valuetype = "FORMULA"
+                    initcondition = {
+                      type = "VISUAL_BUILDER"
+                    }
+                    index = 0
+                  }
+                  workflowaction2040 = {
+                    scriptid = "workflowaction2040"
+                    field = netsuite.transactioncolumncustomfield.instance.custcol_tfi_dif_price.scriptid
+                    isinactive = false
+                    valuechecked = false
+                    valueformula = "{line.rate}-{line.custcoltfi_base_price_validation}"
+                    valuetype = "FORMULA"
+                    initcondition = {
+                      type = "VISUAL_BUILDER"
+                    }
+                    index = 1
+                  }
+                  workflowaction2041 = {
+                    scriptid = "workflowaction2041"
+                    field = "STDBODYAPPROVALSTATUS"
+                    isinactive = true
+                    valuechecked = false
+                    valueselect = "1"
+                    valuetype = "STATIC"
+                    initcondition = {
+                      formula = "\"Line:Rate\" >= \"Line:Base price validation (SO Approval)\""
+                      type = "VISUAL_BUILDER"
+                      parameters = {
+                        parameter = {
+                          Line_Rate@f = {
+                            name = "Line:Rate"
+                            value = "STDCOLRATE"
+                          }
+                          Line_Base_price_validation__SO_Approval_@fsssjsk = {
+                            name = "Line:Base price validation (SO Approval)"
+                            value = netsuite.transactioncolumncustomfield.instance.custcoltfi_base_price_validation.scriptid
+                          }
+                        }
+                      }
+                    }
+                    index = 2
+                  }
+                }
+                index = 0
+              }
+            }
+          }
+          AFTERSUBMIT = {
+            triggertype = "AFTERSUBMIT"
+            workflowsublistactiongroup = {
+              workflowaction2042 = {
+                scriptid = "workflowaction2042"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                isinactive = false
+                schedulemode = "DELAY"
+                sublist = "ITEM"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                setfieldvalueaction = {
+                  workflowaction2043 = {
+                    scriptid = "workflowaction2043"
+                    field = "STDBODYORDERSTATUS"
+                    isinactive = false
+                    valuechecked = false
+                    valueselect = "11"
+                    valuetype = "STATIC"
+                    initcondition = {
+                      formula = "\"Line:Rate\" < \"Line:Base price validation (SO Approval)\""
+                      type = "VISUAL_BUILDER"
+                      parameters = {
+                        parameter = {
+                          Line_Rate@f = {
+                            name = "Line:Rate"
+                            value = "STDCOLRATE"
+                          }
+                          Line_Base_price_validation__SO_Approval_@fsssjsk = {
+                            name = "Line:Base price validation (SO Approval)"
+                            value = netsuite.transactioncolumncustomfield.instance.custcoltfi_base_price_validation.scriptid
+                          }
+                        }
+                      }
+                    }
+                    index = 0
+                  }
+                  workflowaction2044 = {
+                    scriptid = "workflowaction2044"
+                    field = netsuite.transactionbodycustomfield.instance.custbody_pcg_sales_manager_approval.scriptid
+                    isinactive = false
+                    valuechecked = false
+                    valueselect = "1"
+                    valuetype = "STATIC"
+                    initcondition = {
+                      formula = "\"Line:Rate\" < \"Line:Base price validation (SO Approval)\""
+                      type = "VISUAL_BUILDER"
+                      parameters = {
+                        parameter = {
+                          Line_Rate@f = {
+                            name = "Line:Rate"
+                            value = "STDCOLRATE"
+                          }
+                          Line_Base_price_validation__SO_Approval_@fsssjsk = {
+                            name = "Line:Base price validation (SO Approval)"
+                            value = netsuite.transactioncolumncustomfield.instance.custcoltfi_base_price_validation.scriptid
+                          }
+                        }
+                      }
+                    }
+                    index = 1
+                  }
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition1697 = {
+              scriptid = "workflowtransition1697"
+              buttonaction = netsuite.workflow.instance.customworkflow21.workflowstates.workflowstate.workflowstate316.workflowactions.BEFORELOAD.addbuttonaction.workflowaction2037.scriptid
+              contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+              tostate = netsuite.workflow.instance.customworkflow21.workflowstates.workflowstate.workflowstate317.scriptid
+              initcondition = {
+                formula = "\"Sales Manager Approval\" IN (\"Approval Status1\")"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Sales_Manager_Approval@s = {
+                      name = "Sales Manager Approval"
+                      value = netsuite.transactionbodycustomfield.instance.custbody_pcg_sales_manager_approval.scriptid
+                    }
+                    Approval_Status1@s = {
+                      name = "Approval Status1"
+                      selectrecordtype = "-243"
+                      value = "1"
+                    }
+                  }
+                }
+              }
+              index = 0
+            }
+          }
+        }
+        index = 0
+      }
+      workflowstate317 = {
+        scriptid = "workflowstate317"
+        donotexitworkflow = false
+        name = "Sales Manager + Overdue"
+        positionx = 433
+        positiony = 133
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            setfieldvalueaction = {
+              workflowaction2045 = {
+                scriptid = "workflowaction2045"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                field = netsuite.transactionbodycustomfield.instance.custbody_pcg_sales_manager_approval.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = "2"
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition1698 = {
+              scriptid = "workflowtransition1698"
+              contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+              tostate = netsuite.workflow.instance.customworkflow21.workflowstates.workflowstate.workflowstate318.scriptid
+              initcondition = {
+                formula = "\"Customer:Overdue Balance\" >= 0.00"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Customer_Overdue_Balance@fs = {
+                      name = "Customer:Overdue Balance"
+                      value = "STDBODYCUSTOMER:STDENTITYOVERDUEBALANCE"
+                    }
+                  }
+                }
+              }
+              index = 0
+            }
+          }
+        }
+        index = 1
+      }
+      workflowstate318 = {
+        scriptid = "workflowstate318"
+        donotexitworkflow = true
+        name = "NetSuite Approval"
+        positionx = 593
+        positiony = 133
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            setfieldvalueaction = {
+              workflowaction2046 = {
+                scriptid = "workflowaction2046"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                field = "STDBODYORDERSTATUS"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = "12"
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        index = 2
+      }
+    }
+  }
+}

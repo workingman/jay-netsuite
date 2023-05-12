@@ -1,0 +1,171 @@
+netsuite.workflow customworkflow14 {
+  scriptid = "customworkflow14"
+  initcontexts = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+  initoncreate = true
+  initonvieworupdate = true
+  isinactive = false
+  islogenabled = false
+  keephistory = "ONLYWHENTESTING"
+  name = "Vendor Return Case"
+  recordtypes = "VENDORRETURNAUTHORIZATION"
+  releasestatus = "RELEASED"
+  runasadmin = true
+  initcondition = {
+    type = "VISUAL_BUILDER"
+  }
+  workflowstates = {
+    workflowstate = {
+      workflowstate272 = {
+        scriptid = "workflowstate272"
+        donotexitworkflow = false
+        name = "State 1 : Add Button For Case"
+        positionx = 243
+        positiony = 133
+        workflowactions = {
+          BEFORELOAD = {
+            triggertype = "BEFORELOAD"
+            addbuttonaction = {
+              workflowaction1885 = {
+                scriptid = "workflowaction1885"
+                checkconditionbeforeexecution = true
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                isinactive = false
+                label = "Case"
+                saverecordfirst = true
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition1638 = {
+              scriptid = "workflowtransition1638"
+              buttonaction = netsuite.workflow.instance.customworkflow14.workflowstates.workflowstate.workflowstate272.workflowactions.BEFORELOAD.addbuttonaction.workflowaction1885.scriptid
+              contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+              tostate = netsuite.workflow.instance.customworkflow14.workflowstates.workflowstate.workflowstate273.scriptid
+              initcondition = {
+                type = "VISUAL_BUILDER"
+              }
+              index = 0
+            }
+          }
+        }
+        index = 0
+      }
+      workflowstate273 = {
+        scriptid = "workflowstate273"
+        description = "Creates a case record from the Vendor Return Authorization Form."
+        donotexitworkflow = false
+        name = "State 2 : Creates a Case Record"
+        positionx = 243
+        positiony = 233
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            createrecordaction = {
+              workflowaction1886 = {
+                scriptid = "workflowaction1886"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                isinactive = false
+                recordtype = "SUPPORTCASE"
+                resultfield = netsuite.transactionbodycustomfield.instance.custbody_tfi_vendor_case.scriptid
+                schedulemode = "DELAY"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                fieldsettings = {
+                  fieldsetting = {
+                    STDEVENTCOMPANY = {
+                      targetfield = "STDEVENTCOMPANY"
+                      index = 0
+                    }
+                    STDEVENTTITLE = {
+                      targetfield = "STDEVENTTITLE"
+                      valuetext = "TEST"
+                      index = 1
+                    }
+                    custevent_tfi_vst = {
+                      targetfield = netsuite.crmcustomfield.instance.custevent_tfi_vst.scriptid
+                      valuefield = "STDBODYCREATEDFROM"
+                      index = 2
+                    }
+                    custevent_pcg_tfi_vendor_case = {
+                      targetfield = netsuite.crmcustomfield.instance.custevent_pcg_tfi_vendor_case.scriptid
+                      valuefield = "STDBODYVENDOR"
+                      index = 3
+                    }
+                  }
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition1639 = {
+              scriptid = "workflowtransition1639"
+              contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+              tostate = netsuite.workflow.instance.customworkflow14.workflowstates.workflowstate.workflowstate274.scriptid
+              initcondition = {
+                type = "VISUAL_BUILDER"
+              }
+              index = 0
+            }
+          }
+        }
+        index = 1
+      }
+      workflowstate274 = {
+        scriptid = "workflowstate274"
+        description = "Goes to the Case record created in State2 for the user to add information as needed."
+        donotexitworkflow = false
+        name = "State 3 : Go To Case Record"
+        positionx = 433
+        positiony = 233
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            gotorecordaction = {
+              workflowaction1887 = {
+                scriptid = "workflowaction1887"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                ineditmode = true
+                isinactive = false
+                recordidjoinfield = netsuite.transactionbodycustomfield.instance.custbody_tfi_vendor_case.scriptid
+                recordtype = "SUPPORTCASE"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                fieldsettings = {
+                  fieldsetting = {
+                    STDEVENTCOMPANY = {
+                      targetfield = "STDEVENTCOMPANY"
+                      index = 0
+                    }
+                    custevent_tfi_vst = {
+                      targetfield = netsuite.crmcustomfield.instance.custevent_tfi_vst.scriptid
+                      valuefield = "STDBODYCREATEDFROM"
+                      index = 1
+                    }
+                    custevent_pcg_tfi_vendor_case = {
+                      targetfield = netsuite.crmcustomfield.instance.custevent_pcg_tfi_vendor_case.scriptid
+                      valuefield = "STDBODYVENDOR"
+                      index = 2
+                    }
+                  }
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        index = 2
+      }
+    }
+  }
+}

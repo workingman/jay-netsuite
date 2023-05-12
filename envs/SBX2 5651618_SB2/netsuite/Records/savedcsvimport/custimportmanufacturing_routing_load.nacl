@@ -1,0 +1,142 @@
+netsuite.savedcsvimport custimportmanufacturing_routing_load {
+  scriptid = "custimportmanufacturing_routing_load"
+  charencoding = "windows-1252"
+  columndelimiter = "COMMA"
+  datahandling = "ADD"
+  decimaldelimiter = "PERIOD"
+  ignorereadonly = true
+  importname = "Manufacturing Routing Load"
+  logsystemnotescustfields = false
+  multiselectdelimiter = "|"
+  overwritemissingfields = false
+  overwritesublists = false
+  recordtype = "MANUFACTURINGROUTING"
+  runserversuitescript = true
+  usemultithread = false
+  validatemandatorycustfields = true
+  audience = {
+    allemployees = false
+    allpartners = false
+    allroles = false
+    globaledit = true
+    ispublic = true
+  }
+  filemappings = {
+    filemapping = {
+      MANUFACTURINGROUTING_ROUTINGSTEP@f = {
+        file = "MANUFACTURINGROUTING:ROUTINGSTEP"
+        foreignkey = "Name"
+      }
+      MANUFACTURINGROUTING = {
+        file = "MANUFACTURINGROUTING"
+        primarykey = "Name"
+      }
+    }
+  }
+  recordmappings = {
+    recordmapping = {
+      MANUFACTURINGROUTING = {
+        record = "MANUFACTURINGROUTING"
+        fieldmappings = {
+          fieldmapping = {
+            AUTOCALCULATELAG = {
+              field = "AUTOCALCULATELAG"
+              value = "F"
+            }
+            BILLOFMATERIALS = {
+              field = "BILLOFMATERIALS"
+              columnreference = {
+                column = "Bill of Materials"
+                file = "MANUFACTURINGROUTING"
+                type = "EXTERNAL_ID"
+              }
+            }
+            EXTERNALID = {
+              field = "EXTERNALID"
+              columnreference = {
+                column = "Name"
+                file = "MANUFACTURINGROUTING:ROUTINGSTEP"
+                type = "NAME"
+              }
+            }
+            ISINACTIVE = {
+              field = "ISINACTIVE"
+              value = "F"
+            }
+            LOCATION = {
+              field = "LOCATION"
+              value = "115"
+            }
+            NAME = {
+              field = "NAME"
+              columnreference = {
+                column = "Name"
+                file = "MANUFACTURINGROUTING"
+                type = "NAME"
+              }
+            }
+            SUBSIDIARY = {
+              field = "SUBSIDIARY"
+              value = "2"
+            }
+          }
+        }
+      }
+      MANUFACTURINGROUTING_ROUTINGSTEP@f = {
+        record = "MANUFACTURINGROUTING:ROUTINGSTEP"
+        fieldmappings = {
+          fieldmapping = {
+            MANUFACTURINGCOSTTEMPLATE = {
+              field = "MANUFACTURINGCOSTTEMPLATE"
+              columnreference = {
+                column = "Manufacturing Cost Template"
+                file = "MANUFACTURINGROUTING:ROUTINGSTEP"
+                type = "NAME"
+              }
+            }
+            MANUFACTURINGWORKCENTER = {
+              field = "MANUFACTURINGWORKCENTER"
+              columnreference = {
+                column = "Manufacturing Work Center"
+                file = "MANUFACTURINGROUTING:ROUTINGSTEP"
+                type = "NAME"
+              }
+            }
+            OPERATIONNAME = {
+              field = "OPERATIONNAME"
+              columnreference = {
+                column = "Operation Name"
+                file = "MANUFACTURINGROUTING:ROUTINGSTEP"
+                type = "NAME"
+              }
+            }
+            OPERATIONSEQUENCE = {
+              field = "OPERATIONSEQUENCE"
+              columnreference = {
+                column = "Operation Sequence"
+                file = "MANUFACTURINGROUTING:ROUTINGSTEP"
+                type = "NAME"
+              }
+            }
+            RUNRATE = {
+              field = "RUNRATE"
+              columnreference = {
+                column = "Run Rate (Min"
+                file = "MANUFACTURINGROUTING:ROUTINGSTEP"
+                type = "NAME"
+              }
+            }
+            SETUPTIME = {
+              field = "SETUPTIME"
+              columnreference = {
+                column = "Setup Time (Min)"
+                file = "MANUFACTURINGROUTING:ROUTINGSTEP"
+                type = "NAME"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

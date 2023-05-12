@@ -1,0 +1,41 @@
+netsuite.workflowactionscript customscript_sps_thomas_so_unit_wfa {
+  scriptid = "customscript_sps_thomas_so_unit_wfa"
+  defaultfunction = "onAction"
+  description = '''
+Custom script for Thomas Foods.
+
+Applies unit conversion logic to Sales Order meeting the following criteria during Create/Edit events:
+• Customer: Enable Custom EDI Unit Conversion = T
+• Line: EDI UOM != EA
+• Line: Item != Default XRef Item
+
+Executed by Workflow: [SPS] Thomas Foods Order Unit Conversion.
+
+Sets values for items where EDI UOM is not 'LB':
+• TP Qty (column): Copy value of Quantity
+• Quantity (column): TP Qty * Conversion Rate
+• Rate (column): TP Price / Column): TP Price * Conversion Rate (if Customer: Accept Trading Partner Prices is checked). Rounds to 5 decimals.
+• Unit Qty Converted (column): checked
+• Unit Conversion Complete (body): checked only when all lines of the Sales Order have been processed by this solution as a non-SPS Error
+'''
+  isinactive = false
+  name = "[SPS] Thomas Foods Sales Order Unit WFA"
+  notifyadmins = false
+  notifyowner = true
+  notifyuser = false
+  scriptfile = "[/SuiteBundles/Bundle 472817/SPS_ThomasFoods_SalesOrder_Unit_Conversion_WFA.js]"
+  scriptdeployments = {
+    scriptdeployment = {
+      customdeploysps_thomas_so_unit_wfa = {
+        scriptid = "customdeploysps_thomas_so_unit_wfa"
+        allemployees = false
+        allpartners = false
+        allroles = true
+        isdeployed = true
+        loglevel = "DEBUG"
+        recordtype = "SALESORDER"
+        status = "RELEASED"
+      }
+    }
+  }
+}

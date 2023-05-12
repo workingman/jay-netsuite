@@ -1,0 +1,103 @@
+netsuite.workflow customworkflow_sps_thomas_so_unit_ {
+  scriptid = "customworkflow_sps_thomas_so_unit_"
+  description = "Handles delay & execution of UOM conversion script [SPS] Thomas Foods Sales Order Units WFA on Sales Order during Create/Edit events in Web Services, Suitelet and Scheduled Script contexts."
+  initcontexts = "SCHEDULED|WEBSERVICES|SUITELET"
+  initeventtypes = "CREATE|EDIT"
+  initoncreate = true
+  initonvieworupdate = true
+  inittriggertype = "BEFORESUBMIT"
+  isinactive = false
+  islogenabled = true
+  keephistory = "ALWAYS"
+  name = "[SPS] Thomas Foods Order Unit Conversion"
+  recordtypes = "SALESORDER"
+  releasestatus = "RELEASED"
+  runasadmin = true
+  initcondition = {
+    formula = "isChecked(\"Customer:Enable Custom EDI Unit Conversion\") = 'T' AND isChecked(\"Unit Conversion Complete\") = 'F' AND isEmpty(\"SPS Routing Key\") = 'F'"
+    type = "VISUAL_BUILDER"
+    parameters = {
+      parameter = {
+        Customer_Enable_Custom_EDI_Unit_Conversion@fssss = {
+          name = "Customer:Enable Custom EDI Unit Conversion"
+          value = "STDBODYCUSTOMER:[scriptid=custentity_sps_item_case_conversion]"
+        }
+        Unit_Conversion_Complete@s = {
+          name = "Unit Conversion Complete"
+          value = netsuite.transactionbodycustomfield.instance.custbody_sps_uom_conversion_complete.scriptid
+        }
+        SPS_Routing_Key@s = {
+          name = "SPS Routing Key"
+          value = "[scriptid=custbody_sps_routingkey]"
+        }
+      }
+    }
+  }
+  workflowstates = {
+    workflowstate = {
+      workflowstate117 = {
+        scriptid = "workflowstate117"
+        description = "Holding state for XRef completion"
+        donotexitworkflow = false
+        name = "Entry: Pending XRefs"
+        positionx = 243
+        positiony = 133
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition15 = {
+              scriptid = "workflowtransition15"
+              tostate = netsuite.workflow.instance.customworkflow_sps_thomas_so_unit_.workflowstates.workflowstate.workflowstate118.scriptid
+              triggertype = "AFTERSUBMIT"
+              initcondition = {
+                formula = "isChecked(\"Queued for Cross References\") = 'F'"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Queued_for_Cross_References@s = {
+                      name = "Queued for Cross References"
+                      value = "[scriptid=custbody_sps_xref_queued]"
+                    }
+                  }
+                }
+              }
+              index = 0
+            }
+          }
+        }
+        index = 0
+      }
+      workflowstate118 = {
+        scriptid = "workflowstate118"
+        description = "Action state; handles conversion logic"
+        donotexitworkflow = false
+        name = "Execute: Unit Calculations"
+        positionx = 243
+        positiony = 213
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            customaction = {
+              workflowaction364 = {
+                scriptid = "workflowaction364"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OCRPLUGIN|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                isinactive = false
+                schedulemode = "DELAY"
+                scripttype = netsuite.workflowactionscript.instance.customscript_sps_thomas_so_unit_wfa.scriptid
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        index = 1
+      }
+    }
+  }
+  _generated_dependencies = [
+    {
+      reference = netsuite.entitycustomfield.instance.custentity_sps_item_case_conversion.scriptid
+    },
+  ]
+}

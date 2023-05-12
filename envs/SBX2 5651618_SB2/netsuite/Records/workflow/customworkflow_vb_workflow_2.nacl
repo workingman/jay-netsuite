@@ -1,0 +1,527 @@
+netsuite.workflow customworkflow_vb_workflow_2 {
+  scriptid = "customworkflow_vb_workflow_2"
+  description = "Vendor Bill Approval Routing Workflow| 3 way match"
+  initoncreate = true
+  initonvieworupdate = true
+  isinactive = true
+  islogenabled = true
+  keephistory = "ALWAYS"
+  name = "TFI Vendor Bill Approval  Workflow 3wa"
+  recordtypes = "VENDORBILL"
+  releasestatus = "NOTINITIATING"
+  runasadmin = true
+  initcondition = {
+    formula = "isEmpty(\"User:Supervisor\") = 'F'"
+    type = "VISUAL_BUILDER"
+    parameters = {
+      parameter = {
+        User_Supervisor@f = {
+          name = "User:Supervisor"
+          value = "STDUSERUSER:STDENTITYSUPERVISOR"
+        }
+      }
+    }
+  }
+  workflowcustomfields = {
+    workflowcustomfield = {
+      custworkflow_vb_memo_holder_2 = {
+        scriptid = "custworkflow_vb_memo_holder_2"
+        applyformatting = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "SELECT"
+        label = "Vendor Bill Memo Holder"
+        selectrecordtype = "[scriptid=customlist_vb_memo_list]"
+        storevalue = false
+        index = 0
+      }
+    }
+  }
+  workflowstates = {
+    workflowstate = {
+      workflowstate1 = {
+        scriptid = "workflowstate1"
+        donotexitworkflow = false
+        name = "Bill Validation"
+        positionx = 203
+        positiony = 53
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            setfieldvalueaction = {
+              workflowaction1 = {
+                scriptid = "workflowaction1"
+                field = "STDBODYAPPROVALSTATUS"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = "1"
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+            }
+            setdisplaytypeaction = {
+              workflowaction2 = {
+                scriptid = "workflowaction2"
+                displaytype = "HIDDEN"
+                eventtypes = "COPY|CREATE|EDIT"
+                field = "STDBODYNEXTAPPROVER"
+                isinactive = false
+                issublistfield = false
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+            }
+          }
+          BEFORESUBMIT = {
+            triggertype = "BEFORESUBMIT"
+            setfieldvalueaction = {
+              workflowaction3 = {
+                scriptid = "workflowaction3"
+                field = "STDBODYNEXTAPPROVER"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuefield = "STDENTITYSUPERVISOR"
+                valuejoinfield = "STDUSERUSER"
+                valuetype = "FIELD"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition26 = {
+              scriptid = "workflowtransition26"
+              conditionsavedsearch = "[scriptid=customsearch_vb_po_amount_rule]"
+              tostate = netsuite.workflow.instance.customworkflow_vb_workflow_2.workflowstates.workflowstate.workflowstate2.scriptid
+              triggertype = "AFTERSUBMIT"
+              initcondition = {
+                type = "VISUAL_BUILDER"
+              }
+              index = 0
+            }
+            workflowtransition27 = {
+              scriptid = "workflowtransition27"
+              conditionsavedsearch = "[scriptid=customsearch_vb_po_qty_rule]"
+              tostate = netsuite.workflow.instance.customworkflow_vb_workflow_2.workflowstates.workflowstate.workflowstate3.scriptid
+              triggertype = "AFTERSUBMIT"
+              initcondition = {
+                type = "VISUAL_BUILDER"
+              }
+              index = 1
+            }
+            workflowtransition25 = {
+              scriptid = "workflowtransition25"
+              conditionsavedsearch = "[scriptid=customsearch_vb_po_partial_rcpt]"
+              tostate = netsuite.workflow.instance.customworkflow_vb_workflow_2.workflowstates.workflowstate.workflowstate4.scriptid
+              triggertype = "AFTERSUBMIT"
+              initcondition = {
+                type = "VISUAL_BUILDER"
+              }
+              index = 2
+            }
+            workflowtransition28 = {
+              scriptid = "workflowtransition28"
+              conditionsavedsearch = "[scriptid=customsearch_vb_standalone_rule]"
+              eventtypes = "CREATE|EDIT"
+              tostate = netsuite.workflow.instance.customworkflow_vb_workflow_2.workflowstates.workflowstate.workflowstate5.scriptid
+              triggertype = "AFTERSUBMIT"
+              initcondition = {
+                type = "VISUAL_BUILDER"
+              }
+              index = 3
+            }
+            workflowtransition29 = {
+              scriptid = "workflowtransition29"
+              tostate = netsuite.workflow.instance.customworkflow_vb_workflow_2.workflowstates.workflowstate.workflowstate7.scriptid
+              triggertype = "AFTERSUBMIT"
+              initcondition = {
+                type = "VISUAL_BUILDER"
+              }
+              index = 4
+            }
+          }
+        }
+        index = 0
+      }
+      workflowstate2 = {
+        scriptid = "workflowstate2"
+        donotexitworkflow = false
+        name = "Bill-PO Amount Exception"
+        positionx = 203
+        positiony = 143
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            setfieldvalueaction = {
+              workflowaction6 = {
+                scriptid = "workflowaction6"
+                field = netsuite.workflow.instance.customworkflow_vb_workflow_2.workflowcustomfields.workflowcustomfield.custworkflow_vb_memo_holder_2.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = "[scriptid=customlist_vb_memo_list.value_2_3362026_349]"
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+              workflowaction7 = {
+                scriptid = "workflowaction7"
+                field = "STDBODYMEMO"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuefield = netsuite.workflow.instance.customworkflow_vb_workflow_2.workflowcustomfields.workflowcustomfield.custworkflow_vb_memo_holder_2.scriptid
+                valueformula = "CONCAT({memo}, CONCAT(' ',{custworkflow_4830_vb_memo_holder}))"
+                valuetype = "FIELD"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 1
+              }
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition30 = {
+              scriptid = "workflowtransition30"
+              tostate = netsuite.workflow.instance.customworkflow_vb_workflow_2.workflowstates.workflowstate.workflowstate5.scriptid
+              triggertype = "ONENTRY"
+              initcondition = {
+                type = "VISUAL_BUILDER"
+              }
+              index = 0
+            }
+          }
+        }
+        index = 1
+      }
+      workflowstate3 = {
+        scriptid = "workflowstate3"
+        donotexitworkflow = false
+        name = "Bill-PO Quantity Exception"
+        positionx = 203
+        positiony = 233
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            setfieldvalueaction = {
+              workflowaction8 = {
+                scriptid = "workflowaction8"
+                field = netsuite.workflow.instance.customworkflow_vb_workflow_2.workflowcustomfields.workflowcustomfield.custworkflow_vb_memo_holder_2.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = "[scriptid=customlist_vb_memo_list.value_3_3362026_349]"
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+              workflowaction9 = {
+                scriptid = "workflowaction9"
+                field = "STDBODYMEMO"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuefield = netsuite.workflow.instance.customworkflow_vb_workflow_2.workflowcustomfields.workflowcustomfield.custworkflow_vb_memo_holder_2.scriptid
+                valueformula = "CONCAT({memo}, CONCAT(' ',{custworkflow_4830_vb_memo_holder}))"
+                valuetype = "FIELD"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 1
+              }
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition31 = {
+              scriptid = "workflowtransition31"
+              tostate = netsuite.workflow.instance.customworkflow_vb_workflow_2.workflowstates.workflowstate.workflowstate5.scriptid
+              triggertype = "ONENTRY"
+              initcondition = {
+                type = "VISUAL_BUILDER"
+              }
+              index = 0
+            }
+          }
+        }
+        index = 2
+      }
+      workflowstate4 = {
+        scriptid = "workflowstate4"
+        donotexitworkflow = false
+        name = "Bill-PO Partial Rcpt Qty Exception"
+        positionx = 203
+        positiony = 323
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            setfieldvalueaction = {
+              workflowaction10 = {
+                scriptid = "workflowaction10"
+                eventtypes = "COPY|CREATE|EDIT"
+                field = netsuite.workflow.instance.customworkflow_vb_workflow_2.workflowcustomfields.workflowcustomfield.custworkflow_vb_memo_holder_2.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = "[scriptid=customlist_vb_memo_list.value_4_3362026_349]"
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+              workflowaction11 = {
+                scriptid = "workflowaction11"
+                eventtypes = "CREATE|EDIT"
+                field = "STDBODYMEMO"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuefield = netsuite.workflow.instance.customworkflow_vb_workflow_2.workflowcustomfields.workflowcustomfield.custworkflow_vb_memo_holder_2.scriptid
+                valueformula = "CONCAT({memo}, CONCAT(' ',{custworkflow_4830_vb_memo_holder}))"
+                valuetype = "FIELD"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 1
+              }
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition32 = {
+              scriptid = "workflowtransition32"
+              tostate = netsuite.workflow.instance.customworkflow_vb_workflow_2.workflowstates.workflowstate.workflowstate5.scriptid
+              triggertype = "ONENTRY"
+              initcondition = {
+                type = "VISUAL_BUILDER"
+              }
+              index = 0
+            }
+          }
+        }
+        index = 3
+      }
+      workflowstate5 = {
+        scriptid = "workflowstate5"
+        donotexitworkflow = false
+        name = "Pending Approval Queue"
+        positionx = 203
+        positiony = 413
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            setfieldvalueaction = {
+              workflowaction16 = {
+                scriptid = "workflowaction16"
+                field = "STDBODYAPPROVALSTATUS"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = "1"
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+            }
+          }
+          BEFORELOAD = {
+            triggertype = "BEFORELOAD"
+            addbuttonaction = {
+              workflowaction12 = {
+                scriptid = "workflowaction12"
+                checkconditionbeforeexecution = false
+                isinactive = false
+                label = "Approve Bill"
+                saverecordfirst = false
+                initcondition = {
+                  formula = "\"User\" IN (\"Next Approver\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      User = {
+                        name = "User"
+                        value = "STDUSERUSER"
+                      }
+                      Next_Approver@s = {
+                        name = "Next Approver"
+                        value = "STDBODYNEXTAPPROVER"
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+              workflowaction14 = {
+                scriptid = "workflowaction14"
+                checkconditionbeforeexecution = false
+                isinactive = false
+                label = "Reject Bill"
+                saverecordfirst = false
+                initcondition = {
+                  formula = "\"User\" IN (\"Next Approver\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      User = {
+                        name = "User"
+                        value = "STDUSERUSER"
+                      }
+                      Next_Approver@s = {
+                        name = "Next Approver"
+                        value = "STDBODYNEXTAPPROVER"
+                      }
+                    }
+                  }
+                }
+                index = 1
+              }
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition33 = {
+              scriptid = "workflowtransition33"
+              buttonaction = netsuite.workflow.instance.customworkflow_vb_workflow_2.workflowstates.workflowstate.workflowstate5.workflowactions.BEFORELOAD.addbuttonaction.workflowaction12.scriptid
+              tostate = netsuite.workflow.instance.customworkflow_vb_workflow_2.workflowstates.workflowstate.workflowstate7.scriptid
+              initcondition = {
+                type = "VISUAL_BUILDER"
+              }
+              index = 0
+            }
+            workflowtransition34 = {
+              scriptid = "workflowtransition34"
+              buttonaction = netsuite.workflow.instance.customworkflow_vb_workflow_2.workflowstates.workflowstate.workflowstate5.workflowactions.BEFORELOAD.addbuttonaction.workflowaction14.scriptid
+              tostate = netsuite.workflow.instance.customworkflow_vb_workflow_2.workflowstates.workflowstate.workflowstate6.scriptid
+              initcondition = {
+                type = "VISUAL_BUILDER"
+              }
+              index = 1
+            }
+          }
+        }
+        index = 4
+      }
+      workflowstate6 = {
+        scriptid = "workflowstate6"
+        donotexitworkflow = false
+        name = "Rejected"
+        positionx = 203
+        positiony = 503
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            setfieldvalueaction = {
+              workflowaction19 = {
+                scriptid = "workflowaction19"
+                field = "STDBODYAPPROVALSTATUS"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = "3"
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+            }
+          }
+          BEFORELOAD = {
+            triggertype = "BEFORELOAD"
+            addbuttonaction = {
+              workflowaction20 = {
+                scriptid = "workflowaction20"
+                checkconditionbeforeexecution = false
+                isinactive = false
+                label = "Re-submit for Approvals"
+                saverecordfirst = false
+                initcondition = {
+                  formula = "\"User\" NOT IN (\"Next Approver\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      User = {
+                        name = "User"
+                        value = "STDUSERUSER"
+                      }
+                      Next_Approver@s = {
+                        name = "Next Approver"
+                        value = "STDBODYNEXTAPPROVER"
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition35 = {
+              scriptid = "workflowtransition35"
+              buttonaction = netsuite.workflow.instance.customworkflow_vb_workflow_2.workflowstates.workflowstate.workflowstate6.workflowactions.BEFORELOAD.addbuttonaction.workflowaction20.scriptid
+              tostate = netsuite.workflow.instance.customworkflow_vb_workflow_2.workflowstates.workflowstate.workflowstate1.scriptid
+              initcondition = {
+                type = "VISUAL_BUILDER"
+              }
+              index = 0
+            }
+          }
+        }
+        index = 5
+      }
+      workflowstate7 = {
+        scriptid = "workflowstate7"
+        donotexitworkflow = true
+        name = "Approved"
+        positionx = 203
+        positiony = 593
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            setfieldvalueaction = {
+              workflowaction24 = {
+                scriptid = "workflowaction24"
+                field = "STDBODYAPPROVALSTATUS"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = "2"
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        index = 6
+      }
+    }
+  }
+}

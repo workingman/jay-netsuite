@@ -1,0 +1,131 @@
+netsuite.workflow customworkflowworkflow33 {
+  scriptid = "customworkflowworkflow33"
+  description = "Calculate SYSCO Freight charge adjustment cents per pound"
+  initcontexts = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OCRPLUGIN|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+  initoncreate = true
+  initonvieworupdate = true
+  isinactive = false
+  islogenabled = true
+  keephistory = "ALWAYS"
+  name = "SYSCO Freight Charge"
+  recordtypes = "INVOICE|SALESORDER"
+  releasestatus = "RELEASED"
+  runasadmin = true
+  initcondition = {
+    type = "VISUAL_BUILDER"
+  }
+  workflowstates = {
+    workflowstate = {
+      workflowstate357 = {
+        scriptid = "workflowstate357"
+        donotexitworkflow = false
+        name = "Calculate & Add Line Level Discount Item"
+        positionx = 243
+        positiony = 133
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            setfieldvalueaction = {
+              workflowaction2198 = {
+                scriptid = "workflowaction2198"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OCRPLUGIN|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                field = netsuite.transactionbodycustomfield.instance.custbody_tfi_so_freight_charge.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuefield = netsuite.entitycustomfield.instance.custentity_tfi_freight_charge.scriptid
+                valuejoinfield = "STDBODYCUSTOMER"
+                valuetype = "FIELD"
+                initcondition = {
+                  formula = "isEmpty(\"Customer Freight Charge\") = 'T'"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Customer_Freight_Charge@s = {
+                        name = "Customer Freight Charge"
+                        value = netsuite.transactionbodycustomfield.instance.custbody_tfi_so_freight_charge.scriptid
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+            }
+          }
+          AFTERSUBMIT = {
+            triggertype = "AFTERSUBMIT"
+            workflowsublistactiongroup = {
+              workflowaction2199 = {
+                scriptid = "workflowaction2199"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OCRPLUGIN|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                eventtypes = "CREATE"
+                isinactive = false
+                schedulemode = "DELAY"
+                sublist = "ITEM"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                setfieldvalueaction = {
+                  workflowaction2200 = {
+                    scriptid = "workflowaction2200"
+                    field = "STDCOLRATE"
+                    isinactive = false
+                    valuechecked = false
+                    valueformula = "{custbody_tfi_total_so_weight}*{custbody_tfi_so_freight_charge}"
+                    valuetype = "FORMULA"
+                    initcondition = {
+                      formula = "\"Line:Item\" IN (\"Item1\")"
+                      type = "VISUAL_BUILDER"
+                      parameters = {
+                        parameter = {
+                          Line_Item@f = {
+                            name = "Line:Item"
+                            value = "STDCOLITEM"
+                          }
+                          Item1 = {
+                            name = "Item1"
+                            selectrecordtype = "-10"
+                            value = "[ACCOUNT_SPECIFIC_VALUE]"
+                          }
+                        }
+                      }
+                    }
+                    index = 0
+                  }
+                  workflowaction2224 = {
+                    scriptid = "workflowaction2224"
+                    field = "STDCOLRATE"
+                    isinactive = false
+                    valuechecked = false
+                    valueformula = "{custbody_pcg_tfi_actual_lbs}*{custbody_tfi_so_freight_charge}"
+                    valuetype = "FORMULA"
+                    initcondition = {
+                      formula = "\"Line:Item\" IN (\"Item1\")"
+                      type = "VISUAL_BUILDER"
+                      parameters = {
+                        parameter = {
+                          Line_Item@f = {
+                            name = "Line:Item"
+                            value = "STDCOLITEM"
+                          }
+                          Item1 = {
+                            name = "Item1"
+                            selectrecordtype = "-10"
+                            value = "[ACCOUNT_SPECIFIC_VALUE]"
+                          }
+                        }
+                      }
+                    }
+                    index = 1
+                  }
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        index = 0
+      }
+    }
+  }
+}

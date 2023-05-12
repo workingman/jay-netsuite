@@ -1,0 +1,1212 @@
+netsuite.workflow customworkflow_naw_iaw_2 {
+  scriptid = "customworkflow_naw_iaw_2"
+  initoncreate = true
+  initonvieworupdate = false
+  isinactive = false
+  islogenabled = false
+  keephistory = "ALWAYS"
+  name = "TFX Invoice Approval Workflow"
+  recordtypes = "INVOICE"
+  releasestatus = "NOTINITIATING"
+  runasadmin = true
+  initcondition = {
+    formula = "isEmpty(\"User:Supervisor\") = 'F'"
+    type = "VISUAL_BUILDER"
+    parameters = {
+      parameter = {
+        User_Supervisor@f = {
+          name = "User:Supervisor"
+          value = "STDUSERUSER:STDENTITYSUPERVISOR"
+        }
+      }
+    }
+  }
+  workflowcustomfields = {
+    workflowcustomfield = {
+      custworkflow_iaw_termsval_pref_2 = {
+        scriptid = "custworkflow_iaw_termsval_pref_2"
+        applyformatting = false
+        defaultchecked = true
+        displaytype = "NORMAL"
+        fieldtype = "CHECKBOX"
+        label = "[PREF] Terms Validation"
+        storevalue = true
+        index = 0
+      }
+      custworkflow_iaw_exceptionrec_id_2 = {
+        scriptid = "custworkflow_iaw_exceptionrec_id_2"
+        applyformatting = true
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "INTEGER"
+        label = "[IAW] Exceptions Record ID"
+        storevalue = true
+        index = 1
+      }
+      custworkflow_iaw_setflag_1st_inv_2 = {
+        scriptid = "custworkflow_iaw_setflag_1st_inv_2"
+        applyformatting = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "CHECKBOX"
+        label = "[IAW] Is Customers First Invoice"
+        storevalue = true
+        index = 2
+      }
+      custworkflow_iaw_first_inv_val_pref_2 = {
+        scriptid = "custworkflow_iaw_first_inv_val_pref_2"
+        applyformatting = false
+        defaultchecked = true
+        displaytype = "NORMAL"
+        fieldtype = "CHECKBOX"
+        label = "[PREF] Customer 1st Invoice Validation"
+        storevalue = true
+        index = 3
+      }
+      custworkflow_iaw_custinvneedapp_val_pref_2 = {
+        scriptid = "custworkflow_iaw_custinvneedapp_val_pref_2"
+        applyformatting = false
+        defaultchecked = true
+        displaytype = "NORMAL"
+        fieldtype = "CHECKBOX"
+        label = "[PREF] Customer Invoice Needs Approval"
+        storevalue = true
+        index = 4
+      }
+      custworkflow_iaw_taxamount_pref_2 = {
+        scriptid = "custworkflow_iaw_taxamount_pref_2"
+        applyformatting = false
+        defaultchecked = true
+        displaytype = "NORMAL"
+        fieldtype = "CHECKBOX"
+        label = "[PREF] Tax Amount check"
+        storevalue = true
+        index = 5
+      }
+      custworkflow_iaw_custval_pref_2 = {
+        scriptid = "custworkflow_iaw_custval_pref_2"
+        applyformatting = false
+        defaultchecked = true
+        displaytype = "NORMAL"
+        fieldtype = "CHECKBOX"
+        label = "[PREF] Customer Validation"
+        storevalue = true
+        index = 6
+      }
+      custworkflow_iaw_app_routing_pref_2 = {
+        scriptid = "custworkflow_iaw_app_routing_pref_2"
+        applyformatting = true
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "INTEGER"
+        label = "[IAW] Invoice Approval Routing"
+        storevalue = true
+        index = 7
+      }
+      custworkflow_iaw_invoice_creator_2 = {
+        scriptid = "custworkflow_iaw_invoice_creator_2"
+        applyformatting = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "SELECT"
+        label = "[IAW] Invoice Creator"
+        selectrecordtype = "-4"
+        storevalue = true
+        index = 8
+      }
+      custworkflow_iaw_exception_flag_2 = {
+        scriptid = "custworkflow_iaw_exception_flag_2"
+        applyformatting = false
+        defaultchecked = false
+        displaytype = "NORMAL"
+        fieldtype = "CHECKBOX"
+        label = "[IAW] exception flag"
+        storevalue = true
+        index = 9
+      }
+    }
+  }
+  workflowstates = {
+    workflowstate = {
+      workflowstate_iaw_st_routing_chk = {
+        scriptid = "workflowstate_iaw_st_routing_chk"
+        donotexitworkflow = false
+        name = "Approval Routing Feature Check"
+        positionx = 243
+        positiony = 133
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            customaction = {
+              workflowaction_iaw_act_user_get_pref = {
+                scriptid = "workflowaction_iaw_act_user_get_pref"
+                isinactive = false
+                resultfield = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowstates.workflowstate.workflowstate_iaw_st_routing_chk.workflowstatecustomfields.workflowstatecustomfield.custwfstate_iaw_approvalrouting_2.scriptid
+                schedulemode = "DELAY"
+                scripttype = "[scriptid=customscript_naw_ws_get_user_pref]"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                parametersettings = {
+                  parametersetting = {
+                    customscript_naw_ws_get_user_pref_custscript_naw_pref_type@uuuuuvuuu = {
+                      targetparameter = "[scriptid=customscript_naw_ws_get_user_pref.custscript_naw_pref_type]"
+                      valuetext = "accountingpreferences"
+                    }
+                    customscript_naw_ws_get_user_pref_custscript_naw_pref_id@uuuuuvuuu = {
+                      targetparameter = "[scriptid=customscript_naw_ws_get_user_pref.custscript_naw_pref_id]"
+                      valuetext = "CUSTOMAPPROVALCUSTINVC"
+                    }
+                  }
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        workflowstatecustomfields = {
+          workflowstatecustomfield = {
+            custwfstate_iaw_approvalrouting_2 = {
+              scriptid = "custwfstate_iaw_approvalrouting_2"
+              applyformatting = true
+              defaultchecked = false
+              displaytype = "NORMAL"
+              fieldtype = "INTEGER"
+              label = "Approval routing"
+              storevalue = true
+              index = 0
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition165 = {
+              scriptid = "workflowtransition165"
+              tostate = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowstates.workflowstate.workflowstate_iaw_st_invoice_val.scriptid
+              initcondition = {
+                formula = "\"State:Approval routing\" = 1"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    State_Approval_routing@fs = {
+                      name = "State:Approval routing"
+                      value = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowstates.workflowstate.workflowstate_iaw_st_routing_chk.workflowstatecustomfields.workflowstatecustomfield.custwfstate_iaw_approvalrouting_2.scriptid
+                    }
+                  }
+                }
+              }
+              index = 0
+            }
+          }
+        }
+        index = 0
+      }
+      workflowstate_iaw_st_invoice_val = {
+        scriptid = "workflowstate_iaw_st_invoice_val"
+        donotexitworkflow = false
+        name = "Invoice Validation"
+        positionx = 243
+        positiony = 223
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            setfieldvalueaction = {
+              workflowaction_iaw_act_setappstativ = {
+                scriptid = "workflowaction_iaw_act_setappstativ"
+                field = "STDBODYAPPROVALSTATUS"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = "1"
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+              workflowaction_iaw_act_setexpflgiv = {
+                scriptid = "workflowaction_iaw_act_setexpflgiv"
+                field = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowcustomfields.workflowcustomfield.custworkflow_iaw_exception_flag_2.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 1
+              }
+              workflowaction_iaw_act_setexpidiv = {
+                scriptid = "workflowaction_iaw_act_setexpidiv"
+                field = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowcustomfields.workflowcustomfield.custworkflow_iaw_exceptionrec_id_2.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 2
+              }
+              workflowaction_iaw_act_setcreatoriv = {
+                scriptid = "workflowaction_iaw_act_setcreatoriv"
+                field = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowcustomfields.workflowcustomfield.custworkflow_iaw_invoice_creator_2.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuefield = "STDUSERUSER"
+                valuetype = "FIELD"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 3
+              }
+            }
+            setdisplaytypeaction = {
+              workflowaction_iaw_act_hidnxtapp = {
+                scriptid = "workflowaction_iaw_act_hidnxtapp"
+                displaytype = "HIDDEN"
+                field = "STDBODYNEXTAPPROVER"
+                isinactive = false
+                issublistfield = false
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+            }
+          }
+          BEFOREUSERSUBMIT = {
+            triggertype = "BEFOREUSERSUBMIT"
+            showmessageaction = {
+              workflowaction_iaw_act_shownoticebs = {
+                scriptid = "workflowaction_iaw_act_shownoticebs"
+                isinactive = false
+                messagetext = "The current transaction has been set to Pending Approval and will undergo a set of validations. Should the transaction pass these validations, it will automatically be set to Approved status."
+                initcondition = {
+                  formula = "\"Approval Status\" IN (\"Approval Status1\") AND \"User Role\" NOT IN (\"Role1\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Approval_Status@s = {
+                        name = "Approval Status"
+                        value = "STDBODYAPPROVALSTATUS"
+                      }
+                      Approval_Status1@s = {
+                        name = "Approval Status1"
+                        selectrecordtype = "-243"
+                        value = "2"
+                      }
+                      User_Role@s = {
+                        name = "User Role"
+                        value = "STDUSERROLE"
+                      }
+                      Role1 = {
+                        name = "Role1"
+                        selectrecordtype = "-118"
+                        value = "ADMINISTRATOR"
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+            }
+          }
+          BEFORESUBMIT = {
+            triggertype = "BEFORESUBMIT"
+            setfieldvalueaction = {
+              workflowaction_iaw_act_setnxtapp = {
+                scriptid = "workflowaction_iaw_act_setnxtapp"
+                field = "STDBODYNEXTAPPROVER"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuefield = "STDENTITYSUPERVISOR"
+                valuejoinfield = "STDUSERUSER"
+                valuetype = "FIELD"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+              workflowaction_iaw_act_setappstatbspa = {
+                scriptid = "workflowaction_iaw_act_setappstatbspa"
+                field = "STDBODYAPPROVALSTATUS"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = "1"
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "\"Approval Status\" IN (\"Approval Status1\") AND \"User Role\" NOT IN (\"Role1\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Approval_Status@s = {
+                        name = "Approval Status"
+                        value = "STDBODYAPPROVALSTATUS"
+                      }
+                      Approval_Status1@s = {
+                        name = "Approval Status1"
+                        selectrecordtype = "-243"
+                        value = "2"
+                      }
+                      User_Role@s = {
+                        name = "User Role"
+                        value = "STDUSERROLE"
+                      }
+                      Role1 = {
+                        name = "Role1"
+                        selectrecordtype = "-118"
+                        value = "ADMINISTRATOR"
+                      }
+                    }
+                  }
+                }
+                index = 1
+              }
+            }
+          }
+          AFTERSUBMIT = {
+            triggertype = "AFTERSUBMIT"
+            workflowactiongroup = {
+              workflowaction_iaw_grp_exp_cust = {
+                scriptid = "workflowaction_iaw_grp_exp_cust"
+                conditionsavedsearch = "[scriptid=customsearch_iaw_certain_customers]"
+                isinactive = false
+                schedulemode = "DELAY"
+                initcondition = {
+                  formula = "isChecked(\"Workflow:[PREF] Customer Validation\") = 'T'"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Workflow__PREF__Customer_Validation@fhiss = {
+                        name = "Workflow:[PREF] Customer Validation"
+                        value = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowcustomfields.workflowcustomfield.custworkflow_iaw_custval_pref_2.scriptid
+                      }
+                    }
+                  }
+                }
+                setfieldvalueaction = {
+                  workflowaction_iaw_act_setflgcust = {
+                    scriptid = "workflowaction_iaw_act_setflgcust"
+                    field = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowcustomfields.workflowcustomfield.custworkflow_iaw_exception_flag_2.scriptid
+                    isinactive = false
+                    valuechecked = true
+                    valuetype = "STATIC"
+                    index = 0
+                  }
+                }
+                customaction = {
+                  workflowaction_iaw_act_setexpcust = {
+                    scriptid = "workflowaction_iaw_act_setexpcust"
+                    isinactive = false
+                    resultfield = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowcustomfields.workflowcustomfield.custworkflow_iaw_exceptionrec_id_2.scriptid
+                    scripttype = "[scriptid=customscript_naw_ws_create_exceptionrec]"
+                    parametersettings = {
+                      parametersetting = {
+                        customscript_naw_ws_create_exceptionrec_custscript_naw_exception@uuuuvuu = {
+                          targetparameter = "[scriptid=customscript_naw_ws_create_exceptionrec.custscript_naw_exception]"
+                          valuetext = "The customer has a credit hold on the account."
+                        }
+                        customscript_naw_ws_create_exceptionrec_custscript_naw_exceptionrec_id@uuuuvuuu = {
+                          targetparameter = "[scriptid=customscript_naw_ws_create_exceptionrec.custscript_naw_exceptionrec_id]"
+                          valuefield = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowcustomfields.workflowcustomfield.custworkflow_iaw_exceptionrec_id_2.scriptid
+                        }
+                      }
+                    }
+                    index = 0
+                  }
+                }
+                index = 0
+              }
+              workflowaction_iaw_grp_exp_tax = {
+                scriptid = "workflowaction_iaw_grp_exp_tax"
+                isinactive = false
+                schedulemode = "DELAY"
+                initcondition = {
+                  formula = "isChecked(\"Workflow:[PREF] Tax Amount check\") = 'T' AND ( \"Tax Total\" = 0.00 OR isEmpty(\"Tax Total\") = 'T' )"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Workflow__PREF__Tax_Amount_check@fhisss = {
+                        name = "Workflow:[PREF] Tax Amount check"
+                        value = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowcustomfields.workflowcustomfield.custworkflow_iaw_taxamount_pref_2.scriptid
+                      }
+                      Tax_Total@s = {
+                        name = "Tax Total"
+                        value = "STDBODYTAXTOTAL"
+                      }
+                    }
+                  }
+                }
+                setfieldvalueaction = {
+                  workflowaction_iaw_act_setflgtax = {
+                    scriptid = "workflowaction_iaw_act_setflgtax"
+                    field = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowcustomfields.workflowcustomfield.custworkflow_iaw_exception_flag_2.scriptid
+                    isinactive = false
+                    valuechecked = true
+                    valuetype = "STATIC"
+                    index = 0
+                  }
+                }
+                customaction = {
+                  workflowaction_iaw_act_setexptax = {
+                    scriptid = "workflowaction_iaw_act_setexptax"
+                    isinactive = false
+                    resultfield = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowcustomfields.workflowcustomfield.custworkflow_iaw_exceptionrec_id_2.scriptid
+                    scripttype = "[scriptid=customscript_naw_ws_create_exceptionrec]"
+                    parametersettings = {
+                      parametersetting = {
+                        customscript_naw_ws_create_exceptionrec_custscript_naw_exception@uuuuvuu = {
+                          targetparameter = "[scriptid=customscript_naw_ws_create_exceptionrec.custscript_naw_exception]"
+                          valuetext = "There is no tax amount on the invoice."
+                        }
+                        customscript_naw_ws_create_exceptionrec_custscript_naw_exceptionrec_id@uuuuvuuu = {
+                          targetparameter = "[scriptid=customscript_naw_ws_create_exceptionrec.custscript_naw_exceptionrec_id]"
+                          valuefield = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowcustomfields.workflowcustomfield.custworkflow_iaw_exceptionrec_id_2.scriptid
+                        }
+                      }
+                    }
+                    index = 0
+                  }
+                }
+                index = 1
+              }
+              workflowaction_iaw_grp_exp_needsapp = {
+                scriptid = "workflowaction_iaw_grp_exp_needsapp"
+                isinactive = false
+                schedulemode = "DELAY"
+                initcondition = {
+                  formula = "isChecked(\"Workflow:[PREF] Customer Invoice Needs Approval\") = 'T' AND isChecked(\"Customer:Transactions Need Approval\") = 'T'"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Workflow__PREF__Customer_Invoice_Needs_Approval@fhissss = {
+                        name = "Workflow:[PREF] Customer Invoice Needs Approval"
+                        value = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowcustomfields.workflowcustomfield.custworkflow_iaw_custinvneedapp_val_pref_2.scriptid
+                      }
+                      Customer_Transactions_Need_Approval@fss = {
+                        name = "Customer:Transactions Need Approval"
+                        value = "STDBODYCUSTOMER:[scriptid=custentity_naw_trans_need_approval]"
+                      }
+                    }
+                  }
+                }
+                setfieldvalueaction = {
+                  workflowaction_iaw_act_setflgneedsapp = {
+                    scriptid = "workflowaction_iaw_act_setflgneedsapp"
+                    field = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowcustomfields.workflowcustomfield.custworkflow_iaw_exception_flag_2.scriptid
+                    isinactive = false
+                    valuechecked = true
+                    valuetype = "STATIC"
+                    index = 0
+                  }
+                }
+                customaction = {
+                  workflowaction_iaw_act_setexpneedsapp = {
+                    scriptid = "workflowaction_iaw_act_setexpneedsapp"
+                    isinactive = false
+                    resultfield = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowcustomfields.workflowcustomfield.custworkflow_iaw_exceptionrec_id_2.scriptid
+                    scripttype = "[scriptid=customscript_naw_ws_create_exceptionrec]"
+                    parametersettings = {
+                      parametersetting = {
+                        customscript_naw_ws_create_exceptionrec_custscript_naw_exception@uuuuvuu = {
+                          targetparameter = "[scriptid=customscript_naw_ws_create_exceptionrec.custscript_naw_exception]"
+                          valuetext = "This account is tagged for monitoring and all its invoices require approval."
+                        }
+                        customscript_naw_ws_create_exceptionrec_custscript_naw_exceptionrec_id@uuuuvuuu = {
+                          targetparameter = "[scriptid=customscript_naw_ws_create_exceptionrec.custscript_naw_exceptionrec_id]"
+                          valuefield = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowcustomfields.workflowcustomfield.custworkflow_iaw_exceptionrec_id_2.scriptid
+                        }
+                      }
+                    }
+                    index = 0
+                  }
+                }
+                index = 2
+              }
+              workflowaction_iaw_grp_exp_first = {
+                scriptid = "workflowaction_iaw_grp_exp_first"
+                isinactive = false
+                schedulemode = "DELAY"
+                initcondition = {
+                  formula = "isChecked(\"Workflow:[PREF] Customer 1st Invoice Validation\") = 'T' AND isChecked(\"Workflow:[IAW] Is Customers First Invoice\") = 'T'"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Workflow__PREF__Customer_1st_Invoice_Validation@fhissss = {
+                        name = "Workflow:[PREF] Customer 1st Invoice Validation"
+                        value = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowcustomfields.workflowcustomfield.custworkflow_iaw_first_inv_val_pref_2.scriptid
+                      }
+                      Workflow__IAW__Is_Customers_First_Invoice@fhissss = {
+                        name = "Workflow:[IAW] Is Customers First Invoice"
+                        value = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowcustomfields.workflowcustomfield.custworkflow_iaw_setflag_1st_inv_2.scriptid
+                      }
+                    }
+                  }
+                }
+                setfieldvalueaction = {
+                  workflowaction_iaw_act_setflgfirst = {
+                    scriptid = "workflowaction_iaw_act_setflgfirst"
+                    field = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowcustomfields.workflowcustomfield.custworkflow_iaw_exception_flag_2.scriptid
+                    isinactive = false
+                    valuechecked = true
+                    valuetype = "STATIC"
+                    index = 0
+                  }
+                }
+                customaction = {
+                  workflowaction_iaw_act_setexpfirst = {
+                    scriptid = "workflowaction_iaw_act_setexpfirst"
+                    isinactive = false
+                    resultfield = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowcustomfields.workflowcustomfield.custworkflow_iaw_exceptionrec_id_2.scriptid
+                    scripttype = "[scriptid=customscript_naw_ws_create_exceptionrec]"
+                    parametersettings = {
+                      parametersetting = {
+                        customscript_naw_ws_create_exceptionrec_custscript_naw_exception@uuuuvuu = {
+                          targetparameter = "[scriptid=customscript_naw_ws_create_exceptionrec.custscript_naw_exception]"
+                          valuetext = "This record is tagged as the customer's first invoice."
+                        }
+                        customscript_naw_ws_create_exceptionrec_custscript_naw_exceptionrec_id@uuuuvuuu = {
+                          targetparameter = "[scriptid=customscript_naw_ws_create_exceptionrec.custscript_naw_exceptionrec_id]"
+                          valuefield = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowcustomfields.workflowcustomfield.custworkflow_iaw_exceptionrec_id_2.scriptid
+                        }
+                      }
+                    }
+                    index = 0
+                  }
+                }
+                index = 3
+              }
+              workflowaction_iaw_grp_exp_terms = {
+                scriptid = "workflowaction_iaw_grp_exp_terms"
+                isinactive = false
+                schedulemode = "DELAY"
+                initcondition = {
+                  formula = "isChecked(\"Workflow:[PREF] Terms Validation\") = 'T' AND \"Customer:Terms\" NOT IN (\"Terms1\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Workflow__PREF__Terms_Validation@fhiss = {
+                        name = "Workflow:[PREF] Terms Validation"
+                        value = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowcustomfields.workflowcustomfield.custworkflow_iaw_termsval_pref_2.scriptid
+                      }
+                      Customer_Terms@f = {
+                        name = "Customer:Terms"
+                        value = "STDBODYCUSTOMER:STDENTITYTERMS"
+                      }
+                      Terms1 = {
+                        name = "Terms1"
+                        value = "STDBODYTERMS"
+                      }
+                    }
+                  }
+                }
+                setfieldvalueaction = {
+                  workflowaction_iaw_act_setflgterms = {
+                    scriptid = "workflowaction_iaw_act_setflgterms"
+                    field = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowcustomfields.workflowcustomfield.custworkflow_iaw_exception_flag_2.scriptid
+                    isinactive = false
+                    valuechecked = true
+                    valuetype = "STATIC"
+                    index = 0
+                  }
+                }
+                customaction = {
+                  workflowaction_iaw_act_setexpterms = {
+                    scriptid = "workflowaction_iaw_act_setexpterms"
+                    isinactive = false
+                    resultfield = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowcustomfields.workflowcustomfield.custworkflow_iaw_exceptionrec_id_2.scriptid
+                    scripttype = "[scriptid=customscript_naw_ws_create_exceptionrec]"
+                    parametersettings = {
+                      parametersetting = {
+                        customscript_naw_ws_create_exceptionrec_custscript_naw_exception@uuuuvuu = {
+                          targetparameter = "[scriptid=customscript_naw_ws_create_exceptionrec.custscript_naw_exception]"
+                          valuetext = "The terms on the invoice and customer record do not match."
+                        }
+                        customscript_naw_ws_create_exceptionrec_custscript_naw_exceptionrec_id@uuuuvuuu = {
+                          targetparameter = "[scriptid=customscript_naw_ws_create_exceptionrec.custscript_naw_exceptionrec_id]"
+                          valuefield = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowcustomfields.workflowcustomfield.custworkflow_iaw_exceptionrec_id_2.scriptid
+                        }
+                      }
+                    }
+                    index = 0
+                  }
+                }
+                index = 4
+              }
+            }
+            customaction = {
+              workflowaction_iaw_act_set1stinv = {
+                scriptid = "workflowaction_iaw_act_set1stinv"
+                isinactive = false
+                resultfield = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowcustomfields.workflowcustomfield.custworkflow_iaw_setflag_1st_inv_2.scriptid
+                schedulemode = "DELAY"
+                scripttype = "[scriptid=customscript_iaw_ws_iscustomerfirstinv]"
+                initcondition = {
+                  formula = "isChecked(\"Workflow:[PREF] Customer 1st Invoice Validation\") = 'T'"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Workflow__PREF__Customer_1st_Invoice_Validation@fhissss = {
+                        name = "Workflow:[PREF] Customer 1st Invoice Validation"
+                        value = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowcustomfields.workflowcustomfield.custworkflow_iaw_first_inv_val_pref_2.scriptid
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition190 = {
+              scriptid = "workflowtransition190"
+              tostate = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowstates.workflowstate.workflowstate_iaw_st_approved.scriptid
+              triggertype = "AFTERSUBMIT"
+              initcondition = {
+                formula = "\"Approval Status\" IN (\"Approval Status1\") AND \"User Role\" IN (\"Role1\")"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Approval_Status@s = {
+                      name = "Approval Status"
+                      value = "STDBODYAPPROVALSTATUS"
+                    }
+                    Approval_Status1@s = {
+                      name = "Approval Status1"
+                      selectrecordtype = "-243"
+                      value = "2"
+                    }
+                    User_Role@s = {
+                      name = "User Role"
+                      value = "STDUSERROLE"
+                    }
+                    Role1 = {
+                      name = "Role1"
+                      selectrecordtype = "-118"
+                      value = "ADMINISTRATOR"
+                    }
+                  }
+                }
+              }
+              index = 0
+            }
+            workflowtransition191 = {
+              scriptid = "workflowtransition191"
+              tostate = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowstates.workflowstate.workflowstate_iaw_st_pend_approval.scriptid
+              triggertype = "AFTERSUBMIT"
+              initcondition = {
+                formula = "isChecked(\"Workflow:[IAW] exception flag\") = 'T'"
+                type = "VISUAL_BUILDER"
+                parameters = {
+                  parameter = {
+                    Workflow__IAW__exception_flag@fhiss = {
+                      name = "Workflow:[IAW] exception flag"
+                      value = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowcustomfields.workflowcustomfield.custworkflow_iaw_exception_flag_2.scriptid
+                    }
+                  }
+                }
+              }
+              index = 1
+            }
+            workflowtransition192 = {
+              scriptid = "workflowtransition192"
+              tostate = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowstates.workflowstate.workflowstate_iaw_st_approved.scriptid
+              triggertype = "AFTERSUBMIT"
+              initcondition = {
+                type = "VISUAL_BUILDER"
+              }
+              index = 2
+            }
+          }
+        }
+        index = 1
+      }
+      workflowstate_iaw_st_pend_approval = {
+        scriptid = "workflowstate_iaw_st_pend_approval"
+        donotexitworkflow = false
+        name = "Pending Approval"
+        positionx = 263
+        positiony = 323
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            setfieldvalueaction = {
+              workflowaction_iaw_act_setappstatpa = {
+                scriptid = "workflowaction_iaw_act_setappstatpa"
+                field = "STDBODYAPPROVALSTATUS"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = "1"
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+              workflowaction_iaw_act_setcreatorpa = {
+                scriptid = "workflowaction_iaw_act_setcreatorpa"
+                field = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowstates.workflowstate.workflowstate_iaw_st_pend_approval.workflowstatecustomfields.workflowstatecustomfield.custwfstate_iaw_invoice_creator_2.scriptid
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuefield = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowcustomfields.workflowcustomfield.custworkflow_iaw_invoice_creator_2.scriptid
+                valuetype = "FIELD"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 1
+              }
+            }
+            sendemailaction = {
+              workflowaction_iaw_act_emailnxtapp = {
+                scriptid = "workflowaction_iaw_act_emailnxtapp"
+                attachmenttype = "SPECIFIC"
+                body = "<br>You have a new Invoice {tranid} to review and approve. <br>Kindly log in to your NetSuite account at http://www.netsuite.com."
+                includerecordlink = true
+                includetransaction = false
+                isinactive = false
+                recipientfield = "STDBODYNEXTAPPROVER"
+                recipienttype = "FIELD"
+                schedulemode = "DELAY"
+                senderfield = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowcustomfields.workflowcustomfield.custworkflow_iaw_invoice_creator_2.scriptid
+                sendertype = "FIELD"
+                subject = "Invoice {tranid} for Approval"
+                usetemplate = false
+                initcondition = {
+                  formula = "isEmpty(\"Next Approver\") = 'F' AND isEmpty(\"Next Approver:E-mail\") = 'F'"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Next_Approver@s = {
+                        name = "Next Approver"
+                        value = "STDBODYNEXTAPPROVER"
+                      }
+                      Next_Approver_E_mail@sfb = {
+                        name = "Next Approver:E-mail"
+                        value = "STDBODYNEXTAPPROVER:STDENTITYEMAIL"
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+            }
+          }
+          BEFORELOAD = {
+            triggertype = "BEFORELOAD"
+            addbuttonaction = {
+              workflowaction_iaw_approve_button = {
+                scriptid = "workflowaction_iaw_approve_button"
+                checkconditionbeforeexecution = true
+                isinactive = false
+                label = "Approve"
+                saverecordfirst = false
+                initcondition = {
+                  formula = "\"User\" IN (\"Next Approver\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      User = {
+                        name = "User"
+                        value = "STDUSERUSER"
+                      }
+                      Next_Approver@s = {
+                        name = "Next Approver"
+                        value = "STDBODYNEXTAPPROVER"
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+              workflowaction_iaw_reject_button = {
+                scriptid = "workflowaction_iaw_reject_button"
+                checkconditionbeforeexecution = true
+                isinactive = false
+                label = "Reject Invoice"
+                saverecordfirst = false
+                initcondition = {
+                  formula = "\"User\" IN (\"Next Approver\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      User = {
+                        name = "User"
+                        value = "STDUSERUSER"
+                      }
+                      Next_Approver@s = {
+                        name = "Next Approver"
+                        value = "STDBODYNEXTAPPROVER"
+                      }
+                    }
+                  }
+                }
+                index = 1
+              }
+              workflowaction_iaw_showexcept_button = {
+                scriptid = "workflowaction_iaw_showexcept_button"
+                checkconditionbeforeexecution = true
+                isinactive = false
+                label = "Show Exceptions"
+                saverecordfirst = false
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 2
+              }
+            }
+            lockrecordaction = {
+              workflowaction_iaw_act_lockrecpa = {
+                scriptid = "workflowaction_iaw_act_lockrecpa"
+                isinactive = false
+                initcondition = {
+                  formula = "\"User Role\" NOT IN (\"Role1\")"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      User_Role@s = {
+                        name = "User Role"
+                        value = "STDUSERROLE"
+                      }
+                      Role1 = {
+                        name = "Role1"
+                        selectrecordtype = "-118"
+                        value = "ADMINISTRATOR"
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        workflowstatecustomfields = {
+          workflowstatecustomfield = {
+            custwfstate_iaw_invoice_creator_2 = {
+              scriptid = "custwfstate_iaw_invoice_creator_2"
+              applyformatting = false
+              defaultchecked = false
+              displaytype = "NORMAL"
+              fieldtype = "TEXT"
+              label = "invoice creator"
+              storevalue = true
+              index = 0
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition200 = {
+              scriptid = "workflowtransition200"
+              buttonaction = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowstates.workflowstate.workflowstate_iaw_st_pend_approval.workflowactions.BEFORELOAD.addbuttonaction.workflowaction_iaw_approve_button.scriptid
+              tostate = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowstates.workflowstate.workflowstate_iaw_st_approved.scriptid
+              initcondition = {
+                type = "VISUAL_BUILDER"
+              }
+              index = 0
+            }
+            workflowtransition201 = {
+              scriptid = "workflowtransition201"
+              buttonaction = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowstates.workflowstate.workflowstate_iaw_st_pend_approval.workflowactions.BEFORELOAD.addbuttonaction.workflowaction_iaw_reject_button.scriptid
+              tostate = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowstates.workflowstate.workflowstate_iaw_st_rejected.scriptid
+              initcondition = {
+                type = "VISUAL_BUILDER"
+              }
+              index = 1
+            }
+            workflowtransition202 = {
+              scriptid = "workflowtransition202"
+              buttonaction = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowstates.workflowstate.workflowstate_iaw_st_pend_approval.workflowactions.BEFORELOAD.addbuttonaction.workflowaction_iaw_showexcept_button.scriptid
+              tostate = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowstates.workflowstate.workflowstate_iaw_st_show_exp.scriptid
+              initcondition = {
+                type = "VISUAL_BUILDER"
+              }
+              index = 2
+            }
+          }
+        }
+        index = 2
+      }
+      workflowstate_iaw_st_rejected = {
+        scriptid = "workflowstate_iaw_st_rejected"
+        donotexitworkflow = false
+        name = "Rejected"
+        positionx = 263
+        positiony = 523
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            customaction = {
+              workflowaction_iaw_act_delexprej = {
+                scriptid = "workflowaction_iaw_act_delexprej"
+                isinactive = false
+                schedulemode = "DELAY"
+                scripttype = "[scriptid=customscript_naw_ws_delete_exceptionrec]"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                parametersettings = {
+                  parametersetting = {
+                    customscript_naw_ws_delete_exceptionrec_custscript_naw_recid_target@uuuuvuuu = {
+                      targetparameter = "[scriptid=customscript_naw_ws_delete_exceptionrec.custscript_naw_recid_target]"
+                      valuefield = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowcustomfields.workflowcustomfield.custworkflow_iaw_exceptionrec_id_2.scriptid
+                    }
+                  }
+                }
+                index = 0
+              }
+            }
+            setfieldvalueaction = {
+              workflowaction_iaw_act_setstatrej = {
+                scriptid = "workflowaction_iaw_act_setstatrej"
+                field = "STDBODYAPPROVALSTATUS"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = "3"
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+            }
+            sendemailaction = {
+              workflowaction_iaw_act_emailrej = {
+                scriptid = "workflowaction_iaw_act_emailrej"
+                attachmenttype = "SPECIFIC"
+                body = "<br>The Invoice {tranid} has been rejected by {nextapprover}.<br>To view the Invoice, kindly log in to your NetSuite account at http://www.netsuite.com."
+                includerecordlink = true
+                includetransaction = false
+                isinactive = false
+                recipientfield = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowcustomfields.workflowcustomfield.custworkflow_iaw_invoice_creator_2.scriptid
+                recipienttype = "FIELD"
+                schedulemode = "DELAY"
+                senderfield = "STDUSERUSER"
+                sendertype = "FIELD"
+                subject = "Your Invoice {tranid} is Rejected"
+                usetemplate = false
+                initcondition = {
+                  formula = "isEmpty(\"Next Approver\") = 'F' AND isEmpty(\"Workflow:[IAW] Invoice Creator:E-mail\") = 'F'"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Next_Approver@s = {
+                        name = "Next Approver"
+                        value = "STDBODYNEXTAPPROVER"
+                      }
+                      Workflow__IAW__Invoice_Creator_E_mail@fhissfb = {
+                        name = "Workflow:[IAW] Invoice Creator:E-mail"
+                        value = "[scriptid=customworkflow_naw_iaw_2.custworkflow_iaw_invoice_creator_2]:STDENTITYEMAIL"
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+            }
+          }
+          BEFORELOAD = {
+            triggertype = "BEFORELOAD"
+            addbuttonaction = {
+              workflowaction_iaw_resubmit = {
+                scriptid = "workflowaction_iaw_resubmit"
+                checkconditionbeforeexecution = true
+                isinactive = false
+                label = "Re-submit for Approvals"
+                saverecordfirst = false
+                initcondition = {
+                  formula = "\"User\" NOT IN (\"Next Approver\") AND isEmpty(\"User:Supervisor\") = 'F'"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      User = {
+                        name = "User"
+                        value = "STDUSERUSER"
+                      }
+                      Next_Approver@s = {
+                        name = "Next Approver"
+                        value = "STDBODYNEXTAPPROVER"
+                      }
+                      User_Supervisor@f = {
+                        name = "User:Supervisor"
+                        value = "STDUSERUSER:STDENTITYSUPERVISOR"
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition207 = {
+              scriptid = "workflowtransition207"
+              buttonaction = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowstates.workflowstate.workflowstate_iaw_st_rejected.workflowactions.BEFORELOAD.addbuttonaction.workflowaction_iaw_resubmit.scriptid
+              tostate = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowstates.workflowstate.workflowstate_iaw_st_routing_chk.scriptid
+              initcondition = {
+                type = "VISUAL_BUILDER"
+              }
+              index = 0
+            }
+          }
+        }
+        index = 3
+      }
+      workflowstate_iaw_st_approved = {
+        scriptid = "workflowstate_iaw_st_approved"
+        donotexitworkflow = true
+        name = "Approved"
+        positionx = 53
+        positiony = 323
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            customaction = {
+              workflowaction_iaw_act_delexpapp = {
+                scriptid = "workflowaction_iaw_act_delexpapp"
+                isinactive = false
+                schedulemode = "DELAY"
+                scripttype = "[scriptid=customscript_naw_ws_delete_exceptionrec]"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                parametersettings = {
+                  parametersetting = {
+                    customscript_naw_ws_delete_exceptionrec_custscript_naw_recid_target@uuuuvuuu = {
+                      targetparameter = "[scriptid=customscript_naw_ws_delete_exceptionrec.custscript_naw_recid_target]"
+                      valuefield = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowcustomfields.workflowcustomfield.custworkflow_iaw_exceptionrec_id_2.scriptid
+                    }
+                  }
+                }
+                index = 0
+              }
+            }
+            sendemailaction = {
+              workflowaction_iaw_act_emailapp = {
+                scriptid = "workflowaction_iaw_act_emailapp"
+                attachmenttype = "SPECIFIC"
+                body = "<br>The Invoice {tranid} has been approved by {nextapprover}.<br>To view the Invoice, kindly log in to your NetSuite account at http://www.netsuite.com."
+                includerecordlink = true
+                includetransaction = false
+                isinactive = false
+                recipientfield = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowcustomfields.workflowcustomfield.custworkflow_iaw_invoice_creator_2.scriptid
+                recipienttype = "FIELD"
+                schedulemode = "DELAY"
+                senderfield = "STDUSERUSER"
+                sendertype = "FIELD"
+                subject = "Your Invoice {tranid} is Approved"
+                usetemplate = false
+                initcondition = {
+                  formula = "isEmpty(\"Next Approver\") = 'F' AND isEmpty(\"Workflow:[IAW] Invoice Creator:E-mail\") = 'F'"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      Next_Approver@s = {
+                        name = "Next Approver"
+                        value = "STDBODYNEXTAPPROVER"
+                      }
+                      Workflow__IAW__Invoice_Creator_E_mail@fhissfb = {
+                        name = "Workflow:[IAW] Invoice Creator:E-mail"
+                        value = "[scriptid=customworkflow_naw_iaw_2.custworkflow_iaw_invoice_creator_2]:STDENTITYEMAIL"
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+            }
+            setfieldvalueaction = {
+              workflowaction_iaw_act_setstatapp = {
+                scriptid = "workflowaction_iaw_act_setstatapp"
+                field = "STDBODYAPPROVALSTATUS"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valueselect = "2"
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+              workflowaction_iaw_act_setnxtappnull = {
+                scriptid = "workflowaction_iaw_act_setnxtappnull"
+                field = "STDBODYNEXTAPPROVER"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = false
+                valuetype = "STATIC"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 1
+              }
+            }
+          }
+        }
+        index = 4
+      }
+      workflowstate_iaw_st_show_exp = {
+        scriptid = "workflowstate_iaw_st_show_exp"
+        donotexitworkflow = false
+        name = "Show Exceptions"
+        positionx = 33
+        positiony = 463
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            customaction = {
+              workflowaction_iaw_act_showexp = {
+                scriptid = "workflowaction_iaw_act_showexp"
+                isinactive = false
+                schedulemode = "DELAY"
+                scripttype = "[scriptid=customscript_ws_showexceptions]"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                parametersettings = {
+                  parametersetting = {
+                    customscript_ws_showexceptions_custscript_naw_exception_recid@uuvuuu = {
+                      targetparameter = "[scriptid=customscript_ws_showexceptions.custscript_naw_exception_recid]"
+                      valuefield = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowcustomfields.workflowcustomfield.custworkflow_iaw_exceptionrec_id_2.scriptid
+                    }
+                  }
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition213 = {
+              scriptid = "workflowtransition213"
+              tostate = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowstates.workflowstate.workflowstate_iaw_st_pend_approval.scriptid
+              initcondition = {
+                type = "VISUAL_BUILDER"
+              }
+              index = 0
+            }
+          }
+        }
+        index = 5
+      }
+    }
+  }
+  _generated_dependencies = [
+    {
+      reference = netsuite.workflow.instance.customworkflow_naw_iaw_2.workflowcustomfields.workflowcustomfield.custworkflow_iaw_invoice_creator_2.scriptid
+    },
+  ]
+}

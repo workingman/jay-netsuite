@@ -1,0 +1,120 @@
+netsuite.workflow customworkflow_qm_wf_receipt_return_2 {
+  scriptid = "customworkflow_qm_wf_receipt_return_2"
+  description = "Workflow to initiate Return Authorization when received items fail inspection with a \"Return To Vendor\" action."
+  initoncreate = false
+  initonvieworupdate = true
+  inittriggertype = "AFTERSUBMIT"
+  isinactive = false
+  islogenabled = false
+  keephistory = "ALWAYS"
+  name = netsuite.translationcollection.instance.custcollection_qm_translation_6.strings.string.customworkflow_qm_wf_receipt_return.scriptid
+  recordtypes = "[scriptid=customrecord_qm_queue]"
+  releasestatus = "RELEASED"
+  runasadmin = true
+  initcondition = {
+    formula = '''
+{custrecord_qm_queue_status.id}=1
+
+          and
+
+          {custrecord_qm_queue_processed.id}='T'
+
+          and
+
+          {custrecord_qm_queue_trigger.id}=1
+'''
+    type = "FORMULA"
+  }
+  workflowstates = {
+    workflowstate = {
+      workflowstate_qm_ra_1 = {
+        scriptid = "workflowstate_qm_ra_1"
+        description = "Item has been received and is awaiting Pass/Fail assessment."
+        donotexitworkflow = false
+        name = "Received"
+        positionx = 243
+        positiony = 133
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition_qm_ra_1_2 = {
+              scriptid = "workflowtransition_qm_ra_1_2"
+              tostate = netsuite.workflow.instance.customworkflow_qm_wf_receipt_return_2.workflowstates.workflowstate.workflowstate_qm_ra_2.scriptid
+              triggertype = "AFTERSUBMIT"
+              initcondition = {
+                formula = "{custrecord_qm_queue_status}='Pass'"
+                type = "FORMULA"
+              }
+              index = 0
+            }
+            workflowtransition_qm_ra_1_3 = {
+              scriptid = "workflowtransition_qm_ra_1_3"
+              tostate = netsuite.workflow.instance.customworkflow_qm_wf_receipt_return_2.workflowstates.workflowstate.workflowstate_qm_ra_3.scriptid
+              triggertype = "AFTERSUBMIT"
+              initcondition = {
+                formula = "{custrecord_qm_queue_status}='Fail' and {custrecord_qm_queue_action}='Return To Vendor'"
+                type = "FORMULA"
+              }
+              index = 1
+            }
+            workflowtransition_qm_wf_ra_1_4 = {
+              scriptid = "workflowtransition_qm_wf_ra_1_4"
+              tostate = netsuite.workflow.instance.customworkflow_qm_wf_receipt_return_2.workflowstates.workflowstate.workflowstate_qm_wf_ra_4.scriptid
+              triggertype = "AFTERSUBMIT"
+              initcondition = {
+                formula = "{custrecord_qm_queue_status}='Fail' and ({custrecord_qm_queue_action}!='Return To Vendor' or ({custrecord_qm_queue_action.id} is null))"
+                type = "FORMULA"
+              }
+              index = 2
+            }
+          }
+        }
+        index = 0
+      }
+      workflowstate_qm_ra_2 = {
+        scriptid = "workflowstate_qm_ra_2"
+        description = "Item has Passed inspections"
+        donotexitworkflow = false
+        name = "Accepted"
+        positionx = 123
+        positiony = 253
+        index = 1
+      }
+      workflowstate_qm_ra_3 = {
+        scriptid = "workflowstate_qm_ra_3"
+        description = "Item has Failed inspections with an action to Return to Vendor"
+        donotexitworkflow = false
+        name = "Returned"
+        positionx = 363
+        positiony = 253
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            customaction = {
+              workflowaction1 = {
+                scriptid = "workflowaction1"
+                isinactive = false
+                schedulemode = "DELAY"
+                scripttype = "[scriptid=customscript_qm_wf_receipt_return]"
+                initcondition = {
+                  type = "VISUAL_BUILDER"
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        index = 2
+      }
+      workflowstate_qm_wf_ra_4 = {
+        scriptid = "workflowstate_qm_wf_ra_4"
+        description = "End state reached when inspection fails but does not trigger any actions to be handled by this workflow."
+        donotexitworkflow = false
+        name = "Done"
+        positionx = 543
+        positiony = 133
+        index = 3
+      }
+    }
+  }
+  nameTranslate = true
+}

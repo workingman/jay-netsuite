@@ -1,0 +1,138 @@
+netsuite.workflow customworkflow_qm_send_email_on_fai_2 {
+  scriptid = "customworkflow_qm_send_email_on_fai_2"
+  description = "Sends an email message if the quality specification fails"
+  initcontexts = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+  initeventtypes = "EDIT"
+  initoncreate = false
+  initonvieworupdate = true
+  inittriggertype = "AFTERSUBMIT"
+  isinactive = false
+  islogenabled = false
+  keephistory = "ALWAYS"
+  name = netsuite.translationcollection.instance.custcollection_qm_translation_7.strings.string.customworkflow_qm_send_email_on_failure.scriptid
+  recordtypes = "[scriptid=customrecord_qm_queue]"
+  releasestatus = "RELEASED"
+  runasadmin = false
+  initcondition = {
+    formula = "\"Status\" IN (\"Quality Inspection Outcomes1\")"
+    type = "VISUAL_BUILDER"
+    parameters = {
+      parameter = {
+        Status = {
+          name = "Status"
+          value = "[scriptid=customrecord_qm_queue.custrecord_qm_queue_status]"
+        }
+        Quality_Inspection_Outcomes1@s = {
+          name = "Quality Inspection Outcomes1"
+          selectrecordtype = "[scriptid=customlist_qm_inspection_outcomes]"
+          value = "[scriptid=customlist_qm_inspection_outcomes.val_18801_4543716_913]"
+        }
+      }
+    }
+  }
+  workflowstates = {
+    workflowstate = {
+      workflowstate2 = {
+        scriptid = "workflowstate2"
+        description = "Will send an email notification if the Quality Specification Fails"
+        donotexitworkflow = false
+        name = "Send Email on Failure"
+        positionx = 243
+        positiony = 133
+        workflowactions = {
+          AFTERSUBMIT = {
+            triggertype = "AFTERSUBMIT"
+            sendemailaction = {
+              workflowaction4 = {
+                scriptid = "workflowaction4"
+                attachmenttype = "SPECIFIC"
+                body = '''
+<span style="font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif;
+mso-fareast-font-family:Calibri;mso-fareast-theme-font:minor-latin;mso-ansi-language:
+EN-US;mso-fareast-language:EN-US;mso-bidi-language:AR-SA">The quality specification
+failed because the item did not pass all its quality tests.&nbsp;</span>
+'''
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBAPPLICATION|WEBSTORE|WORKBOOKBUILDER|WORKFLOW"
+                eventtypes = "EDIT"
+                includerecordlink = false
+                isinactive = false
+                recipientemail = "testQM123@oracle.com"
+                recipienttype = "ADDRESS"
+                schedulemode = "DELAY"
+                senderfield = "STDUSERUSER"
+                sendertype = "FIELD"
+                subject = "Quality Specification Failure"
+                usetemplate = false
+                initcondition = {
+                  formula = "isChecked(\"QM Fail Email Sent\") = 'F'"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      QM_Fail_Email_Sent@s = {
+                        name = "QM Fail Email Sent"
+                        value = "[scriptid=customrecord_qm_queue.custrecord_qm_queue_test_fail_email_sent]"
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        workflowtransitions = {
+          workflowtransition = {
+            workflowtransition1 = {
+              scriptid = "workflowtransition1"
+              contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBAPPLICATION|WEBSTORE|WORKBOOKBUILDER|WORKFLOW"
+              tostate = netsuite.workflow.instance.customworkflow_qm_send_email_on_fai_2.workflowstates.workflowstate.workflowstate3.scriptid
+              initcondition = {
+                type = "VISUAL_BUILDER"
+              }
+              index = 0
+            }
+          }
+        }
+        index = 0
+      }
+      workflowstate3 = {
+        scriptid = "workflowstate3"
+        donotexitworkflow = false
+        name = "Check Sent Email"
+        positionx = 243
+        positiony = 243
+        workflowactions = {
+          ONENTRY = {
+            triggertype = "ONENTRY"
+            setfieldvalueaction = {
+              workflowaction5 = {
+                scriptid = "workflowaction5"
+                contexttypes = "ACTION|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|RECORDACTION|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OFFLINECLIENT|OTHER|PAYMENTPOSTBACK|PAYMENTGATEWAY|PLATFORMEXTENSION|PORTLET|PROMOTIONS|CONSOLRATEADJUSTOR|RESTWEBSERVICES|RESTLET|ADVANCEDREVREC|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|WEBSERVICES|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WORKBOOKBUILDER|WORKFLOW"
+                field = "[scriptid=customrecord_qm_queue.custrecord_qm_queue_test_fail_email_sent]"
+                isinactive = false
+                schedulemode = "DELAY"
+                valuechecked = true
+                valuetype = "STATIC"
+                initcondition = {
+                  formula = "isChecked(\"QM Fail Email Sent\") = 'F'"
+                  type = "VISUAL_BUILDER"
+                  parameters = {
+                    parameter = {
+                      QM_Fail_Email_Sent@s = {
+                        name = "QM Fail Email Sent"
+                        value = "[scriptid=customrecord_qm_queue.custrecord_qm_queue_test_fail_email_sent]"
+                      }
+                    }
+                  }
+                }
+                index = 0
+              }
+            }
+          }
+        }
+        index = 1
+      }
+    }
+  }
+  nameTranslate = true
+}

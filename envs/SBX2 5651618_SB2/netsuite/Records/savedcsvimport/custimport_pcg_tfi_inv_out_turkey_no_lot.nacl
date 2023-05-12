@@ -1,0 +1,156 @@
+netsuite.savedcsvimport custimport_pcg_tfi_inv_out_turkey_no_lot {
+  scriptid = "custimport_pcg_tfi_inv_out_turkey_no_lot"
+  charencoding = "windows-1252"
+  columndelimiter = "COMMA"
+  datahandling = "ADD"
+  decimaldelimiter = "PERIOD"
+  description = "20221211"
+  ignorereadonly = true
+  importname = "jck-Inventory no lot out"
+  logsystemnotescustfields = false
+  multiselectdelimiter = "|"
+  overwritemissingfields = false
+  overwritesublists = false
+  recordtype = "INVENTORYADJUSTMENT"
+  runserversuitescript = true
+  transactionform = netsuite.transactionForm.instance.custform_pcg_tfi_inventory_adj.scriptid
+  usemultithread = false
+  validatemandatorycustfields = true
+  audience = {
+    allemployees = false
+    allpartners = false
+    allroles = false
+    globaledit = false
+    ispublic = false
+  }
+  filemappings = {
+    filemapping = {
+      INVENTORYADJUSTMENT_INVENTORY_INVENTORYDETAIL@f = {
+        file = "INVENTORYADJUSTMENT:INVENTORY:INVENTORYDETAIL"
+        foreignkey = "Key2"
+      }
+      INVENTORYADJUSTMENT_INVENTORY@f = {
+        file = "INVENTORYADJUSTMENT:INVENTORY"
+        foreignkey = "Key"
+        primarykey = "Key2"
+      }
+      INVENTORYADJUSTMENT = {
+        file = "INVENTORYADJUSTMENT"
+        primarykey = "Key"
+      }
+    }
+  }
+  recordmappings = {
+    recordmapping = {
+      INVENTORYADJUSTMENT = {
+        record = "INVENTORYADJUSTMENT"
+        fieldmappings = {
+          fieldmapping = {
+            ACCOUNT = {
+              field = "ACCOUNT"
+              value = "840"
+            }
+            ADJLOCATION = {
+              field = "ADJLOCATION"
+              columnreference = {
+                column = "Location"
+                file = "INVENTORYADJUSTMENT"
+                type = "NAME"
+              }
+            }
+            EXTERNALID = {
+              field = "EXTERNALID"
+              columnreference = {
+                column = "Key"
+                file = "INVENTORYADJUSTMENT"
+                type = "NAME"
+              }
+            }
+            MEMO = {
+              field = "MEMO"
+              value = "20221211"
+            }
+            POSTINGPERIOD = {
+              field = "POSTINGPERIOD"
+              value = "109"
+            }
+            SUBSIDIARY = {
+              field = "SUBSIDIARY"
+              value = "2"
+            }
+            TRANDATE = {
+              field = "TRANDATE"
+              value = "12/11/2022"
+            }
+            TRANID = {
+              field = "TRANID"
+              columnreference = {
+                column = "Key"
+                file = "INVENTORYADJUSTMENT"
+                type = "NAME"
+              }
+            }
+          }
+        }
+      }
+      INVENTORYADJUSTMENT_INVENTORY@f = {
+        record = "INVENTORYADJUSTMENT:INVENTORY"
+        fieldmappings = {
+          fieldmapping = {
+            ADJUSTQTYBY = {
+              field = "ADJUSTQTYBY"
+              columnreference = {
+                column = "Adjust Out"
+                file = "INVENTORYADJUSTMENT:INVENTORY"
+                type = "NAME"
+              }
+            }
+            ITEM = {
+              field = "ITEM"
+              columnreference = {
+                column = "Item Internal Id"
+                file = "INVENTORYADJUSTMENT:INVENTORY"
+                type = "INTERNAL_ID"
+              }
+            }
+            LOCATION = {
+              field = "LOCATION"
+              columnreference = {
+                column = "Location"
+                file = "INVENTORYADJUSTMENT:INVENTORY"
+                type = "NAME"
+              }
+            }
+            MEMO = {
+              field = "MEMO"
+              value = "20221211"
+            }
+          }
+        }
+      }
+      INVENTORYADJUSTMENT_INVENTORY_INVENTORYDETAIL_INVENTORYASSIGNMENT@f = {
+        record = "INVENTORYADJUSTMENT:INVENTORY:INVENTORYDETAIL:INVENTORYASSIGNMENT"
+        fieldmappings = {
+          fieldmapping = {
+            BINNUMBER = {
+              field = "BINNUMBER"
+              columnreference = {
+                column = "Bin Number"
+                file = "INVENTORYADJUSTMENT:INVENTORY:INVENTORYDETAIL"
+                type = "NAME"
+              }
+            }
+            QUANTITY = {
+              field = "QUANTITY"
+              columnreference = {
+                column = "Adjust Out"
+                file = "INVENTORYADJUSTMENT:INVENTORY:INVENTORYDETAIL"
+                type = "NAME"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

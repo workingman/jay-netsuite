@@ -1,0 +1,118 @@
+netsuite.savedcsvimport custimport_pcg_tfi_create_bom_revision {
+  scriptid = "custimport_pcg_tfi_create_bom_revision"
+  charencoding = "windows-1252"
+  columndelimiter = "COMMA"
+  datahandling = "ADD"
+  decimaldelimiter = "PERIOD"
+  ignorereadonly = true
+  importname = "Load | Step 5 | File D1-2 | BOM Revision"
+  logsystemnotescustfields = false
+  multiselectdelimiter = "|"
+  overwritemissingfields = false
+  overwritesublists = false
+  recordtype = "BOMREVISION"
+  runserversuitescript = true
+  usemultithread = false
+  validatemandatorycustfields = true
+  audience = {
+    allemployees = false
+    allpartners = false
+    allroles = false
+    globaledit = true
+    ispublic = true
+  }
+  filemappings = {
+    filemapping = {
+      BOMREVISION_COMPONENT@f = {
+        file = "BOMREVISION:COMPONENT"
+        foreignkey = "Revision Name"
+      }
+      BOMREVISION = {
+        file = "BOMREVISION"
+        primarykey = "Revision Name"
+      }
+    }
+  }
+  recordmappings = {
+    recordmapping = {
+      BOMREVISION = {
+        record = "BOMREVISION"
+        fieldmappings = {
+          fieldmapping = {
+            BILLOFMATERIALS = {
+              field = "BILLOFMATERIALS"
+              columnreference = {
+                column = "BOM Name"
+                file = "BOMREVISION"
+                type = "NAME"
+              }
+            }
+            custrecord_pcg_tfi_bom_rev_golden_trx = {
+              field = netsuite.othercustomfield.instance.custrecord_pcg_tfi_bom_rev_golden_trx.scriptid
+              columnreference = {
+                column = "GT"
+                file = "BOMREVISION"
+                type = "NAME"
+              }
+            }
+            custrecord_pcg_tfi_bom_revisio_next_mile = {
+              field = netsuite.othercustomfield.instance.custrecord_pcg_tfi_bom_revisio_next_mile.scriptid
+              columnreference = {
+                column = "NS"
+                file = "BOMREVISION"
+                type = "NAME"
+              }
+            }
+            NAME = {
+              field = "NAME"
+              columnreference = {
+                column = "Revision Name"
+                file = "BOMREVISION"
+                type = "NAME"
+              }
+            }
+          }
+        }
+      }
+      BOMREVISION_COMPONENT@f = {
+        record = "BOMREVISION:COMPONENT"
+        fieldmappings = {
+          fieldmapping = {
+            BOMQUANTITY = {
+              field = "BOMQUANTITY"
+              columnreference = {
+                column = "Component Quantity"
+                file = "BOMREVISION:COMPONENT"
+                type = "NAME"
+              }
+            }
+            COMPONENTYIELD = {
+              field = "COMPONENTYIELD"
+              columnreference = {
+                column = "Component Yield"
+                file = "BOMREVISION:COMPONENT"
+                type = "NAME"
+              }
+            }
+            ITEM = {
+              field = "ITEM"
+              columnreference = {
+                column = "Component External Id"
+                file = "BOMREVISION:COMPONENT"
+                type = "EXTERNAL_ID"
+              }
+            }
+            ITEMSOURCE = {
+              field = "ITEMSOURCE"
+              columnreference = {
+                column = "Component Source"
+                file = "BOMREVISION:COMPONENT"
+                type = "NAME"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
